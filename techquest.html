@@ -6,39 +6,28 @@
 <title>Tech Quest — Registration</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-
 .back-btn {
-  position: fixed; /* important */
+  position: fixed;
   top: 12px;
   left: 12px;
   z-index: 1000;
-
   padding: 8px 14px;
   font-size: 14px;
-
   color: #4f6fff;
   background: rgba(79,111,255,0.1);
   border: 1px solid rgba(79,111,255,0.3);
   border-radius: 8px;
-
   backdrop-filter: blur(8px);
   cursor: pointer;
   transition: 0.3s;
 }
-
 .back-btn:hover {
   background: rgba(79,111,255,0.2);
   box-shadow: 0 0 12px rgba(79,111,255,0.5);
 }
 @media (max-width: 600px) {
-  .back-btn {
-    top: 10px;
-    left: 10px;
-    padding: 6px 10px;
-    font-size: 12px;
-  }
+  .back-btn { top: 10px; left: 10px; padding: 6px 10px; font-size: 12px; }
 }
-
   :root {
     --bg:#050a0f;--surface:#0d1820;--surface2:#132030;
     --accent:#00e5ff;--accent2:#ff6b35;--green:#00ff9d;
@@ -54,11 +43,7 @@
   .logo-tag{font-family:'Orbitron',monospace;font-size:11px;letter-spacing:4px;color:var(--accent);text-transform:uppercase;opacity:.7;margin-bottom:12px;}
   h1{font-family:'Orbitron',monospace;font-size:clamp(2.5rem,7vw,5rem);font-weight:900;background:linear-gradient(135deg,#fff 0%,var(--accent) 50%,var(--accent2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;}
   .subtitle{font-size:13px;color:var(--muted);margin-top:10px;letter-spacing:2px;text-transform:uppercase;}
-  .tabs{display:flex;gap:4px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:4px;margin:30px auto 0;max-width:400px;}
-  .tab{flex:1;padding:10px 20px;border:none;border-radius:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;letter-spacing:1px;text-transform:uppercase;transition:all .2s;background:transparent;color:var(--muted);}
-  .tab.active{background:var(--accent);color:#000;box-shadow:var(--glow);}
-  .panel{display:none;padding:40px 0 60px;animation:fadeIn .3s ease;}
-  .panel.active{display:block;}
+  .panel{padding:40px 0 60px;animation:fadeIn .3s ease;}
   @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
   .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:36px;position:relative;overflow:hidden;}
   .card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);}
@@ -75,60 +60,22 @@
   .btn-primary{background:var(--accent);color:#000;box-shadow:var(--glow);}
   .btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(0,229,255,.5);}
   .btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none;}
-  .btn-danger{background:transparent;color:#ff4757;border:1px solid rgba(255,71,87,.4);padding:6px 14px;font-size:10px;}
-  .btn-danger:hover{background:rgba(255,71,87,.1);}
-  .btn-secondary{background:transparent;color:var(--accent);border:1px solid var(--border);font-size:11px;padding:10px 20px;}
-  .btn-secondary:hover{background:rgba(0,229,255,.05);}
-  .btn-green{background:var(--green);color:#000;box-shadow:0 0 20px rgba(0,255,157,.3);font-size:11px;padding:10px 20px;}
   .submit-row{margin-top:28px;display:flex;justify-content:flex-end;}
   .toast{position:fixed;bottom:30px;right:30px;background:var(--surface);border:1px solid var(--green);border-radius:10px;padding:14px 20px;font-size:13px;color:var(--green);box-shadow:0 0 20px rgba(0,255,157,.2);transform:translateY(80px);opacity:0;transition:all .3s;z-index:100;}
   .toast.show{transform:translateY(0);opacity:1;}
-  .login-box{max-width:400px;margin:0 auto;}
-  .admin-toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:24px;}
-  .sort-select{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:9px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;flex:1;min-width:140px;}
-  .table-wrap{overflow-x:auto;}
-  table{width:100%;border-collapse:collapse;font-size:13px;}
-  thead th{font-family:'Orbitron',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);padding:12px 16px;text-align:left;border-bottom:1px solid var(--border);}
-  tbody tr{border-bottom:1px solid rgba(255,255,255,.04);transition:background .15s;}
-  tbody tr:hover{background:rgba(0,229,255,.03);}
-  tbody td{padding:12px 16px;color:var(--text);}
-  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500;background:rgba(0,229,255,.1);color:var(--accent);border:1px solid rgba(0,229,255,.2);}
-  .stats-row{display:flex;gap:16px;margin-bottom:24px;flex-wrap:wrap;}
-  .stat{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 20px;flex:1;min-width:120px;}
-  .stat-num{font-family:'Orbitron',monospace;font-size:28px;font-weight:900;color:var(--accent);}
-  .stat-label{font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:4px;}
-  .empty-state{text-align:center;padding:60px 20px;color:var(--muted);font-size:14px;}
-  .loading{text-align:center;padding:40px;color:var(--muted);}
-  .spinner{display:inline-block;width:24px;height:24px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin-right:10px;vertical-align:middle;}
-  @keyframes spin{to{transform:rotate(360deg)}}
-  .modal-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:50;align-items:center;justify-content:center;}
-  .modal-backdrop.open{display:flex;}
-  .modal{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:32px;width:90%;max-width:480px;position:relative;}
-  .modal h3{font-family:'Orbitron',monospace;font-size:14px;letter-spacing:2px;color:var(--accent);margin-bottom:24px;}
-  .close-modal{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;line-height:1;}
-  .sr-row{display:flex;gap:10px;margin-top:24px;justify-content:flex-end;}
-  .filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
-  .chip{padding:5px 14px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:12px;cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif;}
-  .chip.active{background:rgba(0,229,255,.1);color:var(--accent);border-color:var(--accent);}
-  .session-info{font-size:11px;color:var(--muted);margin-left:auto;}
 </style>
 </head>
 <body>
-  <button onclick="history.back()" class="back-btn">← Back</button>
+<button onclick="history.back()" class="back-btn">← Back</button>
 <div class="grid-bg"></div>
 <div class="container">
   <header>
     <div class="logo-tag">&#9670; Dr. Virendra Swarup Education Center &#9670;</div>
     <h1>TECH QUEST</h1>
-    <div class="subtitle">Solve ,Build & Lead The Code — Event Registration</div>
-    <div class="tabs">
-      <button class="tab active" onclick="switchTab('register')">Register</button>
-      <button class="tab" onclick="switchTab('admin')">Admin</button>
-    </div>
+    <div class="subtitle">Solve, Build &amp; Lead The Code — Event Registration</div>
   </header>
 
-  <!-- REGISTER -->
-  <div id="panel-register" class="panel active">
+  <div class="panel">
     <div class="card">
       <div class="card-title">Student Registration</div>
       <div class="form-grid">
@@ -138,20 +85,31 @@
         </div>
         <div class="form-group">
           <label>Scholar Number</label>
-          <input type="text" id="reg-scholar" placeholder="e.g. 2024001">
+          <input type="text" id="reg-scholar" placeholder="e.g. 10001">
         </div>
         <div class="form-group">
           <label>Class</label>
           <select id="reg-class">
             <option value="">— Select Class —</option>
-            <option>Class 5A</option><option>Class 5B</option><option>Class 5C</option><option>Class 5D</option><option>Class 5E</option><option>Class 6A</option><option>Class 6B</option><option>Class 6C</option><option>Class 6D</option><option>Class 6E</option><option>Class 7A</option><option>Class 7B</option><option>Class 7C</option><option>Class 7D</option><option>Class 7E</option><option>Class 8A</option><option>Class 8B</option><option>Class 8C</option><option>Class 8D</option><option>Class 8E</option><option>Class 9A</option><option>Class 9B</option><option>Class 9C</option><option>Class 9D</option><option>Class 10A</option><option>Class 10B</option><option>Class 10C</option><option>Class 10D</option><option>Class 11A</option><option>Class 11B</option><option>Class 11C</option><option>Class 11D</option><option>Class 12A</option><option>Class 12B</option><option>Class 12C</option><option>Class 12D</option>
+            <option>Class 5A</option><option>Class 5B</option><option>Class 5C</option><option>Class 5D</option><option>Class 5E</option>
+            <option>Class 6A</option><option>Class 6B</option><option>Class 6C</option><option>Class 6D</option><option>Class 6E</option>
+            <option>Class 7A</option><option>Class 7B</option><option>Class 7C</option><option>Class 7D</option><option>Class 7E</option>
+            <option>Class 8A</option><option>Class 8B</option><option>Class 8C</option><option>Class 8D</option><option>Class 8E</option>
+            <option>Class 9A</option><option>Class 9B</option><option>Class 9C</option><option>Class 9D</option>
+            <option>Class 10A</option><option>Class 10B</option><option>Class 10C</option><option>Class 10D</option>
+            <option>Class 11A</option><option>Class 11B</option><option>Class 11C</option><option>Class 11D</option>
+            <option>Class 12A</option><option>Class 12B</option><option>Class 12C</option><option>Class 12D</option>
           </select>
         </div>
         <div class="form-group">
           <label>Event</label>
           <select id="reg-event">
             <option value="">— Select Event —</option>
-            <option>Codezilla</option><option>Kill D’ Bug</option><option>Algorithm Making</option><option>Robotics</option><option>Pivot Animation</option><option>Slide Master</option><option>PixBit</option><option>Debate</option><option>Ham the Jam</option><option>From the Scratch</option><option>Digital Playground</option><option>Animatrix</option><option>Weave the Web</option><option>Pixelated</option><option>Cinematic Cuts</option><option>Fade The Track</option><option>Frame D Flash</option><option>Tech Quiz</option><option>Do DubDUB</option><option>Scavenger Hunt</option>
+            <option>Codezilla</option><option>Kill D' Bug</option><option>Algorithm Making</option><option>Robotics</option>
+            <option>Pivot Animation</option><option>Slide Master</option><option>PixBit</option><option>Debate</option>
+            <option>Ham the Jam</option><option>From the Scratch</option><option>Digital Playground</option><option>Animatrix</option>
+            <option>Weave the Web</option><option>Pixelated</option><option>Cinematic Cuts</option><option>Fade The Track</option>
+            <option>Frame D Flash</option><option>Tech Quiz</option><option>Do DubDUB</option><option>Scavenger Hunt</option>
           </select>
         </div>
       </div>
@@ -160,187 +118,36 @@
       </div>
     </div>
   </div>
-
-  <!-- ADMIN -->
-  <div id="panel-admin" class="panel">
-    <div id="admin-login" class="login-box">
-      <div class="card">
-        <div class="card-title">Admin Access</div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" id="admin-pass" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')adminLogin()">
-        </div>
-        <p id="login-error" style="color:#ff4757;font-size:12px;margin-top:12px;display:none;"></p>
-        <div class="submit-row">
-          <button class="btn btn-primary" id="login-btn" onclick="adminLogin()">Login &#8594;</button>
-        </div>
-        <p style="font-size:11px;color:var(--muted);margin-top:16px;text-align:center;">Password is verified securely via Google Sheets &#128274;</p>
-      </div>
-    </div>
-
-    <div id="admin-dashboard" style="display:none;">
-      <div class="stats-row">
-        <div class="stat"><div class="stat-num" id="stat-total">—</div><div class="stat-label">Total Entries</div></div>
-        <div class="stat"><div class="stat-num" id="stat-events">—</div><div class="stat-label">Events</div></div>
-        <div class="stat"><div class="stat-num" id="stat-classes">—</div><div class="stat-label">Classes</div></div>
-      </div>
-      <div class="card">
-        <div class="card-title">All Registrations <span class="session-info" id="session-info"></span></div>
-        <div class="admin-toolbar">
-          <select class="sort-select" id="sort-by" onchange="renderTable()">
-            <option value="time">Sort: Latest First</option>
-            <option value="Name">Sort: Name (A–Z)</option>
-            <option value="Class">Sort: Class</option>
-            <option value="Event">Sort: Event</option>
-            <option value="Scholar Number">Sort: Scholar No.</option>
-          </select>
-          <button class="btn btn-secondary" onclick="openAddModal()">+ Add Entry</button>
-          <button class="btn btn-secondary" onclick="loadData()">&#8635; Refresh</button>
-          <button class="btn btn-green" onclick="exportCSV()">Export CSV</button>
-          <button class="btn btn-secondary" onclick="adminLogout()">Logout</button>
-        </div>
-        <div class="filter-bar" id="filter-bar"></div>
-        <div id="table-loading" class="loading" style="display:none;"><span class="spinner"></span>Loading from Google Sheets...</div>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>#</th><th>Name</th><th>Scholar No.</th><th>Class</th><th>Event</th><th>Registered</th><th>Action</th></tr></thead>
-            <tbody id="table-body"></tbody>
-          </table>
-          <div id="empty-state" class="empty-state" style="display:none;">No registrations yet.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ADD MODAL -->
-<div class="modal-backdrop" id="add-modal">
-  <div class="modal">
-    <button class="close-modal" onclick="closeAddModal()">&#10005;</button>
-    <h3>Add Entry Manually</h3>
-    <div class="form-grid">
-      <div class="form-group"><label>Full Name</label><input type="text" id="m-name" placeholder="Full name"></div>
-      <div class="form-group"><label>Scholar Number</label><input type="text" id="m-scholar" placeholder="Scholar no."></div>
-      <div class="form-group">
-        <label>Class</label>
-        <select id="m-class"><option value="">— Select —</option><option>Class 5A</option><option>Class 5B</option><option>Class 5C</option><option>Class 5D</option><option>Class 5E</option><option>Class 6A</option><option>Class 6B</option><option>Class 6C</option><option>Class 6D</option><option>Class 6E</option><option>Class 7A</option><option>Class 7B</option><option>Class 7C</option><option>Class 7D</option><option>Class 7E</option><option>Class 8A</option><option>Class 8B</option><option>Class 8C</option><option>Class 8D</option><option>Class 8E</option><option>Class 9A</option><option>Class 9B</option><option>Class 9C</option><option>Class 9D</option><option>Class 10A</option><option>Class 10B</option><option>Class 10C</option><option>Class 10D</option><option>Class 11A</option><option>Class 11B</option><option>Class 11C</option><option>Class 11D</option><option>Class 12A</option><option>Class 12B</option><option>Class 12C</option><option>Class 12D</option></select>
-      </div>
-      <div class="form-group">
-        <label>Event</label>
-        <select id="m-event"><option value="">— Select —</option><option>Codezilla</option><option>Kill D’ Bug</option><option>Algorithm Making</option><option>Robotics</option><option>Pivot Animation</option><option>Slide Master</option><option>PixBit</option><option>Debate</option><option>Ham the Jam</option><option>From the Scratch</option><option>Digital Playground</option><option>Animatrix</option><option>Weave the Web</option><option>Pixelated</option><option>Cinematic Cuts</option><option>Fade The Track</option><option>Frame D Flash</option><option>Tech Quiz</option><option>Do DubDUB</option><option>Scavenger Hunt</option></select>
-      </div>
-    </div>
-    <div class="sr-row">
-      <button class="btn btn-secondary" onclick="closeAddModal()">Cancel</button>
-      <button class="btn btn-primary" id="modal-add-btn" onclick="addManually()">Add Entry</button>
-    </div>
-  </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-// ── PASTE YOUR GOOGLE APPS SCRIPT URL HERE ──────────────
-const SCRIPT_URL =  'https://script.google.com/macros/s/AKfycby8QpcZVkLv4Vn0I7D1EsmZsXU_Lc2TZp82cMPYHhq_YRyqxpexueKVc7nT3degmT8NkA/exec';
-// ────────────────────────────────────────────────────────
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby8QpcZVkLv4Vn0I7D1EsmZsXU_Lc2TZp82cMPYHhq_YRyqxpexueKVc7nT3degmT8NkA/exec';
 
-let allData = [];
-let activeFilter = null;
-let sessionToken = null;
-let sessionExpiry = null;
-
-// ── DEVICE FINGERPRINT ───────────────────────────────────
 function getDeviceId() {
   let id = localStorage.getItem('tq_device_id');
   if (!id) {
-    const raw = [
-      navigator.userAgent,
-      navigator.language,
-      screen.width + 'x' + screen.height,
-      screen.colorDepth,
-      new Date().getTimezoneOffset(),
-      navigator.hardwareConcurrency || '',
-      navigator.platform || ''
-    ].join('|');
+    const raw = [navigator.userAgent, navigator.language, screen.width + 'x' + screen.height, screen.colorDepth, new Date().getTimezoneOffset(), navigator.hardwareConcurrency || '', navigator.platform || ''].join('|');
     let hash = 0;
-    for (let i = 0; i < raw.length; i++) {
-      hash = ((hash << 5) - hash) + raw.charCodeAt(i);
-      hash |= 0;
-    }
+    for (let i = 0; i < raw.length; i++) { hash = ((hash << 5) - hash) + raw.charCodeAt(i); hash |= 0; }
     id = 'dev_' + Math.abs(hash) + '_' + Date.now();
     localStorage.setItem('tq_device_id', id);
   }
   return id;
 }
 
-// ── MIDNIGHT WIPE ────────────────────────────────────────
-function getStoredSession() {
-  try {
-    const raw = localStorage.getItem('tq_session');
-    if (!raw) return null;
-    const data = JSON.parse(raw);
-    // Check if stored date is today
-    const today = new Date().toLocaleDateString('en-IN');
-    if (data.date !== today) {
-      // It's a new day — wipe everything
-      wipeSession();
-      return null;
-    }
-    // Check if 1 hour has passed
-    if (Date.now() > data.expiry) {
-      wipeSession();
-      return null;
-    }
-    return data;
-  } catch(e) {
-    wipeSession();
-    return null;
-  }
-}
-
-function saveSession(token, expiry) {
-  const today = new Date().toLocaleDateString('en-IN');
-  localStorage.setItem('tq_session', JSON.stringify({
-    token, expiry, date: today
-  }));
-}
-
-function wipeSession() {
-  localStorage.removeItem('tq_session');
-  sessionToken = null;
-  sessionExpiry = null;
-}
-
-// ── CHECK MIDNIGHT EVERY MINUTE ──────────────────────────
 function checkMidnight() {
   const now = new Date();
-  // If it's between 00:00 and 00:01 — wipe session
-  if (now.getHours() === 0 && now.getMinutes() === 0) {
-    if (sessionToken) {
-      wipeSession();
-      adminLogout();
-      showToast('Midnight reset — please login again.', true);
-    }
-    // Also reset the device ID so rate limit resets
-    localStorage.removeItem('tq_device_id');
-  }
+  if (now.getHours() === 0 && now.getMinutes() === 0) localStorage.removeItem('tq_device_id');
 }
+setInterval(checkMidnight, 60000);
 
-// ── API ──────────────────────────────────────────────────
 async function api(params) {
-  const url = SCRIPT_URL + '?' + new URLSearchParams(params).toString();
-  const res = await fetch(url);
+  const res = await fetch(SCRIPT_URL + '?' + new URLSearchParams(params).toString());
   return res.json();
 }
 
-// ── TABS ─────────────────────────────────────────────────
-function switchTab(tab) {
-  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', ['register','admin'][i] === tab));
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.getElementById('panel-' + tab).classList.add('active');
-}
-
-// ── REGISTER ─────────────────────────────────────────────
 async function submitRegistration() {
   const name = document.getElementById('reg-name').value.trim();
   const scholar = document.getElementById('reg-scholar').value.trim();
@@ -348,220 +155,37 @@ async function submitRegistration() {
   const event = document.getElementById('reg-event').value;
   if (!name || !scholar || !cls || !event) return showToast('Please fill all fields!', true);
 
-  // Scholar number validation
   const scholarNum = parseInt(scholar);
   if (!/^\d+$/.test(scholar) || isNaN(scholarNum) || scholarNum < 8000 || scholarNum > 15000) {
-    return showToast('Invalid scholar number! Must be between 8000 and 15000.', true);
+    return showToast('Invalid scholar number!', true);
   }
 
   const btn = document.getElementById('reg-btn');
   btn.disabled = true; btn.textContent = 'Submitting...';
 
   try {
-    const token = sessionToken || '';
-    const res = await api({ action: 'add', name, scholar, cls, event, deviceId: getDeviceId(), ...(token && { token }) });
-
+    const res = await api({ action: 'add', name, scholar, cls, event, deviceId: getDeviceId() });
     if (res.success) {
       ['reg-name','reg-scholar'].forEach(id => document.getElementById(id).value = '');
       ['reg-class','reg-event'].forEach(id => document.getElementById(id).value = '');
       showToast('✓ Registered successfully!');
+      btn.disabled = false; btn.textContent = 'Register →';
     } else if (res.error === 'RATE_LIMITED') {
       showToast(res.message, true);
-      btn.disabled = true;
-      btn.textContent = '🚫 Limit Reached';
-      return;
+      btn.disabled = true; btn.textContent = '🚫 Limit Reached';
+    } else if (res.error === 'GLOBAL_CAP') {
+      showToast(res.message, true);
+      btn.disabled = true; btn.textContent = '🚫 Registrations Full';
     } else {
       showToast('Error: ' + (res.error||'Unknown'), true);
-    }
-  } catch(e) { showToast('Connection error. Try again.', true); }
-
-  btn.disabled = false; btn.textContent = 'Register →';
-}
-
-// ── ADMIN LOGIN ───────────────────────────────────────────
-async function adminLogin() {
-  const password = document.getElementById('admin-pass').value;
-  if (!password) return showToast('Enter a password!', true);
-
-  const btn = document.getElementById('login-btn');
-  const errEl = document.getElementById('login-error');
-  btn.disabled = true; btn.textContent = 'Verifying...';
-  errEl.style.display = 'none';
-
-  try {
-    const res = await api({ action: 'verify', password });
-    if (res.success && res.token) {
-      sessionToken = res.token;
-      sessionExpiry = Date.now() + 3600000; // 1 hour
-      // Save to localStorage with today's date
-      saveSession(sessionToken, sessionExpiry);
-      document.getElementById('admin-login').style.display = 'none';
-      document.getElementById('admin-dashboard').style.display = 'block';
-      document.getElementById('admin-pass').value = '';
-      document.getElementById('admin-badge').style.display = 'inline-block';
-      // Re-enable register button if rate limited
-      const regBtn = document.getElementById('reg-btn');
-      regBtn.disabled = false; regBtn.textContent = 'Register →';
-      updateSessionInfo();
-      loadData();
-    } else {
-      errEl.textContent = '✗ ' + (res.error || 'Invalid password');
-      errEl.style.display = 'block';
+      btn.disabled = false; btn.textContent = 'Register →';
     }
   } catch(e) {
-    errEl.textContent = '✗ Connection error. Check your Script URL.';
-    errEl.style.display = 'block';
+    showToast('Connection error. Try again.', true);
+    btn.disabled = false; btn.textContent = 'Register →';
   }
-  btn.disabled = false; btn.textContent = 'Login →';
 }
 
-function updateSessionInfo() {
-  if (!sessionExpiry) return;
-  const mins = Math.round((sessionExpiry - Date.now()) / 60000);
-  document.getElementById('session-info').textContent = `Session expires in ${mins}m`;
-}
-
-function adminLogout() {
-  wipeSession();
-  allData = [];
-  document.getElementById('admin-login').style.display = 'block';
-  document.getElementById('admin-dashboard').style.display = 'none';
-  document.getElementById('admin-pass').value = '';
-  document.getElementById('admin-badge').style.display = 'none';
-  document.getElementById('session-info').textContent = '';
-}
-
-// ── SESSION & MIDNIGHT WATCHER ────────────────────────────
-setInterval(() => {
-  checkMidnight();
-  if (sessionToken && sessionExpiry) {
-    if (Date.now() > sessionExpiry) {
-      showToast('Session expired. Please login again.', true);
-      adminLogout();
-    } else {
-      updateSessionInfo();
-    }
-  }
-}, 60000); // runs every minute
-
-// ── RESTORE SESSION ON PAGE LOAD ─────────────────────────
-window.onload = () => {
-  const stored = getStoredSession();
-  if (stored) {
-    sessionToken = stored.token;
-    sessionExpiry = stored.expiry;
-    // Auto-restore admin dashboard
-    document.getElementById('admin-login').style.display = 'none';
-    document.getElementById('admin-dashboard').style.display = 'block';
-    document.getElementById('admin-badge').style.display = 'inline-block';
-    updateSessionInfo();
-    loadData();
-    // Switch to admin tab
-    switchTab('admin');
-  }
-};
-
-// ── LOAD DATA ─────────────────────────────────────────────
-async function loadData() {
-  if (!sessionToken) return;
-  document.getElementById('table-loading').style.display = 'block';
-  document.getElementById('table-body').innerHTML = '';
-  document.getElementById('empty-state').style.display = 'none';
-  try {
-    const res = await api({ action: 'read', token: sessionToken });
-    if (res.success) { allData = res.data; renderTable(); }
-    else if (res.error && res.error.includes('Session')) { showToast(res.error, true); adminLogout(); }
-    else showToast('Failed to load: ' + res.error, true);
-  } catch(e) { showToast('Connection error', true); }
-  document.getElementById('table-loading').style.display = 'none';
-}
-
-// ── RENDER TABLE ──────────────────────────────────────────
-function renderTable() {
-  let data = [...allData];
-  if (activeFilter) data = data.filter(s => s['Event'] === activeFilter);
-  const sort = document.getElementById('sort-by').value;
-  if (sort === 'time') data.reverse();
-  else data.sort((a,b) => (a[sort]||'').toString().localeCompare((b[sort]||'').toString()));
-
-  const allEvents = [...new Set(allData.map(s => s['Event']).filter(Boolean))];
-  const allClasses = [...new Set(allData.map(s => s['Class']).filter(Boolean))];
-  document.getElementById('stat-total').textContent = allData.length;
-  document.getElementById('stat-events').textContent = allEvents.length;
-  document.getElementById('stat-classes').textContent = allClasses.length;
-
-  const fb = document.getElementById('filter-bar');
-  fb.innerHTML = `<button class="chip${!activeFilter?' active':''}" onclick="setFilter(null)">All Events</button>`;
-  allEvents.forEach(e => {
-    fb.innerHTML += `<button class="chip${activeFilter===e?' active':''}" onclick="setFilter('${e}')">${e}</button>`;
-  });
-
-  const tbody = document.getElementById('table-body');
-  tbody.innerHTML = '';
-  document.getElementById('empty-state').style.display = data.length ? 'none' : 'block';
-  data.forEach((s, i) => {
-    tbody.innerHTML += `<tr>
-      <td style="color:var(--muted)">${i+1}</td>
-      <td><strong>${s['Name']||''}</strong></td>
-      <td style="font-family:'Orbitron',monospace;font-size:11px;color:var(--accent)">${s['Scholar Number']||''}</td>
-      <td>${s['Class']||''}</td>
-      <td><span class="badge">${s['Event']||''}</span></td>
-      <td style="color:var(--muted);font-size:11px">${s['Registered At']||''}</td>
-      <td><button class="btn btn-danger" onclick="deleteEntry('${s['ID']}')">Remove</button></td>
-    </tr>`;
-  });
-}
-
-function setFilter(f) { activeFilter = f; renderTable(); }
-
-// ── DELETE ────────────────────────────────────────────────
-async function deleteEntry(id) {
-  if (!confirm('Remove this entry from Google Sheets?')) return;
-  try {
-    const res = await api({ action: 'delete', id, token: sessionToken });
-    if (res.success) { showToast('Entry removed.'); loadData(); }
-    else showToast('Delete failed: ' + (res.error||''), true);
-  } catch(e) { showToast('Connection error', true); }
-}
-
-// ── ADD MANUALLY ──────────────────────────────────────────
-function openAddModal() { document.getElementById('add-modal').classList.add('open'); }
-function closeAddModal() { document.getElementById('add-modal').classList.remove('open'); }
-
-async function addManually() {
-  const name = document.getElementById('m-name').value.trim();
-  const scholar = document.getElementById('m-scholar').value.trim();
-  const cls = document.getElementById('m-class').value;
-  const event = document.getElementById('m-event').value;
-  if (!name || !scholar || !cls || !event) return showToast('Fill all fields!', true);
-
-  const btn = document.getElementById('modal-add-btn');
-  btn.disabled = true; btn.textContent = 'Adding...';
-  try {
-    const res = await api({ action: 'add', name, scholar, cls, event, token: sessionToken });
-    if (res.success) {
-      closeAddModal();
-      ['m-name','m-scholar'].forEach(id => document.getElementById(id).value = '');
-      ['m-class','m-event'].forEach(id => document.getElementById(id).value = '');
-      showToast('✓ Entry added!'); loadData();
-    } else showToast('Error: ' + (res.error||''), true);
-  } catch(e) { showToast('Connection error', true); }
-  btn.disabled = false; btn.textContent = 'Add Entry';
-}
-
-// ── EXPORT CSV ────────────────────────────────────────────
-function exportCSV() {
-  if (!allData.length) return showToast('No data to export!', true);
-  const headers = ['Name','Scholar Number','Class','Event','Registered At'];
-  const rows = allData.map(s => headers.map(h => `"${s[h]||''}"`).join(','));
-  const csv = [headers.join(','), ...rows].join('\n');
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv'}));
-  a.download = 'TechQuest_Registrations.csv';
-  a.click(); showToast('✓ CSV exported!');
-}
-
-// ── TOAST ─────────────────────────────────────────────────
 function showToast(msg, isErr=false) {
   const t = document.getElementById('toast');
   t.textContent = msg;
