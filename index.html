@@ -166,7 +166,16 @@
       display:flex; align-items:center; gap:10px;
       opacity:0; animation:fu .6s .1s ease forwards;
     }
-    .eyebrow-line { width:32px; height:1px; background:linear-gradient(90deg,var(--blue),transparent); }
+    .eyebrow-line {
+      width:32px; height:1px;
+      background:linear-gradient(90deg,var(--blue),transparent);
+      transform:scaleX(0); transform-origin:left;
+      animation:lineRevealDesktop .7s .6s ease forwards;
+    }
+    @keyframes lineRevealDesktop {
+      from { transform:scaleX(0); opacity:0; }
+      to   { transform:scaleX(1); opacity:1; }
+    }
 
     .hero-title {
       font-family:'Syne',sans-serif; font-weight:800;
@@ -212,7 +221,7 @@
     }
     #polyCanvas {
       width:680px; height:680px; display:block;
-      filter:drop-shadow(0 0 60px rgba(79,111,255,.45));
+      filter:drop-shadow(0 0 70px rgba(79,111,255,.55));
       opacity:0.85;
     }
 
@@ -343,7 +352,7 @@
       .hero-right {
         top:50%; left:50%; right:auto;
         transform:translate(-50%,-50%);
-        opacity:0.25;
+        opacity:0.55;
       }
       #polyCanvas { width:480px; height:480px; }
       .hero-scroll { left:50%; transform:translateX(-50%); bottom:1.5em; }
@@ -352,25 +361,59 @@
 
     /* ── MOBILE (≤600px) ── */
     @media(max-width:600px){
-      .hero { padding:72px 5vw 50px; min-height:100svh; }
-      .hero-left { align-items:center; text-align:center; }
-      .hero-eyebrow { display:none; }
+      /* Even spacing — nav is ~52px tall, give 10px breathing room then content */
+      .hero { padding:62px 5vw 32px; min-height:100svh; display:flex; flex-direction:column; justify-content:center; }
+      .hero-left { align-items:center; text-align:center; gap:0; }
+
+      .hero-eyebrow {
+        justify-content:center; font-size:.58em; letter-spacing:3px;
+        margin-bottom:.2em;
+        animation:fu .6s .1s ease forwards;
+      }
+      .eyebrow-line { animation:lineRevealDesktop .7s .3s ease forwards; }
+
       .hero-title {
         font-size:clamp(3em,17vw,5em);
         letter-spacing:-2px;
+        line-height:.9;
+        margin-bottom:.25em;
       }
-      .hero-year { font-size:.62em; letter-spacing:3px; }
-      .hero-desc { font-size:.82em; margin-bottom:1.8em; }
-      .hero-actions { flex-direction:column; align-items:stretch; width:100%; max-width:320px; gap:10px; }
-      .hero-actions .btn { text-align:center; justify-content:center; padding:13px 20px; }
-      /* polygon: centred, faint glow */
+      .hero-year { font-size:.58em; letter-spacing:3px; margin-bottom:.7em; }
+      .hero-desc { font-size:.78em; line-height:1.6; margin-bottom:.9em; }
+
+      /* countdown tighter */
+      .countdown { margin-bottom:1em; gap:8px; justify-content:center; }
+      .countdown div { padding:8px 10px; min-width:56px; }
+      .countdown span { font-size:1.1em; }
+
+      /* all 3 buttons: View Events + Register side by side, Learn More full width below */
+      .hero-actions {
+        flex-direction:row; flex-wrap:wrap;
+        justify-content:center;
+        width:100%; gap:8px;
+      }
+      .hero-actions .btn-blue,
+      .hero-actions .btn-register {
+        flex:1 1 calc(50% - 8px); min-width:120px;
+        text-align:center; justify-content:center; padding:11px 8px;
+        font-size:.78em;
+      }
+      .hero-actions .btn-ghost {
+        flex:1 1 100%;
+        text-align:center; justify-content:center; padding:10px 8px;
+        font-size:.78em;
+      }
+
+      /* polygon */
       .hero-right {
-        top:38%; left:50%; right:auto;
+        top:52%; left:50%; right:auto;
         transform:translate(-50%,-50%);
-        opacity:0.18;
+        opacity:0.75;
+        filter:blur(0.6px);
       }
-      #polyCanvas { width:320px; height:320px; }
+      #polyCanvas { width:520px; height:520px; filter:drop-shadow(0 0 60px rgba(79,111,255,.6)); }
       .hero-scroll { display:none; }
+
       /* about */
       .about-grid { grid-template-columns:1fr; }
       .stat-row   { grid-template-columns:repeat(2,1fr); }
@@ -381,10 +424,20 @@
       .ftag        { font-size:.6em; padding:5px 10px; }
     }
 
-    /* ── VERY SMALL (≤380px) ── */
-    @media(max-width:380px){
+    /* ── TALL PHONES (S24 Ultra, Nord 4 etc — >800px tall, ~412px wide) ── */
+    @media(max-width:600px) and (min-height:800px){
+      .hero { padding:68px 5vw 40px; }
+      .hero-year { margin-bottom:1em; }
+      .hero-desc { margin-bottom:1.2em; }
+      .countdown { margin-bottom:1.4em; }
+      #polyCanvas { width:560px; height:560px; }
+      .hero-right { top:54%; }
+    }
+    @media(max-width:390px){
       .hero-title { font-size:clamp(2.6em,16vw,3.8em); }
-      #polyCanvas { width:240px; height:240px; }
+      #polyCanvas { width:300px; height:300px; }
+      .hero-actions .btn-blue,
+      .hero-actions .btn-register { flex:1 1 100%; }
     }
   </style>
 </head>
@@ -631,6 +684,12 @@ document.getElementById('filterBar').addEventListener('click', e => {
     mxT=(e.clientX/innerWidth-0.5)*2;
     myT=(e.clientY/innerHeight-0.5)*2;
   });
+  // touch parallax for mobile
+  window.addEventListener('touchmove', e=>{
+    const t = e.touches[0];
+    mxT=(t.clientX/innerWidth-0.5)*2;
+    myT=(t.clientY/innerHeight-0.5)*2;
+  }, {passive:true});
 
   const rot=(v,rx,ry)=>{
     let [x,y,z]=v;
@@ -657,18 +716,21 @@ document.getElementById('filterBar').addEventListener('click', e => {
     const tv=verts.map(v=>rot(v,rx,ry));
     const pv=tv.map(proj);
 
+    // desktop vs mobile brightness
+    const mob = window.innerWidth <= 600;
+
     // edges
     edges.forEach(([a,b])=>{
       const z=(tv[a][2]+tv[b][2])/2;
-      const al=0.1+(z+1)/2*0.6;
+      const al = mob ? 0.12+(z+1)/2*0.35 : 0.09+(z+1)/2*0.52;
       const g=ctx.createLinearGradient(pv[a][0],pv[a][1],pv[b][0],pv[b][1]);
-      g.addColorStop(0,`rgba(79,111,255,${al})`);
-      g.addColorStop(1,`rgba(41,212,224,${al*0.6})`);
+      g.addColorStop(0,`rgba(100,140,255,${al})`);
+      g.addColorStop(1,`rgba(41,212,224,${al*0.75})`);
       ctx.beginPath();
       ctx.moveTo(pv[a][0],pv[a][1]);
       ctx.lineTo(pv[b][0],pv[b][1]);
       ctx.strokeStyle=g;
-      ctx.lineWidth=0.7+(z+1)*0.7;
+      ctx.lineWidth = mob ? 0.7+(z+1)*0.6 : 0.6+(z+1)*0.65;
       ctx.stroke();
     });
 
@@ -676,17 +738,20 @@ document.getElementById('filterBar').addEventListener('click', e => {
     tv.forEach((_,i)=>{
       const [px,py]=pv[i];
       const z=tv[i][2];
-      const al=0.35+(z+1)/2*0.65;
-      const r=2+( z+1)*1.8+Math.sin(pulse+i*0.65)*1;
-      // glow
-      const g=ctx.createRadialGradient(px,py,0,px,py,r*5);
-      g.addColorStop(0,`rgba(100,140,255,${al*0.45})`);
+      const al = mob ? 0.25+(z+1)/2*0.2 : 0.32+(z+1)/2*0.58;
+      // reduced pulse on mobile — barely breathes
+      const pulse_amt = mob ? Math.sin(pulse*0.5+i*0.65)*0.4 : Math.sin(pulse+i*0.65)*0.8;
+      const r  = mob ? 1.5+(z+1)*1.2+pulse_amt : 2+(z+1)*1.6+pulse_amt;
+      // glow — softer spread on mobile
+      const glowMult = mob ? 3.5 : 5;
+      const g=ctx.createRadialGradient(px,py,0,px,py,r*glowMult);
+      g.addColorStop(0,`rgba(140,170,255,${al*(mob?0.3:0.35)})`);
       g.addColorStop(1,`rgba(79,111,255,0)`);
-      ctx.beginPath(); ctx.arc(px,py,r*5,0,Math.PI*2);
+      ctx.beginPath(); ctx.arc(px,py,r*glowMult,0,Math.PI*2);
       ctx.fillStyle=g; ctx.fill();
-      // core
+      // core dot — dimmer, smaller on mobile
       ctx.beginPath(); ctx.arc(px,py,r,0,Math.PI*2);
-      ctx.fillStyle=`rgba(180,210,255,${al})`; ctx.fill();
+      ctx.fillStyle=`rgba(${mob?'180,200,255':'175,200,255'},${al})`; ctx.fill();
     });
 
     requestAnimationFrame(frame);
