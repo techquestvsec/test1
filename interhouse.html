@@ -1,0 +1,2135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Interhouse Arena — TechQuest 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=Syne:wght@400;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    :root{
+      --bg:#03050f;--surface:#080d1e;--surface2:#0d1530;
+      --blue:#4f6fff;--cyan:#29d4e0;--gold:#e8b84b;--green:#3dd68c;--red:#e05c6b;
+      --text:#c8ddf0;--muted:#4a6080;--border:rgba(79,111,255,.13);
+      --accent:#4f6fff;--accent-dim:rgba(79,111,255,.09);
+      --accent-bdr:rgba(79,111,255,.28);--accent-glow:rgba(79,111,255,.35);
+    }
+    body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden}
+    ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px}
+    /* NAV */
+    nav{position:fixed;top:0;left:0;width:100%;z-index:1000;height:56px;padding:0 5vw;
+      display:flex;align-items:center;justify-content:space-between;
+      background:rgba(3,5,15,.93);backdrop-filter:blur(20px);
+      border-bottom:1px solid var(--accent-bdr);transition:border-color 1.4s ease}
+    .nav-logo{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:1em;letter-spacing:1px;color:#fff;text-decoration:none}
+    .nav-logo span{color:var(--accent);transition:color 1.4s ease}
+    .nav-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .nav-back{font-family:'IBM Plex Mono',monospace;font-size:.7em;color:var(--muted);text-decoration:none;transition:color .2s}
+    .nav-back:hover{color:var(--accent)}
+    #navBadge{display:none;font-family:'IBM Plex Mono',monospace;font-size:.67em;padding:3px 10px;border:1px solid;letter-spacing:1px;border-radius:2px}
+    #navLead{display:none;font-family:'IBM Plex Mono',monospace;font-size:.6em;letter-spacing:2px;text-transform:uppercase;
+      padding:3px 10px;border-radius:2px;border:1px solid;color:var(--accent);border-color:var(--accent-bdr);
+      background:var(--accent-dim);animation:lp 3s ease-in-out infinite;transition:all 1.4s ease}
+    @keyframes lp{0%,100%{opacity:.8}50%{opacity:1;box-shadow:0 0 10px var(--accent-glow)}}
+    #leadBanner{display:none;position:fixed;top:56px;left:0;right:0;z-index:100;pointer-events:none;padding:5px 5vw;
+      font-family:'IBM Plex Mono',monospace;font-size:.6em;letter-spacing:2px;text-transform:uppercase;
+      text-align:center;background:var(--accent-dim);border-bottom:1px solid var(--accent-bdr);
+      color:var(--accent);transition:all 1.4s ease}
+    #leadBanner.on{display:block}
+    body.has-banner .view{padding-top:calc(56px + 28px)!important}
+    #ambient{position:fixed;pointer-events:none;z-index:0;top:-20vh;right:-20vw;width:70vw;height:70vh;
+      border-radius:50%;opacity:0;filter:blur(120px);background:var(--accent);transition:opacity 1.6s,background 1.6s}
+    #ambient.on{opacity:.04}
+    /* VIEWS */
+    .view{display:none;min-height:100vh;padding-top:56px;position:relative;z-index:1}
+    .view.active{position:relative;z-index:1}
+    .view.active{display:block}
+    /* SHARED */
+    .ph{padding:55px 6vw 40px;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+    .ph-glow{position:absolute;top:-80px;right:-80px;width:480px;height:320px;border-radius:50%;
+      background:radial-gradient(ellipse,var(--accent-dim) 0%,transparent 65%);
+      pointer-events:none;animation:gp 8s ease-in-out infinite;transition:background 1.4s}
+    @keyframes gp{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.06)}}
+    .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.62em;letter-spacing:4px;text-transform:uppercase;
+      color:var(--accent);margin-bottom:.7em;transition:color 1.4s}
+    .eyebrow::before{content:'// ';opacity:.35}
+    .ph-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.8em,5vw,3.8em);color:#fff;line-height:1;margin-bottom:.35em}
+    .ph-title span{color:var(--accent);transition:color 1.4s}
+    .ph-sub{font-size:.83em;color:var(--muted);line-height:1.8;max-width:500px}
+    .slbl{font-family:'IBM Plex Mono',monospace;font-size:.6em;letter-spacing:3px;text-transform:uppercase;
+      color:var(--accent);margin-bottom:1.1em;transition:color 1.4s}
+    .slbl::before{content:'// ';opacity:.35}
+    /* AUTH */
+    .auth-rules{max-width:500px;margin:0 auto;padding:28px 5vw 0}
+    .ar-card{background:var(--surface);border:1px solid var(--border);padding:1.4em 1.6em;display:flex;flex-direction:column;gap:.9em}
+    .ar-row{display:flex;align-items:flex-start;gap:.8em;font-size:.82em;color:var(--text);line-height:1.6}
+    .ar-row strong{color:#fff}
+    .ar-icon{font-size:1.1em;flex-shrink:0;margin-top:.05em}
+    .ar-divider{height:1px;background:var(--border)}
+    .ar-house-row{display:flex;gap:6px;flex-wrap:wrap}
+    .ar-house-badge{font-family:'IBM Plex Mono',monospace;font-size:.6em;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border:1px solid;border-radius:2px;font-weight:600}
+    .ar-motto{font-size:.8em;color:var(--muted);line-height:1.7;padding-top:.2em}
+    .ar-motto strong{color:var(--accent);transition:color 1.4s}
+    .ar-motto em{font-style:normal;color:#fff}
+    .auth-wrap{max-width:450px;margin:24px auto 60px;padding:0 5vw}
+    .atabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:1.8em}
+    .atab{flex:1;font-family:'IBM Plex Mono',monospace;font-size:.7em;letter-spacing:2px;text-transform:uppercase;touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+      padding:12px;background:none;border:none;cursor:pointer;color:var(--muted);
+      border-bottom:2px solid transparent;transition:color .2s,border-color 1.4s}
+    .atab.on{color:var(--accent);border-bottom-color:var(--accent)}
+    .aform{display:none;flex-direction:column;gap:.85em}
+    .aform.on{display:flex}
+    .flbl{font-family:'IBM Plex Mono',monospace;font-size:.59em;letter-spacing:2px;text-transform:uppercase;
+      color:var(--muted);display:block;margin-bottom:.3em}
+    .finp,.fsel{width:100%;background:var(--surface);border:1px solid var(--border);color:#fff;font-size:16px;
+      padding:11px 14px;font-family:'IBM Plex Mono',monospace;font-size:.82em;outline:none;
+      transition:border-color .2s;-webkit-appearance:none}
+    .finp:focus,.fsel:focus{border-color:var(--accent)}
+    .fsel option{background:var(--surface2)}
+    .abtn{width:100%;padding:12px;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:.78em;
+      letter-spacing:2px;text-transform:uppercase;border:1px solid var(--accent-bdr);
+      background:var(--accent-dim);color:var(--accent);cursor:pointer;margin-top:.3em;
+      touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+      transition:background .2s,color .2s,box-shadow .2s,border-color 1.4s}
+    .abtn:hover{background:var(--accent);color:#000;box-shadow:0 0 20px var(--accent-glow)}
+    .abtn:disabled{opacity:.35;cursor:not-allowed}
+    .fmsg{font-family:'IBM Plex Mono',monospace;font-size:.72em;padding:.65em 1em;border:1px solid;display:none}
+    .fmsg.ok{color:var(--green);border-color:rgba(61,214,140,.3);background:rgba(61,214,140,.06);display:block}
+    .fmsg.err{color:var(--red);border-color:rgba(224,92,107,.3);background:rgba(224,92,107,.06);display:block}
+    /* DASHBOARD */
+    .dh{padding:40px 6vw 30px;background:var(--surface);border-bottom:1px solid var(--border)}
+    .dwelcome{font-family:'IBM Plex Mono',monospace;font-size:.6em;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:.35em}
+    .dname{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.4em,4vw,2.2em);color:#fff;margin-bottom:.45em}
+    .dmeta{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:1.2em}
+    .chip{font-family:'IBM Plex Mono',monospace;font-size:.58em;letter-spacing:1.5px;text-transform:uppercase;padding:3px 11px;border:1px solid;border-radius:2px}
+    .stats{display:flex;gap:10px;flex-wrap:wrap}
+    .sbox{background:var(--surface2);border:1px solid var(--border);padding:.9em 1.3em;flex:1;min-width:100px}
+    .sval{font-family:'IBM Plex Mono',monospace;font-size:1.7em;font-weight:700;color:var(--accent);
+      text-shadow:0 0 16px var(--accent-glow);transition:color 1.4s,text-shadow 1.4s}
+    .slabel{font-family:'IBM Plex Mono',monospace;font-size:.53em;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:.2em}
+    /* GAME GRID */
+    .dbody{padding:30px 6vw 90px;max-width:1100px;margin:0 auto}
+    .ggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1px;
+      background:var(--border);border:1px solid var(--border);overflow:hidden}
+    .gcard{background:var(--bg);padding:1.5em 1.7em;position:relative;overflow:hidden;
+      display:flex;flex-direction:column;gap:.55em;cursor:pointer;transition:background .2s}
+    .gcard:hover{background:var(--surface)}
+    .gcard-glow{position:absolute;top:-40px;right:-40px;width:150px;height:150px;border-radius:50%;
+      pointer-events:none;opacity:0;transition:opacity .3s}
+    .gcard:hover .gcard-glow{opacity:1}
+    .gtag{display:inline-block;align-self:flex-start;font-family:'IBM Plex Mono',monospace;font-size:.56em;
+      font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:2px 8px;border:1px solid;border-radius:2px}
+    .gtitle{font-family:'Syne',sans-serif;font-weight:800;font-size:1em;color:#fff}
+    .gdesc{font-size:.78em;color:var(--muted);line-height:1.65;flex:1}
+    .gfoot{display:flex;align-items:center;justify-content:space-between;margin-top:.4em}
+    .gprog{font-family:'IBM Plex Mono',monospace;font-size:.58em;color:var(--muted)}
+    .gplay{touch-action:manipulation;font-family:'IBM Plex Mono',monospace;font-size:.6em;font-weight:700;letter-spacing:1px;
+      text-transform:uppercase;padding:5px 12px;border:1px solid;background:none;cursor:pointer;transition:all .2s}
+    /* GAME VIEW */
+    #vGame{padding-top:56px}
+    .gwrap{max-width:740px;margin:0 auto;padding:35px 5vw 90px}
+    .gtopbar{display:flex;align-items:center;gap:10px;margin-bottom:1.6em;flex-wrap:wrap}
+    .gback{touch-action:manipulation;font-family:'IBM Plex Mono',monospace;font-size:.72em;font-weight:700;
+      color:#fff;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.3);
+      padding:8px 18px;cursor:pointer;transition:all .2s;letter-spacing:.5px}
+    .gback:hover{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.5)}
+    .ginfo{font-family:'IBM Plex Mono',monospace;font-size:.62em;color:var(--muted);letter-spacing:1px}
+    .gtitle2{font-family:'Syne',sans-serif;font-weight:800;font-size:1.6em;color:#fff;margin-bottom:.25em}
+    .gsub{font-size:.8em;color:var(--muted);margin-bottom:1.6em}
+    /* Progress bar */
+    .prog-bar-wrap{margin-bottom:1.5em}
+    .prog-bar-label{font-family:'IBM Plex Mono',monospace;font-size:.6em;color:var(--muted);
+      letter-spacing:2px;text-transform:uppercase;margin-bottom:.5em;display:flex;justify-content:space-between}
+    .prog-bar-label span{color:var(--accent)}
+    .prog-track{height:4px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden}
+    .prog-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--cyan));
+      border-radius:2px;transition:width .6s ease,background 1.4s}
+    /* Level grid */
+    .lvl-section{margin-bottom:1.4em}
+    .round-label{font-family:'IBM Plex Mono',monospace;font-size:.6em;letter-spacing:3px;
+      text-transform:uppercase;color:var(--muted);margin-bottom:.5em;margin-top:1em}
+    .round-label.unlocked{color:var(--accent)}
+    .lvl-grid{display:flex;gap:5px;flex-wrap:wrap}
+    .lvlbtn{font-family:'IBM Plex Mono',monospace;font-size:.63em;letter-spacing:1px;
+      padding:6px 12px;background:transparent;color:var(--muted);
+      border:1px solid var(--border);cursor:pointer;transition:all .18s;min-width:48px;text-align:center;border-radius:2px}
+    .lvlbtn:hover:not(.done):not(.locked):not(.next){color:var(--accent);border-color:var(--accent-bdr)}
+    .lvlbtn.next{color:var(--accent);border-color:var(--accent);background:var(--accent-dim);
+      box-shadow:0 0 8px var(--accent-glow);animation:nb .9s ease-in-out infinite alternate}
+    @keyframes nb{from{box-shadow:0 0 6px var(--accent-glow)}to{box-shadow:0 0 14px var(--accent-glow)}}
+    .lvlbtn.done{color:var(--green);border-color:rgba(61,214,140,.3);background:rgba(61,214,140,.05);cursor:default}
+    .lvlbtn.locked{opacity:.22;cursor:not-allowed}
+    /* Arena */
+    .arena{background:var(--surface);border:1px solid var(--border);padding:1.8em;min-height:260px}
+    .arena-ph{text-align:center;padding:3em;font-family:'IBM Plex Mono',monospace;font-size:.73em;color:var(--muted);letter-spacing:1px}
+    /* Result */
+    #result{display:none;position:fixed;inset:0;z-index:2000;background:rgba(3,5,15,.88);
+      backdrop-filter:blur(12px);align-items:center;justify-content:center}
+    #result.on{display:flex}
+    .rbox{background:var(--surface);border:1px solid var(--accent-bdr);
+      box-shadow:0 0 50px var(--accent-glow);padding:2.2em 2.8em;text-align:center;
+      max-width:380px;width:90%;animation:pop .4s cubic-bezier(.175,.885,.32,1.275);
+      transition:border-color 1.4s,box-shadow 1.4s}
+    @keyframes pop{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+    .ricon{font-size:2.8em;margin-bottom:.3em}
+    .rtitle{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4em;color:#fff;margin-bottom:.15em}
+    .rcode{font-family:'IBM Plex Mono',monospace;font-size:.72em;color:var(--accent);
+      letter-spacing:3px;margin-bottom:.2em;transition:color 1.4s}
+    .rpts{font-family:'IBM Plex Mono',monospace;font-size:1em;color:var(--accent);margin-bottom:.15em;transition:color 1.4s}
+    .rtotal{font-family:'IBM Plex Mono',monospace;font-size:.68em;color:var(--muted);letter-spacing:1px;margin-bottom:1.4em}
+    .rbtns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+    .rbtn{font-family:'IBM Plex Mono',monospace;font-size:.72em;font-weight:700;letter-spacing:1px;
+      text-transform:uppercase;padding:9px 20px;border:1px solid;cursor:pointer;transition:all .2s}
+    .rbtn-p{background:var(--accent-dim);color:var(--accent);border-color:var(--accent-bdr)}
+    .rbtn-p:hover{background:var(--accent);color:#000}
+    .rbtn-s{background:none;color:var(--muted);border-color:var(--border)}
+    .rbtn-s:hover{color:var(--text);border-color:rgba(255,255,255,.2)}
+    /* LEADERBOARD */
+    .lbwrap{max-width:940px;margin:0 auto;padding:35px 5vw 90px}
+    .hgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1px;
+      background:var(--border);border:1px solid var(--border);overflow:hidden;margin-bottom:2.2em}
+    .hcard{background:var(--bg);padding:1.5em 1.3em;text-align:center;position:relative;transition:background .2s}
+    .hcard:hover{background:var(--surface)}
+    .hrank{position:absolute;top:9px;left:11px;font-family:'IBM Plex Mono',monospace;font-size:.58em;color:var(--muted)}
+    .hrank.r1{color:var(--gold)}
+    .hname{font-family:'Syne',sans-serif;font-weight:800;font-size:.95em;margin-bottom:.12em}
+    .hscore{font-family:'IBM Plex Mono',monospace;font-size:1.8em;font-weight:700;line-height:1.1}
+    .hmembers{font-family:'IBM Plex Mono',monospace;font-size:.54em;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:.25em}
+    .hbarw{height:3px;background:rgba(255,255,255,.05);margin-top:.8em;border-radius:2px;overflow:hidden}
+    .hbar{height:100%;border-radius:2px;width:0%;transition:width 1s ease}
+    .lbtoolbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.7em;margin-bottom:1.1em}
+    .lbup{font-family:'IBM Plex Mono',monospace;font-size:.58em;color:var(--muted)}
+    .lbref{font-family:'IBM Plex Mono',monospace;font-size:.65em;letter-spacing:1px;padding:6px 14px;
+      cursor:pointer;background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent-bdr);transition:all .2s}
+    .lbref:hover{background:var(--accent);color:#000}
+    .lbtbl{width:100%;border-collapse:collapse;font-size:.8em}
+    .lbtbl th{font-family:'IBM Plex Mono',monospace;font-size:.57em;letter-spacing:2px;text-transform:uppercase;
+      color:var(--muted);padding:8px 11px;border-bottom:1px solid var(--border);text-align:left}
+    .lbtbl td{padding:10px 11px;border-bottom:1px solid rgba(255,255,255,.03)}
+    .lbtbl tr:hover td{background:rgba(255,255,255,.02)}
+    .lbr{font-family:'IBM Plex Mono',monospace;font-size:.8em;color:var(--muted)}
+    .lbr.r1{color:var(--gold);font-weight:700}.lbr.r3{color:var(--cyan)}
+    .lbn{font-weight:600;color:#fff}
+    .lbdot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px}
+    .lbs{font-family:'IBM Plex Mono',monospace;font-weight:700;color:var(--accent);transition:color 1.4s}
+    .lbg{font-family:'IBM Plex Mono',monospace;font-size:.74em;color:var(--muted)}
+    .lbprog{font-family:'IBM Plex Mono',monospace;font-size:.7em;color:var(--muted);letter-spacing:1px}
+    .lb-empty{text-align:center;padding:2.2em;font-family:'IBM Plex Mono',monospace;font-size:.73em;color:var(--muted)}
+    /* BOTTOM NAV */
+    .bnav{position:fixed;bottom:0;left:0;right:0;z-index:500;display:none;
+      background:rgba(3,5,15,.96);backdrop-filter:blur(16px);border-top:1px solid var(--border);justify-content:center}
+    .bnav.on{display:flex}
+    .bnbtn{flex:1;max-width:180px;font-family:'IBM Plex Mono',monospace;font-size:.58em;
+      letter-spacing:1.5px;text-transform:uppercase;padding:12px 8px;background:none;border:none;
+      color:var(--muted);cursor:pointer;border-top:2px solid transparent;transition:color .2s,border-color 1.4s}
+    .bnbtn.on{color:var(--accent);border-top-color:var(--accent)}
+    .bni{font-size:1.2em;display:block;margin-bottom:2px}
+    /* GAME STYLES */
+    .qtimer{font-family:'IBM Plex Mono',monospace;font-size:.65em;color:var(--muted);margin-bottom:.9em;letter-spacing:1px}
+    .qtimer span{color:var(--accent);font-weight:700}
+    .qtext{font-size:.92em;color:#fff;line-height:1.7;margin-bottom:1.3em;font-weight:500}
+    .qopts{display:flex;flex-direction:column;gap:7px}
+    .qopt{touch-action:manipulation;min-height:44px;font-family:'IBM Plex Mono',monospace;font-size:.78em;padding:10px 15px;
+      background:var(--surface2);border:1px solid var(--border);color:var(--text);
+      cursor:pointer;text-align:left;transition:all .18s}
+    .qopt:hover:not(:disabled){border-color:var(--accent-bdr);color:var(--accent);background:var(--accent-dim)}
+    .qopt.c{border-color:rgba(61,214,140,.5);background:rgba(61,214,140,.1);color:var(--green)}
+    .qopt.w{border-color:rgba(224,92,107,.5);background:rgba(224,92,107,.08);color:var(--red)}
+    .sw{font-family:'IBM Plex Mono',monospace;font-size:2em;font-weight:700;color:var(--accent);
+      letter-spacing:8px;text-align:center;margin:1em 0;text-shadow:0 0 18px var(--accent-glow)}
+    .sh{font-size:.76em;color:var(--muted);text-align:center;margin-bottom:1.1em;font-style:italic}
+    .sinp{width:100%;background:var(--surface2);border:1px solid var(--border);color:#fff;
+      padding:12px 15px;font-family:'IBM Plex Mono',monospace;font-size:.95em;outline:none;
+      text-align:center;letter-spacing:3px;text-transform:uppercase;margin-bottom:.9em;transition:border-color .2s}
+    .sinp:focus{border-color:var(--accent)}
+    .tsnip{font-family:'IBM Plex Mono',monospace;font-size:.82em;line-height:1.9;padding:1.1em 1.3em;
+      background:var(--surface2);border:1px solid var(--border);margin-bottom:1.1em;
+      color:var(--muted);white-space:pre-wrap;word-break:break-all}
+    .tok{color:var(--green)}.terr{color:var(--red);background:rgba(224,92,107,.15)}.tcur{color:#fff;border-bottom:2px solid var(--accent)}
+    .tarea{width:100%;background:var(--surface2);border:1px solid var(--border);color:#fff;font-size:16px;
+      padding:10px 13px;font-family:'IBM Plex Mono',monospace;font-size:.85em;outline:none;
+      resize:none;height:65px;transition:border-color .2s}
+    .tarea:focus{border-color:var(--accent)}
+    .tstats{display:flex;gap:18px;font-family:'IBM Plex Mono',monospace;font-size:.63em;color:var(--muted);
+      letter-spacing:1px;margin-bottom:.7em;flex-wrap:wrap}
+    .tstats span{color:var(--accent);font-weight:700}
+    .mgrid{display:grid;gap:7px;margin-bottom:1.1em}
+    .mc{aspect-ratio:1;background:var(--surface2);border:1px solid var(--border);cursor:pointer;
+      display:flex;align-items:center;justify-content:center;font-size:1.3em;border-radius:2px;
+      transition:transform .2s,border-color .2s,background .2s;user-select:none}
+    .mc.fd{font-size:0;background:var(--surface2)}.mc.fd:hover{border-color:var(--accent-bdr);transform:scale(1.04)}
+    .mc.fl{background:var(--accent-dim);border-color:var(--accent-bdr)}
+    .mc.mt{background:rgba(61,214,140,.1);border-color:rgba(61,214,140,.4);cursor:default}
+    .mstats{display:flex;gap:18px;font-family:'IBM Plex Mono',monospace;font-size:.63em;color:var(--muted);letter-spacing:1px;margin-bottom:.9em}
+    .mstats span{color:var(--accent);font-weight:700}
+    .bdesc{font-size:.82em;color:var(--muted);line-height:1.7;margin-bottom:1.1em}
+    .bcode{font-family:'IBM Plex Mono',monospace;font-size:.78em;line-height:2;padding:.9em 1.1em;
+      background:var(--surface2);border:1px solid var(--border);margin-bottom:1.1em;white-space:pre-wrap}
+    .bl{display:block;padding:0 3px;border-radius:2px;transition:background .15s}
+    .bl.bug{color:var(--red);background:rgba(224,92,107,.08);cursor:pointer;
+      border:1px dashed rgba(224,92,107,.3);margin:2px 0}
+    .bl.bug:hover{background:rgba(224,92,107,.15)}.bl.fixed{color:var(--green);background:rgba(61,214,140,.07);cursor:default}
+    .fopts{display:flex;flex-direction:column;gap:5px;margin-bottom:1.1em}
+    .fopt{font-family:'IBM Plex Mono',monospace;font-size:.76em;padding:8px 13px;background:var(--surface2);
+      border:1px solid var(--border);color:var(--text);cursor:pointer;text-align:left;transition:all .18s}
+    .fopt:hover{border-color:var(--accent-bdr);color:var(--accent)}
+    /* SPINNER / TOAST */
+    .sp{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,.1);
+      border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:5px}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    #toast{position:fixed;bottom:4.5em;left:50%;transform:translateX(-50%) translateY(8px);
+      background:var(--surface2);border:1px solid var(--border);font-family:'IBM Plex Mono',monospace;
+      font-size:.7em;padding:.65em 1.3em;z-index:9999;opacity:0;transition:all .3s;
+      pointer-events:none;letter-spacing:1px;white-space:nowrap}
+    #toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+    #toast.ok{color:var(--green);border-color:rgba(61,214,140,.3)}
+    #toast.err{color:var(--red);border-color:rgba(224,92,107,.3)}
+    @media(max-width:600px){
+      .stats{gap:7px}.sbox{padding:.75em 1em}.sval{font-size:1.4em}
+      .hgrid{grid-template-columns:repeat(2,1fr)}.rbox{padding:1.8em 1.3em}
+      .sw{font-size:1.5em;letter-spacing:4px}
+      .ggrid{grid-template-columns:1fr}
+      .gcard{padding:1.2em 1.4em}
+      .gwrap{padding:20px 4vw 90px}
+      .lvlbtn{min-width:44px;padding:8px 10px;font-size:.67em}
+      .arena{padding:1.2em}
+      .ar-card{padding:1.1em 1.2em}
+      .gback{padding:10px 20px;font-size:.75em}
+      .rbox{padding:1.6em 1.2em}
+      .rbtns{flex-direction:column;align-items:stretch}
+      .rbtn{text-align:center}
+      .ph{padding:36px 5vw 28px}
+    }
+
+    /* ── DESKTOP ENHANCEMENTS (1024px+) ─────────────────── */
+    @media(min-width:1024px){
+      /* Nav */
+      nav{height:64px;padding:0 7vw}
+      .nav-logo{font-size:1.15em}
+      body.has-banner .view{padding-top:calc(64px + 30px)!important}
+      .view{padding-top:64px}
+      #vGame{padding-top:64px}
+
+      /* Page header */
+      .ph{padding:70px 9vw 52px}
+      .ph-title{font-size:clamp(2.4em,4.5vw,5em)}
+      .eyebrow{font-size:.72em}
+
+      /* Auth — two column layout on wide screens */
+      #vAuth .ph{padding:80px 9vw 56px}
+      .auth-wrap{max-width:520px;margin:36px auto 80px}
+      .finp,.fsel{padding:13px 16px;font-size:.88em}
+      .abtn{padding:14px;font-size:.84em}
+      .atab{font-size:.78em;padding:14px}
+      .ar-card{padding:1.7em 2em;gap:1.1em}
+      .ar-row{font-size:.9em}
+      .ar-motto{font-size:.86em}
+      .ar-house-badge{font-size:.67em;padding:5px 13px}
+
+      /* Dashboard header */
+      .dh{padding:52px 9vw 40px}
+      .dname{font-size:clamp(1.8em,3.5vw,2.8em)}
+      .sbox{padding:1.1em 1.7em}
+      .sval{font-size:2.1em}
+      .slabel{font-size:.6em}
+      .chip{font-size:.65em;padding:4px 14px}
+
+      /* Game grid — 3 columns min */
+      .dbody{padding:40px 9vw 100px}
+      .ggrid{grid-template-columns:repeat(3,1fr)}
+      .gcard{padding:1.9em 2.1em}
+      .gtitle{font-size:1.1em}
+      .gdesc{font-size:.84em}
+      .gprog{font-size:.64em}
+      .gplay{font-size:.68em;padding:7px 16px}
+
+      /* Game view */
+      .gwrap{max-width:860px;padding:48px 6vw 100px}
+      .gtitle2{font-size:2em}
+      .gsub{font-size:.9em}
+      .arena{padding:2.4em;min-height:320px}
+      .round-label{font-size:.68em}
+      .lvlbtn{font-size:.72em;padding:8px 16px;min-width:56px}
+      .prog-bar-label{font-size:.68em}
+
+      /* Game elements */
+      .qtext{font-size:1.05em}
+      .qopt{font-size:.88em;padding:12px 18px}
+      .qtimer{font-size:.74em}
+      .sw{font-size:2.6em}
+      .sh{font-size:.86em}
+      .sinp{font-size:1.05em;padding:14px 18px}
+      .tsnip{font-size:.9em;padding:1.4em 1.6em}
+      .tarea{font-size:.92em;height:80px}
+      .tstats{font-size:.72em;gap:24px}
+      .bdesc{font-size:.9em}
+      .bcode{font-size:.86em;padding:1.1em 1.4em}
+      .fopt{font-size:.84em;padding:10px 16px}
+      .mstats{font-size:.72em}
+
+      /* Result overlay */
+      .rbox{max-width:460px;padding:2.8em 3.4em}
+      .ricon{font-size:3.4em}
+      .rtitle{font-size:1.7em}
+      .rcode{font-size:.82em}
+      .rpts{font-size:1.2em}
+      .rbtn{font-size:.82em;padding:11px 28px}
+
+      /* Leaderboard */
+      .lbwrap{padding:48px 7vw 100px}
+      .hgrid{grid-template-columns:repeat(4,1fr)}
+      .hscore{font-size:2.2em}
+      .hname{font-size:1.1em}
+      .lbtbl{font-size:.9em}
+      .lbtbl th{font-size:.63em;padding:10px 14px}
+      .lbtbl td{padding:13px 14px}
+
+      /* Bottom nav */
+      .bnbtn{font-size:.65em;padding:14px 20px}
+      .bni{font-size:1.35em}
+    }
+
+    /* ── LARGE DESKTOP (1440px+) ─────────────────────── */
+    @media(min-width:1440px){
+      .ph{padding:90px 11vw 60px}
+      .dh{padding:60px 11vw 48px}
+      .dbody{padding:48px 11vw 120px}
+      .ggrid{grid-template-columns:repeat(4,1fr)}
+      .gwrap{max-width:1000px}
+      .lbwrap{padding:56px 11vw 120px}
+    }
+  </style>
+</head>
+<body>
+<div id="ambient"></div>
+<div id="leadBanner"></div>
+<nav>
+  <a href="index.html" class="nav-logo">Tech<span>Quest</span></a>
+  <div class="nav-right">
+    <a href="index.html" class="nav-back">← Home</a>
+    <div id="navLead"></div>
+    <div id="navBadge"></div>
+  </div>
+</nav>
+
+<!-- AUTH VIEW -->
+<div class="view active" id="vAuth">
+  <div class="ph">
+    <div class="ph-glow"></div>
+    <div class="eyebrow">Interhouse Arena</div>
+    <h1 class="ph-title">TechQuest <span>2026</span></h1>
+  </div>
+  <div class="auth-wrap">
+    <div class="atabs">
+      <button class="atab on" onclick="switchTab('signup')">Sign Up</button>
+      <button class="atab"    onclick="switchTab('login')">Log In</button>
+    </div>
+    <form class="aform on" id="fSignup" onsubmit="doSignup(event)">
+      <div><label class="flbl">Scholar Number</label><input class="finp" id="su_s" type="text" placeholder="e.g. 20240123" required autocomplete="off"/></div>
+      <div><label class="flbl">Full Name</label><input class="finp" id="su_n" type="text" placeholder="Your full name" required/></div>
+      <div>
+        <label class="flbl">House</label>
+        <select class="fsel" id="su_h" required>
+          <option value="" disabled selected>Select your house</option>
+          <option value="Vikramshila">🟢 Vikramshila</option>
+          <option value="Vallabhi">🟡 Vallabhi</option>
+          <option value="Taxila">🔵 Taxila</option>
+          <option value="Nalanda">🔴 Nalanda</option>
+        </select>
+      </div>
+      <div>
+        <label class="flbl">Class / Grade</label>
+        <select class="fsel" id="su_g" required>
+          <option value="" disabled selected>Select class</option>
+          <option>Class 1</option><option>Class 2</option><option>Class 3</option>
+          <option>Class 4</option><option>Class 5</option><option>Class 6</option>
+          <option>Class 7</option><option>Class 8</option><option>Class 9</option>
+          <option>Class 10</option><option>Class 11</option><option>Class 12</option>
+        </select>
+      </div>
+      <div id="suMsg" class="fmsg"></div>
+      <button class="abtn" type="submit" id="suBtn">Create Account →</button>
+    </form>
+    <form class="aform" id="fLogin" onsubmit="doLogin(event)">
+      <div><label class="flbl">Scholar Number</label><input class="finp" id="li_s" type="text" placeholder="Enter your scholar number" required autocomplete="off"/></div>
+      <div id="liMsg" class="fmsg"></div>
+      <button class="abtn" type="submit" id="liBtn">Enter Arena →</button>
+    </form>
+    <div style="text-align:center;margin-top:1.6em">
+      <button class="lbref" style="font-size:.64em" onclick="gotoLB()">👁 View Leaderboard</button>
+    </div>
+    <div class="ar-card" style="margin-top:1.8em">
+      <div class="ar-row"><span class="ar-icon">🆕</span><div><strong>First time?</strong> Sign up with your scholar number, name, house and class. Takes 10 seconds.</div></div>
+      <div class="ar-row"><span class="ar-icon">🔁</span><div><strong>Coming back?</strong> Just log in with your scholar number — your progress is saved automatically.</div></div>
+      <div class="ar-row"><span class="ar-icon">📈</span><div><strong>Progress &amp; ranking</strong> are stored per level. Pick up exactly where you left off, any device.</div></div>
+      <div class="ar-divider"></div>
+      <div class="ar-house-row">
+        <span class="ar-house-badge" style="color:#3dd68c;border-color:rgba(61,214,140,.35);background:rgba(61,214,140,.07)">🟢 Vikramshila</span>
+        <span class="ar-house-badge" style="color:#e8b84b;border-color:rgba(232,184,75,.35);background:rgba(232,184,75,.07)">🟡 Vallabhi</span>
+        <span class="ar-house-badge" style="color:#4f6fff;border-color:rgba(79,111,255,.35);background:rgba(79,111,255,.08)">🔵 Taxila</span>
+        <span class="ar-house-badge" style="color:#e05c6b;border-color:rgba(224,92,107,.35);background:rgba(224,92,107,.07)">🔴 Nalanda</span>
+      </div>
+      <div class="ar-motto">Every level you complete earns <strong>10 points</strong> for you <em>and your house</em>. The house leading the leaderboard colours the entire arena. <strong>Play for your house.</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- DASHBOARD VIEW -->
+<div class="view" id="vDash">
+  <div class="dh">
+    <div class="dwelcome">Welcome back</div>
+    <div class="dname" id="dName">—</div>
+    <div class="dmeta">
+      <span class="chip" id="dHouse">—</span>
+      <span class="chip" style="color:var(--muted);border-color:rgba(255,255,255,.07)" id="dGrade">—</span>
+      <span class="chip" style="color:var(--muted);border-color:rgba(255,255,255,.07)" id="dScholar">—</span>
+    </div>
+    <div class="stats">
+      <div class="sbox"><div class="sval" id="dScore">0</div><div class="slabel">Total Points</div></div>
+      <div class="sbox"><div class="sval" id="dLevels" style="color:var(--cyan)">0</div><div class="slabel">Levels Done</div></div>
+      <div class="sbox"><div class="sval" id="dRank" style="color:var(--gold)">#—</div><div class="slabel">Your Rank</div></div>
+    </div>
+  </div>
+  <div class="dbody">
+    <div class="slbl" style="margin-bottom:1.5em">Choose a Game</div>
+    <div class="ggrid">
+      <div class="gcard" onclick="openGame(1)">
+        <div class="gcard-glow" style="background:radial-gradient(circle,rgba(232,184,75,.2) 0%,transparent 70%)"></div>
+        <span class="gtag" style="color:var(--gold);border-color:rgba(232,184,75,.3);background:rgba(232,184,75,.07)">Trivia</span>
+        <div class="gtitle">Tech Trivia</div>
+        <div class="gdesc">Rapid-fire tech questions — 5 per level, 20 seconds each. Score points for every correct answer.</div>
+        <div class="gfoot"><span class="gprog" id="gp1">Not started</span><button class="gplay" style="color:var(--gold);border-color:rgba(232,184,75,.3)">Play →</button></div>
+      </div>
+      <div class="gcard" onclick="openGame(2)">
+        <div class="gcard-glow" style="background:radial-gradient(circle,rgba(41,212,224,.18) 0%,transparent 70%)"></div>
+        <span class="gtag" style="color:var(--cyan);border-color:rgba(41,212,224,.3);background:rgba(41,212,224,.07)">Words</span>
+        <div class="gtitle">Word Scramble</div>
+        <div class="gdesc">Unscramble the jumbled tech term before time runs out. Gets harder every level.</div>
+        <div class="gfoot"><span class="gprog" id="gp2">Not started</span><button class="gplay" style="color:var(--cyan);border-color:rgba(41,212,224,.3)">Play →</button></div>
+      </div>
+      <div class="gcard" onclick="openGame(3)">
+        <div class="gcard-glow" style="background:radial-gradient(circle,rgba(79,111,255,.2) 0%,transparent 70%)"></div>
+        <span class="gtag" style="color:var(--blue);border-color:rgba(79,111,255,.3);background:rgba(79,111,255,.08)">Typing</span>
+        <div class="gtitle">Type Racer</div>
+        <div class="gdesc">Type the code snippet as fast and accurately as possible. WPM and accuracy both count.</div>
+        <div class="gfoot"><span class="gprog" id="gp3">Not started</span><button class="gplay" style="color:var(--blue);border-color:rgba(79,111,255,.3)">Play →</button></div>
+      </div>
+      <div class="gcard" onclick="openGame(4)">
+        <div class="gcard-glow" style="background:radial-gradient(circle,rgba(192,136,255,.18) 0%,transparent 70%)"></div>
+        <span class="gtag" style="color:#c088ff;border-color:rgba(192,136,255,.3);background:rgba(192,136,255,.07)">Memory</span>
+        <div class="gtitle">Memory Match</div>
+        <div class="gdesc">Flip and match pairs of tech-themed cards. Fewer moves = higher score.</div>
+        <div class="gfoot"><span class="gprog" id="gp4">Not started</span><button class="gplay" style="color:#c088ff;border-color:rgba(192,136,255,.3)">Play →</button></div>
+      </div>
+      <div class="gcard" onclick="openGame(5)">
+        <div class="gcard-glow" style="background:radial-gradient(circle,rgba(61,214,140,.18) 0%,transparent 70%)"></div>
+        <span class="gtag" style="color:var(--green);border-color:rgba(61,214,140,.3);background:rgba(61,214,140,.07)">Debug</span>
+        <div class="gtitle">Bug Fix</div>
+        <div class="gdesc">Find the bug in the code and pick the correct fix. Each level has sneakier bugs.</div>
+        <div class="gfoot"><span class="gprog" id="gp5">Not started</span><button class="gplay" style="color:var(--green);border-color:rgba(61,214,140,.3)">Play →</button></div>
+      </div>
+      <div class="gcard" onclick="openGame(6)">
+        <div class="gcard-glow" style="background:radial-gradient(circle,rgba(41,212,224,.2) 0%,transparent 70%)"></div>
+        <span class="gtag" style="color:var(--cyan);border-color:rgba(41,212,224,.3);background:rgba(41,212,224,.07)">Cipher</span>
+        <div class="gtitle">Code Breaker</div>
+        <div class="gdesc">Crack 2 ciphers per level — binary, Morse, Caesar and more. Each round gets harder.</div>
+        <div class="gfoot"><span class="gprog" id="gp6">Not started</span><button class="gplay" style="color:var(--cyan);border-color:rgba(41,212,224,.3)">Play →</button></div>
+      </div>
+
+      <div class="gcard" onclick="openGame(7)">
+        <div class="gcard-glow" style="background:radial-gradient(circle,rgba(79,111,255,.2) 0%,transparent 70%)"></div>
+        <span class="gtag" style="color:var(--blue);border-color:rgba(79,111,255,.3);background:rgba(79,111,255,.08)">Logic</span>
+        <div class="gtitle">Minesweeper</div>
+        <div class="gdesc">Clear the minefield without triggering a bomb. Flag mines, reveal safe tiles to win.</div>
+        <div class="gfoot"><span class="gprog" id="gp7">Not started</span><button class="gplay" style="color:var(--blue);border-color:rgba(79,111,255,.3)">Play →</button></div>
+      </div>
+      <div class="gcard" onclick="openGame(8)">
+        <div class="gcard-glow" style="background:radial-gradient(circle,rgba(192,136,255,.18) 0%,transparent 70%)"></div>
+        <span class="gtag" style="color:#c088ff;border-color:rgba(192,136,255,.3);background:rgba(192,136,255,.07)">Reflex</span>
+        <div class="gtitle">Tetris</div>
+        <div class="gdesc">Stack falling blocks and clear lines to score. Clear enough lines each level to advance.</div>
+        <div class="gfoot"><span class="gprog" id="gp8">Not started</span><button class="gplay" style="color:#c088ff;border-color:rgba(192,136,255,.3)">Play →</button></div>
+      </div>
+      <div class="gcard" onclick="openGame(9)">
+        <div class="gcard-glow" style="background:radial-gradient(circle,rgba(61,214,140,.18) 0%,transparent 70%)"></div>
+        <span class="gtag" style="color:var(--green);border-color:rgba(61,214,140,.3);background:rgba(61,214,140,.07)">Puzzle</span>
+        <div class="gtitle">Sudoku</div>
+        <div class="gdesc">Fill every row, column and box with each digit. Round A=4×4, B=6×6, C=9×9.</div>
+        <div class="gfoot"><span class="gprog" id="gp9">Not started</span><button class="gplay" style="color:var(--green);border-color:rgba(61,214,140,.3)">Play →</button></div>
+      </div>
+      <!-- G11–G20 reserved -->
+    </div>
+  </div>
+</div>
+
+<!-- GAME VIEW -->
+<div class="view" id="vGame">
+  <div class="gwrap">
+    <div class="gtopbar">
+      <button class="gback" onclick="backToDash()">← Back</button>
+      <span class="ginfo" id="gInfo">—</span>
+    </div>
+    <div class="gtitle2" id="gTitle">—</div>
+    <div class="gsub" id="gSub">Select a level below to start.</div>
+    <div class="prog-bar-wrap">
+      <div class="prog-bar-label"><span id="pbLabel">Progress</span><span id="pbPct">0%</span></div>
+      <div class="prog-track"><div class="prog-fill" id="pbFill" style="width:0%"></div></div>
+    </div>
+    <div class="lvl-section">
+      <div id="lvlRounds"></div>
+    </div>
+    <div class="arena" id="arena">
+      <div class="arena-ph">← Select a level above to begin</div>
+    </div>
+  </div>
+</div>
+
+<!-- LEADERBOARD VIEW -->
+<div class="view" id="vLB">
+  <div class="ph">
+    <div class="ph-glow"></div>
+    <div class="eyebrow">Live Standings</div>
+    <h1 class="ph-title">Leader<span>board</span></h1>
+    <p class="ph-sub">Updated every time a student completes a level.</p>
+  </div>
+  <div class="lbwrap">
+    <div class="slbl">House Rankings</div>
+    <div class="hgrid" id="hGrid"><div class="lb-empty"><span class="sp"></span></div></div>
+    <div class="lbtoolbar">
+      <div class="slbl" style="margin-bottom:0">Top Students</div>
+      <div style="display:flex;gap:9px;align-items:center;flex-wrap:wrap">
+        <span class="lbup" id="lbUp"></span>
+        <button class="lbref" onclick="loadLB()">↺ Refresh</button>
+      </div>
+    </div>
+    <div style="overflow-x:auto">
+      <table class="lbtbl">
+        <thead><tr><th>#</th><th>Name</th><th>House</th><th>Class</th><th>Points</th><th>Progress</th></tr></thead>
+        <tbody id="lbBody"><tr><td colspan="6" class="lb-empty"><span class="sp"></span></td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bnav" id="bnav">
+  <button class="bnbtn on" id="bn0" onclick="goDash()"><span class="bni">🎮</span>Arena</button>
+  <button class="bnbtn"    id="bn1" onclick="gotoLB()"><span class="bni">🏆</span>Leaderboard</button>
+  <button class="bnbtn"    id="bn2" onclick="doLogout()"><span class="bni">↩</span>Log Out</button>
+</div>
+
+<!-- RESULT OVERLAY -->
+<div id="result">
+  <div class="rbox">
+    <div class="ricon" id="rIcon">🎉</div>
+    <div class="rtitle" id="rTitle">Level Complete!</div>
+    <div class="rcode" id="rCode">A1</div>
+    <div class="rpts"  id="rPts">+10 pts</div>
+    <div class="rtotal" id="rTotal">Total: 10 pts</div>
+    <div class="rbtns">
+      <button class="rbtn rbtn-p" id="rNext" onclick="goNext()">Next Level →</button>
+      <button class="rbtn rbtn-s" onclick="backToDash()">Back to Hub</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+//  CONFIG
+// ═══════════════════════════════════════════════════════
+const API_URL = "https://script.google.com/macros/s/AKfycbwmrX8m_zYzHBp_9WUUOpPJY758gAJTDMfP88PWBPoa3XI40RCz7HvoT-N0ZwsR43mj2w/exec";
+
+const LEVELS_PER_ROUND = 10;
+const ROUNDS = ["A","B","C","D","E","F","G","H","I","J"]; // extend freely
+
+const HOUSE_META = {
+  "Vikramshila":{ color:"#3dd68c", dim:"rgba(61,214,140,.09)",  bdr:"rgba(61,214,140,.28)",  glow:"rgba(61,214,140,.35)",  emoji:"🟢" },
+  "Vallabhi":   { color:"#e8b84b", dim:"rgba(232,184,75,.09)",  bdr:"rgba(232,184,75,.28)",  glow:"rgba(232,184,75,.35)",  emoji:"🟡" },
+  "Taxila":     { color:"#4f6fff", dim:"rgba(79,111,255,.09)",  bdr:"rgba(79,111,255,.28)",  glow:"rgba(79,111,255,.35)",  emoji:"🔵" },
+  "Nalanda":    { color:"#e05c6b", dim:"rgba(224,92,107,.09)",  bdr:"rgba(224,92,107,.28)",  glow:"rgba(224,92,107,.35)",  emoji:"🔴" },
+};
+
+// Game slot definitions — add G6..G20 here as new games are created
+const GAME_DEF = {
+  1:{ name:"Tech Trivia",   sub:"5 questions per level · 20s each · answer correctly to score",  color:"#e8b84b" },
+  2:{ name:"Word Scramble", sub:"Unscramble the tech term · timer counts down each level",         color:"#29d4e0" },
+  3:{ name:"Type Racer",    sub:"Type the code snippet accurately · WPM and accuracy scored",      color:"#4f6fff" },
+  4:{ name:"Memory Match",  sub:"Flip and match tech pairs · fewer moves = higher score",          color:"#c088ff" },
+  5:{ name:"Bug Fix",       sub:"Find the bug · pick the correct fix · one bug per challenge",     color:"#3dd68c" },
+  6:{ name:"Code Breaker", sub:"Crack 2 ciphers per level · binary · Morse · Caesar · harder each round", color:"#29d4e0" },
+  7:{ name:"Minesweeper", sub:"Clear all safe tiles · flag mines · mines increase each round",      color:"#4f6fff" },
+  8:{ name:"Tetris",      sub:"Clear target lines · mobile buttons · speed rises each round",        color:"#c088ff" },
+  9:{ name:"Sudoku",      sub:"Fill the grid · wrong entries flagged · A=4×4 · B=6×6 · C+=9×9",    color:"#3dd68c" },
+};
+
+// ═══════════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════════
+let student    = null;   // full student object from API
+let activeSlot = null;   // integer game slot 1-20
+let activeRnd  = null;   // "A","B",...
+let activeLvl  = null;   // 1-10
+let gTimers    = [];
+
+// ═══════════════════════════════════════════════════════
+//  API
+// ═══════════════════════════════════════════════════════
+async function api(body) {
+  try {
+    const res  = await fetch(API_URL, {
+      method:"POST",
+      headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body: JSON.stringify(body)
+    });
+    const text = await res.text();
+    try { return JSON.parse(text); }
+    catch(_){ return { status:"error", message:"Bad response: "+text.slice(0,120) }; }
+  } catch(e) {
+    return { status:"error", message:e.message||"Network error" };
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+//  PROGRESS UTILS
+//  Format: "A3" = Round A Level 3 (last completed)
+//  ""     = not started
+// ═══════════════════════════════════════════════════════
+function parseCode(code) {
+  if (!code) return { rnd:null, lvl:0 };
+  const m = String(code).trim().toUpperCase().match(/^([A-Z])(\d+)$/);
+  return m ? { rnd:m[1], lvl:parseInt(m[2]) } : { rnd:null, lvl:0 };
+}
+
+// Given last-completed {rnd,lvl}, what is the NEXT playable?
+// null/0 → A1  |  A10 → B1  |  B3 → B4
+function nextPlayable(rnd, lvl) {
+  if (!rnd)                        return { rnd:"A", lvl:1 };
+  if (lvl >= LEVELS_PER_ROUND) {
+    const nextRnd = String.fromCharCode(rnd.charCodeAt(0)+1);
+    return { rnd:nextRnd, lvl:1 };
+  }
+  return { rnd, lvl: lvl+1 };
+}
+
+// Is (r,l) already done given progress code?
+function isDone(r, l, code) {
+  const { rnd, lvl } = parseCode(code);
+  if (!rnd) return false;
+  if (r < rnd) return true;
+  if (r === rnd && l <= lvl) return true;
+  return false;
+}
+
+// Is round r unlocked (all of previous round done, or it IS round A)?
+function isRoundUnlocked(r, code) {
+  if (r === "A") return true;
+  const prevRnd = String.fromCharCode(r.charCodeAt(0)-1);
+  const { rnd, lvl } = parseCode(code);
+  // Previous round fully completed if rnd > prevRnd, or rnd===prevRnd && lvl===10
+  if (!rnd) return false;
+  if (rnd > prevRnd) return true;
+  if (rnd === prevRnd && lvl >= LEVELS_PER_ROUND) return true;
+  return false;
+}
+
+// Total levels done across all games
+function totalLevelsDone(progress) {
+  let n = 0;
+  Object.values(progress||{}).forEach(code => {
+    const { rnd, lvl } = parseCode(code);
+    if (!rnd) return;
+    const roundIdx = rnd.charCodeAt(0) - 65; // A=0,B=1...
+    n += roundIdx * LEVELS_PER_ROUND + lvl;
+  });
+  return n;
+}
+
+// Progress % for one game slot
+function progressPct(code) {
+  const { rnd, lvl } = parseCode(code);
+  if (!rnd) return 0;
+  const done = (rnd.charCodeAt(0)-65)*LEVELS_PER_ROUND + lvl;
+  const total = ROUNDS.length * LEVELS_PER_ROUND;
+  return Math.round(done/total*100);
+}
+
+// ═══════════════════════════════════════════════════════
+//  AUTH
+// ═══════════════════════════════════════════════════════
+function switchTab(t) {
+  document.querySelectorAll('.atab').forEach((b,i)=>b.classList.toggle('on',(i===0&&t==='signup')||(i===1&&t==='login')));
+  document.getElementById('fSignup').classList.toggle('on', t==='signup');
+  document.getElementById('fLogin').classList.toggle('on',  t==='login');
+}
+
+async function doSignup(e) {
+  e.preventDefault();
+  const btn=document.getElementById('suBtn'), msg=document.getElementById('suMsg');
+  btn.disabled=true; btn.textContent='Creating...'; msg.className='fmsg';
+  const d = await api({ action:"signUp",
+    scholarNo:document.getElementById('su_s').value.trim(),
+    name:     document.getElementById('su_n').value.trim(),
+    house:    document.getElementById('su_h').value,
+    grade:    document.getElementById('su_g').value });
+  btn.disabled=false; btn.textContent='Create Account →';
+  if (d.status==='ok') { msg.textContent=d.message; msg.className='fmsg ok'; setTimeout(()=>enterArena(d.student),700); }
+  else { msg.textContent=d.message; msg.className='fmsg err'; }
+}
+
+async function doLogin(e) {
+  e.preventDefault();
+  const btn=document.getElementById('liBtn'), msg=document.getElementById('liMsg');
+  btn.disabled=true; btn.textContent='Loading...'; msg.className='fmsg';
+  const d = await api({ action:"login", scholarNo:document.getElementById('li_s').value.trim() });
+  btn.disabled=false; btn.textContent='Enter Arena →';
+  if (d.status==='ok') enterArena(d.student);
+  else { msg.textContent=d.message; msg.className='fmsg err'; }
+}
+
+function enterArena(s) {
+  student = s;
+  sessionStorage.setItem('tq_s', JSON.stringify(s));
+  const meta = HOUSE_META[s.house]||HOUSE_META.Taxila;
+  // Nav badge
+  const nb = document.getElementById('navBadge');
+  nb.style.cssText = `display:inline-block;color:${meta.color};border-color:${meta.bdr};background:${meta.dim}`;
+  nb.textContent   = s.name.split(' ')[0];
+  document.getElementById('bnav').classList.add('on');
+  renderDash();
+  showView('vDash'); setBN(0);
+  loadHouseTheme();
+}
+
+function doLogout() {
+  student=null; sessionStorage.removeItem('tq_s');
+  document.getElementById('bnav').classList.remove('on');
+  document.getElementById('navBadge').style.display='none';
+  showView('vAuth');
+}
+
+// ═══════════════════════════════════════════════════════
+//  DASHBOARD
+// ═══════════════════════════════════════════════════════
+function renderDash() {
+  if (!student) return;
+  const meta = HOUSE_META[student.house]||HOUSE_META.Taxila;
+  document.getElementById('dName').textContent    = student.name;
+  document.getElementById('dGrade').textContent   = student.grade;
+  document.getElementById('dScholar').textContent = '#'+student.scholarNo;
+  document.getElementById('dScore').textContent   = student.totalScore||0;
+
+  const hc = document.getElementById('dHouse');
+  hc.textContent=student.house; hc.style.color=meta.color; hc.style.borderColor=meta.bdr; hc.style.background=meta.dim;
+
+  const done = totalLevelsDone(student.progress);
+  document.getElementById('dLevels').textContent = done;
+
+  // Game progress labels
+  Object.keys(GAME_DEF).forEach(slot => {
+    const el   = document.getElementById('gp'+slot);
+    if (!el) return;
+    const code = (student.progress||{})['G'+slot]||'';
+    const { rnd, lvl } = parseCode(code);
+    el.textContent = code ? 'Round '+rnd+' · Level '+lvl+' done' : 'Not started';
+  });
+
+  // Rank async
+  api({action:'getLeaderboard',limit:300}).then(d=>{
+    if(d.status==='ok'){
+      const i=d.students.findIndex(s=>s.scholarNo===student.scholarNo);
+      document.getElementById('dRank').textContent=i>=0?'#'+(i+1):'#—';
+    }
+  });
+}
+
+function goDash() { renderDash(); showView('vDash'); setBN(0); }
+
+// ═══════════════════════════════════════════════════════
+//  GAME VIEW — level grid with round/level system
+// ═══════════════════════════════════════════════════════
+function openGame(slot) {
+  activeSlot=slot; activeRnd=null; activeLvl=null;
+  clearGT();
+  const def = GAME_DEF[slot];
+  if (!def) { toast('Game coming soon!','ok'); return; }
+
+  document.getElementById('gTitle').textContent = def.name;
+  document.getElementById('gSub').textContent   = def.sub;
+  document.getElementById('gInfo').textContent  = 'G'+slot+' · Select a level';
+  document.getElementById('arena').innerHTML    = '<div class="arena-ph">← Select a level above to begin</div>';
+
+  buildLevelGrid(slot);
+  updateProgressBar(slot);
+  showView('vGame'); setBN(0);
+}
+
+function buildLevelGrid(slot) {
+  const code    = (student?.progress||{})['G'+slot]||'';
+  const { rnd:curRnd, lvl:curLvl } = parseCode(code);
+  const next    = nextPlayable(curRnd, curLvl);
+  const wrap    = document.getElementById('lvlRounds');
+  wrap.innerHTML='';
+
+  ROUNDS.forEach(r => {
+    const unlocked = isRoundUnlocked(r, code);
+    const rLabel   = document.createElement('div');
+    rLabel.className = 'round-label'+(unlocked?' unlocked':'');
+    rLabel.textContent = 'Round '+r + (unlocked?'':' 🔒');
+    wrap.appendChild(rLabel);
+
+    const grid = document.createElement('div');
+    grid.className = 'lvl-grid';
+
+    for (let l=1; l<=LEVELS_PER_ROUND; l++) {
+      const done   = isDone(r, l, code);
+      const isNext = unlocked && r===next.rnd && l===next.lvl;
+      const locked = !unlocked || (!done && !isNext && !(r===next.rnd && l<next.lvl));
+
+      const btn = document.createElement('button');
+      btn.className = 'lvlbtn' + (done?' done':isNext?' next':locked?' locked':'');
+      btn.textContent = done ? '✓' : r+l;
+      btn.title = done ? 'Completed' : isNext ? 'Play now!' : locked ? 'Locked' : '';
+      if (isNext || (unlocked && !done && !locked)) {
+        btn.onclick = () => startLevel(slot, r, l);
+      }
+      grid.appendChild(btn);
+    }
+    wrap.appendChild(grid);
+  });
+}
+
+function updateProgressBar(slot) {
+  const code = (student?.progress||{})['G'+slot]||'';
+  const pct  = progressPct(code);
+  const { rnd, lvl } = parseCode(code);
+  document.getElementById('pbFill').style.width  = pct+'%';
+  document.getElementById('pbPct').textContent   = pct+'%';
+  document.getElementById('pbLabel').textContent = code ? 'Last: '+rnd+lvl : 'Not started';
+}
+
+function startLevel(slot, rnd, lvl) {
+  activeSlot=slot; activeRnd=rnd; activeLvl=lvl;
+  clearGT();
+  document.getElementById('gInfo').textContent = 'G'+slot+' · Round '+rnd+' · Level '+lvl;
+  // Highlight active btn
+  document.querySelectorAll('.lvlbtn').forEach(b=>{
+    if(b.textContent===rnd+lvl && b.classList.contains('next')) b.style.animation='none';
+  });
+  const arena = document.getElementById('arena');
+  switch(slot) {
+    case 1: renderTrivia(arena,rnd,lvl);   break;
+    case 2: renderScramble(arena,rnd,lvl); break;
+    case 3: renderTyping(arena,rnd,lvl);   break;
+    case 4: renderMemory(arena,rnd,lvl);   break;
+    case 5: renderBugFix(arena,rnd,lvl);   break;
+    case 6: renderCodeBreaker(arena,rnd,lvl); break;
+    case 7: renderMinesweeper(arena,rnd,lvl); break;
+    case 8: renderTetris(arena,rnd,lvl);      break;
+    case 9: renderSudoku(arena,rnd,lvl);      break;
+    default: arena.innerHTML='<div class="arena-ph">Game coming soon!</div>';
+  }
+}
+
+function backToDash() { clearGT(); document.getElementById('result').classList.remove('on'); goDash(); }
+
+function goNext() {
+  document.getElementById('result').classList.remove('on');
+  const { rnd, lvl } = parseCode((student?.progress||{})['G'+activeSlot]||'');
+  const next = nextPlayable(rnd, lvl);
+  if (next.rnd.charCodeAt(0)-65 < ROUNDS.length) {
+    buildLevelGrid(activeSlot); updateProgressBar(activeSlot);
+    startLevel(activeSlot, next.rnd, next.lvl);
+  } else {
+    toast('🎉 All rounds complete!','ok'); goDash();
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+//  SCORE SUBMISSION — saves immediately on level complete
+// ═══════════════════════════════════════════════════════
+async function completeLevel(gameScore, maxScore) {
+  const slot=activeSlot, rnd=activeRnd, lvl=activeLvl;
+  const pts=10;
+
+  // Optimistic local update
+  if (!student.progress) student.progress={};
+  student.progress['G'+slot] = rnd+lvl;
+  student.totalScore = (student.totalScore||0)+pts;
+  sessionStorage.setItem('tq_s', JSON.stringify(student));
+
+  // Show result immediately
+  showResult(rnd, lvl, pts, student.totalScore, gameScore, maxScore);
+
+  // Save to sheet in background
+  const d = await api({ action:"submitScore",
+    scholarNo: student.scholarNo,
+    gameSlot:  slot,
+    round:     rnd,
+    level:     lvl,
+    extraData: { gameScore, maxScore }
+  });
+
+  if (d.status==='ok') {
+    // Sync with authoritative server data
+    student.totalScore = d.newTotal;
+    student.progress   = d.progress;
+    sessionStorage.setItem('tq_s', JSON.stringify(student));
+    document.getElementById('rTotal').textContent  = 'Total: '+d.newTotal+' pts';
+    document.getElementById('dScore').textContent  = d.newTotal;
+    buildLevelGrid(slot); updateProgressBar(slot);
+  } else {
+    toast('Save error: '+d.message,'err');
+  }
+}
+
+function showResult(rnd, lvl, pts, total, gameScore, maxScore) {
+  const pct = maxScore>0 ? Math.round(gameScore/maxScore*100) : 100;
+  document.getElementById('rIcon').textContent  = pct>=80?'🎉':pct>=50?'👍':'💡';
+  document.getElementById('rTitle').textContent = pct>=80?'Excellent!':pct>=50?'Good job!':'Level Done!';
+  document.getElementById('rCode').textContent  = 'Progress saved: '+rnd+lvl;
+  document.getElementById('rPts').textContent   = '+'+pts+' pts';
+  document.getElementById('rTotal').textContent = 'Total: '+total+' pts';
+
+  // Show Next button only if more rounds remain
+  const nextCode = nextPlayable(rnd,lvl);
+  const hasMore  = nextCode.rnd.charCodeAt(0)-65 < ROUNDS.length;
+  document.getElementById('rNext').style.display = hasMore?'inline-block':'none';
+
+  document.getElementById('result').classList.add('on');
+}
+
+function clearGT() { gTimers.forEach(t=>clearTimeout(t)||clearInterval(t)); gTimers=[]; }
+
+// ═══════════════════════════════════════════════════════
+//  GAME 1 — TECH TRIVIA
+// ═══════════════════════════════════════════════════════
+const TRIVIA = [
+  // Round A (easy)
+  [{q:"What does CPU stand for?",opts:["Central Processing Unit","Computer Power Unit","Core Processing Utility","Control Program Unit"],a:0},
+   {q:"Which language is mainly used for web styling?",opts:["Python","CSS","Java","SQL"],a:1},
+   {q:"What does HTML stand for?",opts:["HyperText Markup Language","High Transfer Markup Logic","HyperText Making Language","Hyperlink Markup Language"],a:0},
+   {q:"Which of these is a programming language?",opts:["Google","Python","Firefox","Linux"],a:1},
+   {q:"What does RAM stand for?",opts:["Read Access Memory","Random Access Memory","Remote Access Module","Rapid Action Memory"],a:1},
+   {q:"What symbol starts a comment in Python?",opts:["//","/*","#","<!--"],a:2},
+   {q:"What does USB stand for?",opts:["Universal Serial Bus","Universal System Board","Unified Serial Bridge","Ultra Speed Bus"],a:0},
+   {q:"Which data structure works on LIFO?",opts:["Queue","Stack","Array","Tree"],a:1},
+   {q:"What is 2^8?",opts:["128","256","512","64"],a:1},
+   {q:"Which company created Java?",opts:["Microsoft","Apple","Sun Microsystems","IBM"],a:2}],
+  // Round B (medium)
+  [{q:"Which sorting algorithm has O(n log n) average complexity?",opts:["Bubble Sort","Insertion Sort","Merge Sort","Selection Sort"],a:2},
+   {q:"What does API stand for?",opts:["Application Program Interface","Application Protocol Integration","Advanced Processing Interface","Application Programming Interface"],a:3},
+   {q:"Which HTTP method sends data in the body?",opts:["GET","POST","PUT","DELETE"],a:1},
+   {q:"What is the base of hexadecimal?",opts:["2","8","10","16"],a:3},
+   {q:"What does OOP stand for?",opts:["Object Oriented Programming","Open Online Platform","Organized Operation Protocol","Object Operation Processing"],a:0},
+   {q:"Which is NOT a JavaScript framework?",opts:["React","Angular","Django","Vue"],a:2},
+   {q:"What does SQL stand for?",opts:["Structured Query Language","Simple Queue Language","System Query Logic","Standard Question Language"],a:0},
+   {q:"Which protocol is used for secure web browsing?",opts:["HTTP","FTP","HTTPS","SMTP"],a:2},
+   {q:"What does type(3.14) return in Python?",opts:["int","float","double","number"],a:1},
+   {q:"Which structure uses FIFO?",opts:["Stack","Queue","Tree","Graph"],a:1}],
+  // Round C (hard)
+  [{q:"Big O for binary search?",opts:["O(n)","O(n²)","O(log n)","O(1)"],a:2},
+   {q:"Which Python type is immutable?",opts:["List","Dictionary","Tuple","Set"],a:2},
+   {q:"What does DNS stand for?",opts:["Data Network System","Domain Name System","Digital Network Service","Dynamic Naming Service"],a:1},
+   {q:"In Java, which keyword prevents method overriding?",opts:["static","private","final","abstract"],a:2},
+   {q:"What is 0xFF in decimal?",opts:["255","256","128","127"],a:0},
+   {q:"Which pattern ensures only one class instance?",opts:["Factory","Observer","Singleton","Adapter"],a:2},
+   {q:"Hash table access time complexity?",opts:["O(n)","O(log n)","O(1)","O(n²)"],a:2},
+   {q:"What does ACID stand for in databases?",opts:["Atomicity Consistency Isolation Durability","Accurate Consistent Integrated Data","Automated Consistent Isolated Database","Async Concurrent Integrated Durability"],a:0},
+   {q:"What does CISC stand for?",opts:["Complex Instruction Set Computer","Core Instruction System Control","Compiled Instruction Set Code","Central Instruction Set Computer"],a:0},
+   {q:"Which command tests network connectivity in Linux?",opts:["netstat","ifconfig","ping","traceroute"],a:2}],
+  // Round D+ — repeats with shuffle to extend
+];
+
+function getTrivia(rnd, lvl) {
+  const idx  = Math.min(rnd.charCodeAt(0)-65, TRIVIA.length-1);
+  const bank = TRIVIA[idx];
+  // Use level as seed offset so each level gets different questions
+  const offset = (lvl-1)*3 % bank.length;
+  const pool = [...bank.slice(offset), ...bank.slice(0,offset)];
+  return pool.slice(0,5);
+}
+
+function renderTrivia(arena, rnd, lvl) {
+  clearGT();
+  const qs = getTrivia(rnd, lvl);
+  let qi=0, correct=0, wrong=0, tl=20;
+
+  function renderQ() {
+    const q = qs[qi];
+    arena.innerHTML = `
+      <div class="qtimer">Question <span>${qi+1}/5</span> — Time: <span id="qt">${tl}s</span> &nbsp;✓<span id="qc">${correct}</span> &nbsp;✗<span id="qw" style="color:var(--red)">${wrong}</span></div>
+      <div class="qtext">${q.q}</div>
+      <div class="qopts">${q.opts.map((o,i)=>`<button class="qopt" onclick="tAns(${i})">${o}</button>`).join('')}</div>`;
+    startQTimer();
+  }
+
+  function startQTimer() {
+    clearGT(); tl=20;
+    const t=setInterval(()=>{
+      tl--; const el=document.getElementById('qt');
+      if(el) el.textContent=tl+'s';
+      if(tl<=0){ clearInterval(t); wrong++; tNext(); }
+    },1000);
+    gTimers.push(t);
+  }
+
+  window.tAns=(idx)=>{
+    clearGT();
+    const q=qs[qi];
+    arena.querySelectorAll('.qopt').forEach(b=>b.disabled=true);
+    arena.querySelectorAll('.qopt')[q.a].classList.add('c');
+    if(idx===q.a){ correct++; }
+    else { arena.querySelectorAll('.qopt')[idx].classList.add('w'); wrong++; }
+    // If 3 or more wrong — fail immediately
+    if(wrong>=3){
+      const t=setTimeout(()=>showFail(),900); gTimers.push(t);
+    } else {
+      const t=setTimeout(tNext,900); gTimers.push(t);
+    }
+  };
+
+  function showFail(){
+    clearGT();
+    arena.innerHTML=`
+      <div style="text-align:center;padding:1.5em;font-family:'IBM Plex Mono',monospace">
+        <div style="font-size:2em;margin-bottom:.3em">❌</div>
+        <div style="font-size:1.1em;font-weight:700;color:var(--red);margin-bottom:.4em">Too many wrong answers!</div>
+        <div style="font-size:.78em;color:var(--muted);margin-bottom:1em">You got ${wrong} questions wrong. You need to get more right to pass.</div>
+        <button onclick="renderTrivia(document.getElementById('arena'),'${rnd}',${lvl})" style="font-family:inherit;font-size:.75em;padding:8px 20px;background:var(--accent-dim);border:1px solid var(--accent-bdr);color:var(--accent);cursor:pointer;letter-spacing:1px">TRY AGAIN</button>
+      </div>`;
+    setTimeout(()=>completeLevel(0,5),800);
+  }
+
+  function tNext(){ qi++; if(qi<qs.length){ tl=20; renderQ(); } else { if(wrong>=3) showFail(); else completeLevel(correct,5); } }
+
+  renderQ();
+}
+
+// ═══════════════════════════════════════════════════════
+//  GAME 2 — WORD SCRAMBLE
+// ═══════════════════════════════════════════════════════
+const WORDS = [
+  // Round A
+  [{w:"PYTHON",hint:"Snake-named language"},{w:"BROWSER",hint:"Access the internet"},{w:"KEYBOARD",hint:"You type on this"},
+   {w:"MONITOR",hint:"Computer screen"},{w:"NETWORK",hint:"Connected computers"},{w:"LAPTOP",hint:"Portable computer"},
+   {w:"PRINTER",hint:"Makes hard copies"},{w:"STORAGE",hint:"Where data lives"},{w:"PROGRAM",hint:"Instructions for a computer"},
+   {w:"INTERNET",hint:"Global network of networks"}],
+  // Round B
+  [{w:"ALGORITHM",hint:"Step-by-step method"},{w:"VARIABLE",hint:"Named data container"},{w:"FUNCTION",hint:"Reusable code block"},
+   {w:"DATABASE",hint:"Organised data collection"},{w:"RECURSIVE",hint:"Calls itself"},{w:"INTERFACE",hint:"Interaction point"},
+   {w:"DEBUGGING",hint:"Finding and fixing errors"},{w:"COMPILER",hint:"Source to machine code"},{w:"ITERATION",hint:"Repeating a process"},
+   {w:"BANDWIDTH",hint:"Max data transfer rate"}],
+  // Round C
+  [{w:"POLYMORPHISM",hint:"One interface, many forms"},{w:"ENCAPSULATION",hint:"Bundling data and methods"},
+   {w:"INHERITANCE",hint:"Deriving from a class"},{w:"ABSTRACTION",hint:"Hiding complexity"},
+   {w:"CONCURRENCY",hint:"Multiple simultaneous tasks"},{w:"CRYPTOGRAPHY",hint:"Secure communication"},
+   {w:"MIDDLEWARE",hint:"Connects different systems"},{w:"FRAMEWORK",hint:"Foundational dev structure"},
+   {w:"MICROSERVICE",hint:"Small independent service"},{w:"REFACTORING",hint:"Restructuring without changing behaviour"}],
+];
+
+function renderScramble(arena, rnd, lvl) {
+  clearGT();
+  const idx   = Math.min(rnd.charCodeAt(0)-65, WORDS.length-1);
+  const word  = WORDS[idx][(lvl-1)%10];
+  const maxT  = Math.max(70-(rnd.charCodeAt(0)-65)*10-(lvl-1)*2, 20);
+  let tl=maxT, answered=false;
+  const scr   = shuffleStr(word.w);
+
+  arena.innerHTML = `
+    <div class="qtimer">Time left: <span id="st">${tl}s</span></div>
+    <div class="sw">${scr}</div>
+    <div class="sh">${word.hint}</div>
+    <input class="sinp" id="si" type="text" placeholder="Type answer…" autocomplete="off" maxlength="${word.w.length+2}"/>
+    <div style="display:flex;gap:8px;justify-content:center">
+      <button class="abtn" style="max-width:140px;padding:10px" onclick="checkScr()">Submit ↵</button>
+    </div>
+    <div id="sm" style="font-family:IBM Plex Mono,monospace;font-size:.73em;margin-top:.9em;text-align:center;min-height:1.2em"></div>`;
+
+  document.getElementById('si').addEventListener('keydown',e=>{ if(e.key==='Enter') checkScr(); });
+  document.getElementById('si').focus();
+
+  const t=setInterval(()=>{
+    tl--; const el=document.getElementById('st');
+    if(el) el.textContent=tl+'s';
+    if(tl<=0&&!answered){ clearInterval(t); answered=true;
+      const m=document.getElementById('sm');
+      if(m){ m.style.color='var(--red)'; m.textContent='✗ Time up! Answer: '+word.w; }
+      const tt=setTimeout(()=>completeLevel(0,1),1600); gTimers.push(tt);
+    }
+  },1000);
+  gTimers.push(t);
+
+  window.checkScr=()=>{
+    if(answered) return;
+    const v=document.getElementById('si')?.value.trim().toUpperCase();
+    const m=document.getElementById('sm');
+    if(v===word.w){
+      answered=true; clearGT();
+      if(m){ m.style.color='var(--green)'; m.textContent='✓ Correct!'; }
+      const tt=setTimeout(()=>completeLevel(1,1),800); gTimers.push(tt);
+    } else {
+      if(m){ m.style.color='var(--red)'; m.textContent='✗ Try again!'; }
+      document.getElementById('si').value='';
+    }
+  };
+}
+
+// ═══════════════════════════════════════════════════════
+//  GAME 3 — TYPE RACER
+// ═══════════════════════════════════════════════════════
+const SNIPPETS=[
+  "print('Hello World')",
+  "for i in range(10):\n    print(i)",
+  "x = [1, 2, 3, 4, 5]\nprint(sum(x))",
+  "def greet(name):\n    return 'Hello ' + name",
+  "if x > 0:\n    print('positive')\nelse:\n    print('negative')",
+  "nums = [1,2,3]\nsquares = [n**2 for n in nums]",
+  "class Dog:\n    def bark(self):\n        print('Woof!')",
+  "import math\nprint(math.sqrt(16))",
+  "try:\n    x = int('abc')\nexcept ValueError:\n    print('Error')",
+  "def fib(n):\n    if n<=1: return n\n    return fib(n-1)+fib(n-2)",
+];
+
+function renderTyping(arena, rnd, lvl) {
+  clearGT();
+  // Each round gets harder snippets by cycling
+  const snipIdx = ((rnd.charCodeAt(0)-65)*LEVELS_PER_ROUND + lvl-1) % SNIPPETS.length;
+  const snip = SNIPPETS[snipIdx];
+  let started=false, startTime, typed='';
+
+  function renderSnip(t){
+    return snip.split('').map((c,i)=>{
+      if(i<t.length) return `<span class="${t[i]===c?'tok':'terr'}">${esc(c)}</span>`;
+      if(i===t.length) return `<span class="tcur">${esc(c)}</span>`;
+      return esc(c);
+    }).join('');
+  }
+
+  arena.innerHTML=`
+    <div class="tstats">WPM: <span id="tw">0</span> &nbsp; Accuracy: <span id="ta">100</span>% &nbsp; Progress: <span id="tp">0</span>%</div>
+    <div class="tsnip" id="ts">${renderSnip('')}</div>
+    <textarea class="tarea" id="ti" placeholder="Start typing here…" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
+    <div id="twarn" style="font-family:'IBM Plex Mono',monospace;font-size:.72em;color:var(--red);min-height:1.2em;margin-top:.3em"></div>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:.63em;color:var(--muted);margin-top:.2em">Type exactly as shown — spaces and line breaks count</div>`;
+
+  document.getElementById('ti').focus();
+  document.getElementById('ti').addEventListener('input',function(){
+    if(!started){started=true;startTime=Date.now();}
+    typed=this.value;
+    const mins=(Date.now()-startTime)/60000;
+    const wpm=mins>0?Math.round((typed.length/5)/mins):0;
+    let errs=0; for(let i=0;i<typed.length;i++) if(typed[i]!==snip[i]) errs++;
+    const acc=typed.length>0?Math.max(0,Math.round((1-errs/typed.length)*100)):100;
+    const prog=Math.min(Math.round(typed.length/snip.length*100),100);
+    document.getElementById('tw').textContent=wpm;
+    document.getElementById('ta').textContent=acc;
+    document.getElementById('tp').textContent=prog;
+    document.getElementById('ts').innerHTML=renderSnip(typed);
+    // Fail if under 6 WPM after first 10 words (50 chars)
+    const warnEl=document.getElementById('twarn');
+    if(typed.length>=50 && wpm>0 && wpm<6){
+      clearGT();
+      this.disabled=true;
+      warnEl.style.color='var(--red)';
+      warnEl.textContent='✗ Too slow! ('+wpm+' WPM) Minimum is 6 WPM. Level failed.';
+      const t=setTimeout(()=>{
+        arena.innerHTML=`<div style="text-align:center;padding:2em;font-family:'IBM Plex Mono',monospace">
+          <div style="font-size:2em;margin-bottom:.3em">🐢</div>
+          <div style="font-size:1.1em;font-weight:700;color:var(--red);margin-bottom:.4em">Too slow!</div>
+          <div style="font-size:.78em;color:var(--muted);margin-bottom:1.2em">You typed at ${wpm} WPM — minimum required is 6 WPM.</div>
+          <button onclick="renderTyping(document.getElementById('arena'),'${rnd}',${lvl})" style="font-family:inherit;font-size:.75em;padding:8px 20px;background:var(--accent-dim);border:1px solid var(--accent-bdr);color:var(--accent);cursor:pointer;letter-spacing:1px">TRY AGAIN</button>
+        </div>`;
+        completeLevel(0,100);
+      },1200);
+      gTimers.push(t);
+      return;
+    } else if(typed.length<50){
+      if(warnEl) warnEl.textContent='';
+    }
+    if(typed===snip) completeLevel(acc,100);
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+//  GAME 4 — MEMORY MATCH
+// ═══════════════════════════════════════════════════════
+const MEM=[
+  ['🖥','⌨','🖱','💾','📀','🖨','🔋','📱'],
+  ['⚙','🔧','💡','🔌','📡','🛰','🤖','🎮'],
+  ['🐍','☕','🐘','🦀','🌐','🔐','📊','🧩'],
+];
+
+function renderMemory(arena, rnd, lvl) {
+  clearGT();
+  const pairs  = lvl<=3?4:lvl<=6?6:8;
+  const setIdx = Math.min(rnd.charCodeAt(0)-65, MEM.length-1);
+  const syms   = shuffle([...MEM[setIdx]]).slice(0,pairs);
+  const cards  = shuffle([...syms,...syms]);
+  const cols   = 4;
+  let flipped=[],matched=0,moves=0,canFlip=true;
+
+  arena.innerHTML=`
+    <div class="mstats">Moves: <span id="mm">0</span> &nbsp; Matched: <span id="mmt">0</span>/${pairs}</div>
+    <div class="mgrid" id="mg" style="grid-template-columns:repeat(${cols},1fr)"></div>`;
+
+  const grid=document.getElementById('mg');
+  cards.forEach((sym,i)=>{
+    const c=document.createElement('div');
+    c.className='mc fd'; c.dataset.sym=sym; c.dataset.i=i;
+    c.onclick=()=>flipMem(c,sym,i);
+    grid.appendChild(c);
+  });
+
+  window.flipMem=(card,sym,idx)=>{
+    if(!canFlip||card.classList.contains('mt')||flipped.find(f=>f.idx==idx)) return;
+    card.classList.remove('fd'); card.classList.add('fl'); card.textContent=sym;
+    flipped.push({card,sym,idx});
+    if(flipped.length===2){
+      canFlip=false; moves++;
+      document.getElementById('mm').textContent=moves;
+      if(flipped[0].sym===flipped[1].sym){
+        flipped.forEach(f=>{f.card.classList.remove('fl');f.card.classList.add('mt');});
+        matched++; document.getElementById('mmt').textContent=matched;
+        flipped=[]; canFlip=true;
+        if(matched===pairs){ const score=Math.max(0,pairs*10-moves); setTimeout(()=>completeLevel(score,pairs*10),500); }
+      } else {
+        const t=setTimeout(()=>{
+          flipped.forEach(f=>{f.card.classList.remove('fl');f.card.classList.add('fd');f.card.textContent='';});
+          flipped=[]; canFlip=true;
+        },900);
+        gTimers.push(t);
+      }
+    }
+  };
+}
+
+// ═══════════════════════════════════════════════════════
+//  GAME 5 — BUG FIX
+// ═══════════════════════════════════════════════════════
+const BUGS=[
+  {d:"This function should return the sum but has a bug.",lines:["def add(a, b):","    return a - b"],bug:1,bugT:"    return a - b",opts:["    return a + b","    return a * b","    print(a + b)","    return a"],c:0},
+  {d:"This loop should print 1 to 5.",lines:["for i in range(0, 5):","    print(i)"],bug:0,bugT:"for i in range(0, 5):",opts:["for i in range(1, 6):","for i in range(1, 5):","for i in range(0, 6):","for i in range(5):"],c:0},
+  {d:"The function should return True if number is even.",lines:["def is_even(n):","    return n % 2 == 1"],bug:1,bugT:"    return n % 2 == 1",opts:["    return n % 2 == 0","    return n / 2 == 0","    return n % 2","    return not n % 2"],c:0},
+  {d:"This print statement has incorrect syntax.",lines:["print('Hello World'"],bug:0,bugT:"print('Hello World'",opts:["print('Hello World')","print 'Hello World'","Print('Hello World')","printf('Hello World')"],c:0},
+  {d:"age should be an integer but is stored as a string.",lines:["age = '25'","print(age + 5)"],bug:0,bugT:"age = '25'",opts:["age = 25","age = int('25')","age = float(25)","Both A and B work"],c:3},
+  {d:"This should add 99 to the list.",lines:["nums = [1, 2, 3]","nums.add(99)"],bug:1,bugT:"nums.add(99)",opts:["nums.append(99)","nums.push(99)","nums.insert(99)","nums[4] = 99"],c:0},
+  {d:"This dictionary lookup will throw a KeyError.",lines:["d = {'a': 1, 'b': 2}","print(d['c'])"],bug:1,bugT:"print(d['c'])",opts:["print(d.get('c'))","print(d.get('c', 0))","print(d.fetch('c'))","print(d.find('c'))"],c:1},
+  {d:"The condition should check if x is greater than 10.",lines:["x = 15","if x < 10:","    print('Greater')"],bug:1,bugT:"if x < 10:",opts:["if x > 10:","if x >= 10:","if x == 10:","if x != 10:"],c:0},
+  {d:"Infinite recursion — missing base case.",lines:["def countdown(n):","    print(n)","    countdown(n-1)"],bug:2,bugT:"    countdown(n-1)",opts:["    if n > 0: countdown(n-1)","    if n >= 0: countdown(n-1)","    countdown(n+1)","    return countdown(n-1)"],c:0},
+  {d:"String + integer concatenation will fail.",lines:["age = 17","print('Age: ' + age)"],bug:1,bugT:"print('Age: ' + age)",opts:["print('Age: ' + str(age))","print('Age: ', age)","print(f'Age: {age}')","Both A and C work"],c:3},
+];
+
+function renderBugFix(arena, rnd, lvl) {
+  const bug    = BUGS[(lvl-1+(rnd.charCodeAt(0)-65)*3)%BUGS.length];
+  let solved   = false;
+
+  arena.innerHTML=`
+    <div class="bdesc">${bug.d}</div>
+    <div class="bcode" id="bc">${bug.lines.map((l,i)=>
+      `<span class="bl${i===bug.bug?' bug':''}" data-i="${i}"${i===bug.bug?' onclick="selectBug()"':''}>${esc(l)}</span>`
+    ).join('\n')}</div>
+    <div id="bfs" style="display:none">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:.62em;color:var(--muted);letter-spacing:1px;margin-bottom:.6em">// SELECT THE CORRECT FIX</div>
+      <div class="fopts">${bug.opts.map((o,i)=>`<button class="fopt" onclick="checkBug(${i})">${esc(o)}</button>`).join('')}</div>
+    </div>
+    <div id="bm" style="font-family:'IBM Plex Mono',monospace;font-size:.72em;min-height:1.1em;margin-top:.5em"></div>`;
+
+  window.selectBug=()=>{ if(!solved) document.getElementById('bfs').style.display='block'; };
+  window.checkBug=(idx)=>{
+    if(solved) return;
+    const m=document.getElementById('bm');
+    if(idx===bug.c){
+      solved=true;
+      document.querySelectorAll('.bl')[bug.bug].className='bl fixed';
+      document.querySelectorAll('.bl')[bug.bug].textContent=bug.opts[idx];
+      document.getElementById('bfs').style.display='none';
+      m.style.color='var(--green)'; m.textContent='✓ Bug squashed!';
+      const t=setTimeout(()=>completeLevel(1,1),900); gTimers.push(t);
+    } else {
+      m.style.color='var(--red)'; m.textContent='✗ Not quite — try another option.';
+      const opts=document.querySelectorAll('.fopt');
+      opts[idx].style.borderColor='rgba(224,92,107,.4)'; opts[idx].style.color='var(--red)';
+      const t=setTimeout(()=>{ opts[idx].style.borderColor=''; opts[idx].style.color=''; m.textContent=''; },900);
+      gTimers.push(t);
+    }
+  };
+}
+
+
+// ════════════════════════════════════════════════════════
+//  GAME 6 — CODE BREAKER
+// ════════════════════════════════════════════════════════
+// 40 levels total (A1-A10, B1-B10, C1-C10, D1-D10)
+// Each level = 2 ciphers. Difficulty rises per round.
+// completeLevel(solved, 2) — score = how many cracked
+
+const CB_LEVELS = {
+// ── ROUND A: Binary only ──────────────────────────────
+A:{
+  1: [{type:'bin', encoded:'01000001 01010000 01010000', answer:'APP',      hint:'Binary → ASCII. 8 bits = 1 char.'},
+      {type:'bin', encoded:'01000010 01010101 01000111', answer:'BUG',      hint:'Each group of 8 bits is a letter.'}],
+  2: [{type:'bin', encoded:'01000011 01001111 01000100 01000101', answer:'CODE', hint:'4 groups → 4 letters.'},
+      {type:'bin', encoded:'01000100 01000001 01010100 01000001', answer:'DATA', hint:'Binary to ASCII.'}],
+  3: [{type:'bin', encoded:'01001100 01001111 01001111 01010000', answer:'LOOP', hint:'8 bits per letter.'},
+      {type:'bin', encoded:'01001000 01001111 01010011 01010100', answer:'HOST', hint:'Convert each byte.'}],
+  4: [{type:'bin', encoded:'01000110 01001001 01001100 01000101', answer:'FILE', hint:'4 bytes, 4 letters.'},
+      {type:'bin', encoded:'01001100 01001001 01001110 01001011', answer:'LINK', hint:'Binary → text.'}],
+  5: [{type:'bin', encoded:'01001110 01001111 01000100 01000101', answer:'NODE', hint:'Classic networking term.'},
+      {type:'bin', encoded:'01010000 01001111 01010010 01010100', answer:'PORT', hint:'Networks use these.'}],
+  6: [{type:'bin', encoded:'01010010 01000001 01001101', answer:'RAM',  hint:'3 bytes → 3 letters.'},
+      {type:'bin', encoded:'01000011 01010000 01010101', answer:'CPU',  hint:'Core of your machine.'}],
+  7: [{type:'bin', encoded:'01001000 01010100 01001101 01001100', answer:'HTML', hint:'Web markup language.'},
+      {type:'bin', encoded:'01000011 01010011 01010011', answer:'CSS',  hint:'Styling language.'}],
+  8: [{type:'bin', encoded:'01000001 01010000 01001001', answer:'API',  hint:'Application interface.'},
+      {type:'bin', encoded:'01010011 01010001 01001100', answer:'SQL',  hint:'Database query language.'}],
+  9: [{type:'bin', encoded:'01000111 01001001 01010100', answer:'GIT',  hint:'Version control system.'},
+      {type:'bin', encoded:'01001100 01001111 01000111', answer:'LOG',  hint:'Record of events.'}],
+ 10: [{type:'bin', encoded:'01010010 01001111 01001111 01010100', answer:'ROOT', hint:'Top of the tree.'},
+      {type:'bin', encoded:'01000010 01001111 01001111 01010100', answer:'BOOT', hint:'System startup.'}],
+},
+
+// ── ROUND B: Morse code ──────────────────────────────
+B:{
+  1: [{type:'morse', encoded:'.- .--. .--.', answer:'APP', hint:'Morse: dot=. dash=- space between letters.'},
+      {type:'morse', encoded:'-... ..- --.', answer:'BUG', hint:'Each letter separated by space.'}],
+  2: [{type:'morse', encoded:'-.-. --- -.. .', answer:'CODE', hint:'4 Morse letters.'},
+      {type:'morse', encoded:'-.. .- - .-', answer:'DATA', hint:'Decode each group.'}],
+  3: [{type:'morse', encoded:'.-.. --- --- .--.', answer:'LOOP', hint:'Common programming term.'},
+      {type:'morse', encoded:'.... --- ... -', answer:'HOST', hint:'Server terminology.'}],
+  4: [{type:'morse', encoded:'..-. .. .-.. .', answer:'FILE', hint:'Storage unit.'},
+      {type:'morse', encoded:'.-.. .. -. -.-', answer:'LINK', hint:'Connection between pages.'}],
+  5: [{type:'morse', encoded:'-. --- -.. .', answer:'NODE', hint:'Network component.'},
+      {type:'morse', encoded:'.--. --- .-. -', answer:'PORT', hint:'Network access point.'}],
+  6: [{type:'morse', encoded:'... . .-. ...- . .-.', answer:'SERVER', hint:'6 letters.'},
+      {type:'morse', encoded:'-.-. .-.. .. . -. -', answer:'CLIENT', hint:'Connects to server.'}],
+  7: [{type:'morse', encoded:'.--. -.-- - .... ---. -.',  answer:'PYTHON', hint:'Snake language.'},
+      {type:'morse', encoded:'.. -. .--. ..- -', answer:'INPUT',  hint:'What goes in.'}],
+  8: [{type:'morse', encoded:'--- ..- - .--. ..- -', answer:'OUTPUT', hint:'What comes out.'},
+      {type:'morse', encoded:'.-. . - ..- .-. -.',  answer:'RETURN', hint:'Function keyword.'}],
+  9: [{type:'morse', encoded:'- .... .-. . .- -..', answer:'THREAD', hint:'Concurrency unit.'},
+      {type:'morse', encoded:'-.- . .-. -. . .-.', answer:'KERNEL', hint:'OS core.'}],
+ 10: [{type:'morse', encoded:'... -.-- ... - . --', answer:'SYSTEM', hint:'The whole machine.'},
+      {type:'morse', encoded:'-- . -- --- .-. -.--', answer:'MEMORY', hint:'RAM is this.'}],
+},
+
+// ── ROUND C: Caesar cipher ───────────────────────────
+C:{
+  1: [{type:'caesar', shift:3, encoded:'DRR',    answer:'APP',    hint:'Shift each letter back by 3.'},
+      {type:'caesar', shift:3, encoded:'EXJ',    answer:'BUG',    hint:'D→A, E→B, F→C…'}],
+  2: [{type:'caesar', shift:4, encoded:'GSHI',   answer:'CODE',   hint:'Shift back by 4.'},
+      {type:'caesar', shift:4, encoded:'HEXE',   answer:'DATA',   hint:'Each letter minus 4.'}],
+  3: [{type:'caesar', shift:5, encoded:'QTTU',   answer:'LOOP',   hint:'Shift back by 5.'},
+      {type:'caesar', shift:5, encoded:'MXXY',   answer:'HOST',   hint:'M-5=H, X-5=S…'}],
+  4: [{type:'caesar', shift:6, encoded:'LOKJ',   answer:'FILE',   hint:'Shift back by 6.'},
+      {type:'caesar', shift:6, encoded:'ROTP',   answer:'LINK',   hint:'Wrap around alphabet.'}],
+  5: [{type:'caesar', shift:7, encoded:'UVKL',   answer:'NODE',   hint:'Shift back by 7.'},
+      {type:'caesar', shift:7, encoded:'WVYA',   answer:'PORT',   hint:'Caesar loves 7.'}],
+  6: [{type:'caesar', shift:8, encoded:'AMZVAL', answer:'SERVER', hint:'Shift back by 8.'},
+      {type:'caesar', shift:8, encoded:'KTQMVA', answer:'CLIENT', hint:'6 letters shifted by 8.'}],
+  7: [{type:'caesar', shift:9, encoded:'YRAOXA', answer:'PYTHON', hint:'Shift back by 9.'},
+      {type:'caesar', shift:9, encoded:'RWZDC',  answer:'INPUT',  hint:'5 letters.'}],
+  8: [{type:'caesar', shift:10, encoded:'YEDZE D', answer:'OUTPUT', hint:'Shift back by 10.'},
+      {type:'caesar', shift:10, encoded:'BODEM X', answer:'RETURN', hint:'6 letters, shift 10.'}],
+  9: [{type:'caesar', shift:11, encoded:'ESPWLO', answer:'THREAD', hint:'Shift back by 11.'},
+      {type:'caesar', shift:11, encoded:'VSACON', answer:'KERNEL', hint:'Deep in the OS.'}],
+ 10: [{type:'caesar', shift:13, encoded:'FLFGRZ', answer:'SYSTEM', hint:'ROT13 — shift back 13.'},
+      {type:'caesar', shift:13, encoded:'ZRZBEL', answer:'MEMORY', hint:'Classic ROT13.'}],
+},
+
+// ── ROUND D+: Mixed multi-layer ──────────────────────
+D:{
+  1: [{type:'bin',    encoded:'01001011 01000101 01011001', answer:'KEY',     hint:'Binary to ASCII.'},
+      {type:'caesar', shift:4, encoded:'FVTLIV',            answer:'CIPHER',  hint:'Shift back 4.'}],
+  2: [{type:'morse',  encoded:'.... .- ... ....', answer:'HASH',    hint:'Morse decode.'},
+      {type:'caesar', shift:6, encoded:'YRUN',              answer:'SALT',    hint:'Shift back 6. Crypto term.'}],
+  3: [{type:'bin',    encoded:'01010011 01000001 01001100 01010100', answer:'SALT', hint:'Binary → crypto term.'},
+      {type:'morse',  encoded:'.... .- ... ....', answer:'HASH',    hint:'Data fingerprint.'}],
+  4: [{type:'caesar', shift:7, encoded:'JVUJYFWAPVU', answer:'ENCRYPTION', hint:'Shift back 7.'},
+      {type:'bin',    encoded:'01001011 01000101 01011001', answer:'KEY',   hint:'Decryption needs this.'}],
+  5: [{type:'caesar', shift:11, encoded:'QTLAD',  answer:'FIREWALL', hint:'Shift back 11. Network guard. (8 letters)'},
+      {type:'morse',  encoded:'.--. .-. --- - --- -.-. --- .-.', answer:'PROTOCOL', hint:'Network rules.'}],
+  6: [{type:'bin',    encoded:'01010110 01001001 01010010 01010101 01010011', answer:'VIRUS', hint:'5 bytes.'},
+      {type:'caesar', shift:13, encoded:'ZNYJJNEQ', answer:'ANTIVIRUS', hint:'Wait, trick: MALWARE shifted 13 = ZNYTHER. Hint: protection software. Answer: ANTIVIRUS'}],
+  7: [{type:'morse',  encoded:'.-. --- --- - -.- .. -', answer:'ROOTKIT',  hint:'Stealth malware.'},
+      {type:'caesar', shift:9, encoded:'APCNZDO',          answer:'ROOTKIT',  hint:'Shift back 9.'}],
+  8: [{type:'bin',    encoded:'01000110 01001001 01010010 01000101 01010111 01000001 01001100 01001100', answer:'FIREWALL', hint:'8 bytes → 8 letters.'},
+      {type:'caesar', shift:5, encoded:'YMNWJBFQQ',        answer:'FIREWALL', hint:'Shift back 5.'}],
+  9: [{type:'morse',  encoded:'... .--. --- --- ..-. .. -. --.', answer:'SPOOFING', hint:'Impersonation attack.'},
+      {type:'caesar', shift:12, encoded:'AFALZUZS',         answer:'SPOOFING', hint:'Shift back 12.'}],
+ 10: [{type:'bin',    encoded:'01010000 01001000 01001001 01010011 01001000 01001001 01001110 01000111', answer:'PHISHING', hint:'8 bytes — email attack.'},
+      {type:'morse',  encoded:'.--. .... .. ... .... .. -. --.', answer:'PHISHING', hint:'Spear variant targets individuals.'}],
+},
+};
+
+// Morse decode table
+const MORSE_MAP = {
+  '.-':'A','-.':'B','-.-.':'C','-..':'D','.':'E','..-.':'F','--.':'G',
+  '....':'H','..':'I','.---':'J','-.-':'K','.-..':'L','--':'M','-.':'N',
+  '---':'O','.--.':'P','--.-':'Q','.-.':'R','...':'S','-':'T','..-':'U',
+  '...-':'V','.--':'W','-..-':'X','-.--':'Y','--..':'Z',
+};
+function decodeMorse(s){ return s.trim().split(' ').map(c=>MORSE_MAP[c]||'?').join(''); }
+
+function renderCodeBreaker(arena, rnd, lvl) {
+  clearGT();
+  // Get the two ciphers for this level
+  const roundKey = rnd in CB_LEVELS ? rnd : 'D';
+  const levelKey = Math.min(lvl, 10);
+  const ciphers  = CB_LEVELS[roundKey][levelKey] || CB_LEVELS['A'][1];
+
+  const typeLabel = {bin:'Binary → ASCII', morse:'Morse Code', caesar:'Caesar Cipher'};
+  const typeIcon  = {bin:'01', morse:'·−', caesar:'Aa'};
+  const typeColor = {bin:'#29d4e0', morse:'#e8b84b', caesar:'#c088ff'};
+
+  function cipherClue(c) {
+    if(c.type==='caesar') return `Shift: ${c.shift} — encoded: <span style="color:var(--cyan);letter-spacing:2px">${c.encoded}</span>`;
+    if(c.type==='bin')    return `<span style="font-size:.82em;color:var(--cyan);letter-spacing:2px;word-break:break-all">${c.encoded}</span>`;
+    if(c.type==='morse')  return `<span style="font-size:.92em;color:var(--cyan);letter-spacing:3px">${c.encoded}</span>`;
+  }
+
+  arena.innerHTML = `
+  <style>
+    .cb-wrap{max-width:500px;margin:0 auto;font-family:'IBM Plex Mono',monospace}
+    .cb-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:6px}
+    .cb-badge{font-size:.62em;color:var(--cyan);background:rgba(41,212,224,.08);border:1px solid rgba(41,212,224,.25);padding:2px 10px;letter-spacing:2px}
+    .cb-card{background:var(--surface);border:1px solid var(--border);padding:1.4em;margin-bottom:12px;position:relative;transition:border-color .3s}
+    .cb-card.solved{border-color:rgba(61,214,140,.4)}
+    .cb-solved-tag{display:none;position:absolute;top:.8em;right:1em;font-size:.58em;color:var(--green);letter-spacing:2px}
+    .cb-card.solved .cb-solved-tag{display:block}
+    .cb-type{font-size:.58em;letter-spacing:3px;text-transform:uppercase;margin-bottom:.4em}
+    .cb-encoded{background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.06);padding:10px 14px;margin:8px 0 12px;line-height:1.8;word-break:break-all}
+    .cb-hint{font-size:.72em;color:var(--muted);font-style:italic;margin-bottom:10px}
+    .cb-row{display:flex;gap:8px}
+    .cb-input{flex:1;background:var(--surface2);border:1px solid var(--border);color:#fff;padding:9px 12px;font-family:'IBM Plex Mono',monospace;font-size:.82em;outline:none;text-transform:uppercase;touch-action:manipulation}
+    .cb-input:focus{border-color:var(--cyan)}
+    .cb-input.correct{border-color:rgba(61,214,140,.5);color:var(--green)}
+    .cb-input.wrong{border-color:rgba(224,92,107,.5);animation:cbShake .3s}
+    .cb-btn{font-family:'IBM Plex Mono',monospace;font-size:.72em;font-weight:700;padding:9px 16px;background:rgba(41,212,224,.08);border:1px solid rgba(41,212,224,.3);color:var(--cyan);cursor:pointer;touch-action:manipulation;letter-spacing:1px;white-space:nowrap}
+    .cb-btn:hover{background:var(--cyan);color:#000}
+    .cb-over{display:none;margin-top:12px;padding:1.2em;text-align:center;background:var(--surface);border:1px solid var(--accent-bdr);border-radius:2px}
+    .cb-ref{margin-top:14px;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.05);padding:10px 14px;font-size:.65em;color:var(--muted);line-height:2}
+    .cb-ref summary{cursor:pointer;color:var(--muted);letter-spacing:1px;list-style:none;margin-bottom:4px}
+    .cb-ref summary::-webkit-details-marker{display:none}
+    @keyframes cbShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+  </style>
+  <div class="cb-wrap">
+    <div class="cb-header">
+      <span class="cb-badge">ROUND ${rnd} · LEVEL ${lvl}</span>
+      <span style="font-size:.65em;color:var(--muted)">Crack both ciphers to complete</span>
+    </div>
+
+    <!-- Cipher 1 -->
+    <div class="cb-card" id="cb0">
+      <div class="cb-solved-tag">✓ CRACKED</div>
+      <div class="cb-type" style="color:${typeColor[ciphers[0].type]}">${typeLabel[ciphers[0].type]}</div>
+      <div class="cb-encoded">${cipherClue(ciphers[0])}</div>
+      <div class="cb-hint">💡 ${ciphers[0].hint}</div>
+      <div class="cb-row">
+        <input class="cb-input" id="cb0inp" placeholder="Your answer…" autocomplete="off" spellcheck="false"/>
+        <button class="cb-btn" onclick="cbCheck(0)">CHECK</button>
+      </div>
+    </div>
+
+    <!-- Cipher 2 -->
+    <div class="cb-card" id="cb1">
+      <div class="cb-solved-tag">✓ CRACKED</div>
+      <div class="cb-type" style="color:${typeColor[ciphers[1].type]}">${typeLabel[ciphers[1].type]}</div>
+      <div class="cb-encoded">${cipherClue(ciphers[1])}</div>
+      <div class="cb-hint">💡 ${ciphers[1].hint}</div>
+      <div class="cb-row">
+        <input class="cb-input" id="cb1inp" placeholder="Your answer…" autocomplete="off" spellcheck="false"/>
+        <button class="cb-btn" onclick="cbCheck(1)">CHECK</button>
+      </div>
+    </div>
+
+    <!-- Reference cheat sheet -->
+    <details class="cb-ref">
+      <summary>📖 Quick Reference (tap to expand)</summary>
+      <div style="margin-top:8px">
+        <div style="color:var(--cyan);margin-bottom:4px">Binary: A=01000001 B=01000010 C=01000011…</div>
+        <div style="color:var(--gold);margin-bottom:4px">Morse: A=.- B=-... C=-.-. D=-.. E=. F=..-. G=--. H=.... I=.. J=.--- K=-.- L=.-.. M=-- N=-. O=--- P=.--. Q=--.- R=.-. S=... T=- U=..- V=...- W=.-- X=-..- Y=-.-- Z=--..</div>
+        <div style="color:var(--accent)">Caesar: shift each letter back by the given number. Z→W (shift 3), A wraps to X.</div>
+      </div>
+    </details>
+
+    <!-- Game over panel -->
+    <div class="cb-over" id="cbOver">
+      <div id="cbOverIcon" style="font-size:1.6em;margin-bottom:.3em"></div>
+      <div id="cbOverMsg" style="font-weight:700;color:var(--text);margin-bottom:.3em"></div>
+      <div id="cbOverSub" style="font-size:.72em;color:var(--muted);margin-bottom:.8em"></div>
+      <button class="cb-btn" onclick="renderCodeBreaker(document.getElementById('arena'),'${rnd}',${lvl})" style="margin:0 auto">↺ TRY AGAIN</button>
+    </div>
+  </div>`;
+
+  let solved = [false, false];
+
+  window.cbCheck = function(idx) {
+    if(solved[idx]) return;
+    const inp  = document.getElementById('cb' + idx + 'inp');
+    const val  = inp.value.trim().toUpperCase().replace(/\s+/g,' ');
+    const ans  = ciphers[idx].answer.toUpperCase();
+    const card = document.getElementById('cb' + idx);
+
+    if(val === ans) {
+      solved[idx] = true;
+      inp.classList.add('correct');
+      inp.value = ans;
+      inp.readOnly = true;
+      card.classList.add('solved');
+
+      if(solved[0] && solved[1]) {
+        // Both cracked
+        const over = document.getElementById('cbOver');
+        document.getElementById('cbOverIcon').textContent = '🏆';
+        document.getElementById('cbOverMsg').textContent  = 'Both ciphers cracked!';
+        document.getElementById('cbOverSub').textContent  = 'Level complete — full score!';
+        over.style.borderColor = 'rgba(61,214,140,.4)';
+        over.style.display = 'block';
+        setTimeout(() => completeLevel(2, 2), 600);
+      } else {
+        // One cracked — hint for other
+        const otherCard = document.getElementById('cb' + (1-idx));
+        if(!solved[1-idx]) {
+          const flash = document.createElement('div');
+          flash.style.cssText = 'font-size:.68em;color:var(--green);margin-top:8px;letter-spacing:1px';
+          flash.textContent = '✓ First cipher cracked! Now crack the second one.';
+          card.appendChild(flash);
+        }
+      }
+    } else {
+      inp.classList.remove('wrong');
+      void inp.offsetWidth;
+      inp.classList.add('wrong');
+      setTimeout(() => inp.classList.remove('wrong'), 400);
+    }
+  };
+
+  // Enter key support
+  [0,1].forEach(i => {
+    const inp = document.getElementById('cb' + i + 'inp');
+    inp.addEventListener('keydown', e => { if(e.key === 'Enter') cbCheck(i); });
+  });
+
+  gTimers.push({_fn: () => { delete window.cbCheck; }});
+}
+
+// ════════════════════════════════════════════════════════
+//  GAME 7 — MINESWEEPER
+// ════════════════════════════════════════════════════════
+function renderMinesweeper(arena, rnd, lvl) {
+  clearGT();
+  const diffMap={A:10,B:14,C:18,D:22};
+  const mineCount=Math.min((diffMap[rnd]||10)+Math.floor(lvl/3),24);
+  const ROWS_=8,COLS_=8;
+  let mboard=[],mloc=[],mClicked=0,mFlag=false,mOver=false,mScored=false;
+  arena.innerHTML=`<div style="font-family:Arial,sans-serif;text-align:center;padding:.4em 0">
+    <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:.8em">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:.78em;color:var(--text)">💣 <span id="mMines">${mineCount}</span></span>
+      <button id="mFlag" style="padding:5px 14px;font-size:1.1em;background:var(--surface2);border:1px solid var(--border);color:var(--text);cursor:pointer;border-radius:2px">🚩 Flag</button>
+      <button id="mReset" style="padding:5px 14px;font-family:'IBM Plex Mono',monospace;font-size:.68em;background:var(--accent-dim);border:1px solid var(--accent-bdr);color:var(--accent);cursor:pointer;letter-spacing:1px">↺ NEW</button>
+    </div>
+    <div id="mBoard" style="display:grid;grid-template-columns:repeat(${COLS_},1fr);width:100%;max-width:380px;gap:2px;border:3px solid #777;background:#777;padding:3px;border-radius:3px;margin:0 auto"></div>
+    <div id="mMsg" style="font-family:'IBM Plex Mono',monospace;font-size:.75em;min-height:1.3em;margin-top:.7em;color:var(--accent)"></div>
+    <div id="mOver" style="display:none;margin-top:10px;padding:1.2em;background:var(--surface);border:1px solid var(--red);border-radius:3px">
+      <div style="font-size:1.5em;margin-bottom:.3em">💥</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:.9em;font-weight:700;color:var(--red);margin-bottom:.5em">You hit a mine!</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:.7em;color:var(--muted);margin-bottom:.8em">Better luck next time. Level not scored.</div>
+      <button id="mTryAgain" style="font-family:inherit;font-size:.72em;padding:7px 20px;background:var(--accent-dim);border:1px solid var(--accent-bdr);color:var(--accent);font-weight:700;cursor:pointer">TRY AGAIN</button>
+    </div>
+  </div>`;
+
+  function startMS(){
+    mboard=[];mloc=[];mClicked=0;mFlag=false;mOver=false;mScored=false;
+    document.getElementById('mFlag').style.background='var(--surface2)';
+    document.getElementById('mMsg').textContent='';
+    document.getElementById('mOver').style.display='none';
+    let left=mineCount;
+    while(left>0){const r=Math.floor(Math.random()*ROWS_),c=Math.floor(Math.random()*COLS_),id=r+'-'+c;if(!mloc.includes(id)){mloc.push(id);left--;}}
+    const bd=document.getElementById('mBoard');bd.innerHTML='';
+    for(let r=0;r<ROWS_;r++){const row=[];for(let c=0;c<COLS_;c++){const tile=document.createElement('div');tile.id=r+'-'+c;tile.style.cssText='aspect-ratio:1;width:100%;background:#bdbdbd;border:2px outset #fff;display:flex;align-items:center;justify-content:center;font-size:clamp(.8em,4vw,1.3em);font-weight:700;cursor:pointer;user-select:none;touch-action:manipulation';tile.onclick=mClick;bd.appendChild(tile);row.push(tile);}mboard.push(row);}
+  }
+
+  function setMFlag(){mFlag=!mFlag;document.getElementById('mFlag').style.background=mFlag?'#777':'var(--surface2)';}
+
+  function mClick(){
+    if(mOver||this.classList.contains('clicked'))return;
+    if(mFlag){this.textContent=this.textContent==='🚩'?'':'🚩';return;}
+    if(mloc.includes(this.id)){
+      mOver=true;revealAll_();
+      document.getElementById('mOver').style.display='block';
+      document.getElementById('mMsg').textContent='';
+      return;
+    }
+    const coords=this.id.split('-');checkMine_2(+coords[0],+coords[1]);
+    if(mClicked===ROWS_*COLS_-mineCount){
+      mOver=true;document.getElementById('mMsg').style.color='var(--green)';
+      document.getElementById('mMsg').textContent='✓ Cleared!';
+      if(!mScored){mScored=true;setTimeout(()=>completeLevel(1,1),500);}
+    }
+  }
+
+  function revealAll_(){for(let r=0;r<ROWS_;r++)for(let c=0;c<COLS_;c++){const t=mboard[r][c];if(mloc.includes(t.id)){t.textContent='💣';t.style.background='#e53935';}}}
+
+  function checkMine_2(r,c){
+    if(r<0||r>=ROWS_||c<0||c>=COLS_)return;const t=mboard[r][c];
+    if(t.classList.contains('clicked'))return;
+    t.classList.add('clicked');t.style.cssText+='background:#9e9e9e;border:1px solid #757575;cursor:default;';mClicked++;
+    let f=0;const adj=[[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]];
+    adj.forEach(([dr,dc])=>{if(mloc.includes((r+dr)+'-'+(c+dc)))f++;});
+    if(f>0){t.textContent=f;const cols_2=['','#1565c0','#2e7d32','#c62828','#283593','#6a1515','#00838f','#212121','#616161'];t.style.color=cols_2[f]||'#000';}
+    else{adj.forEach(([dr,dc])=>checkMine_2(r+dr,c+dc));}
+  }
+
+  document.getElementById('mFlag').onclick=setMFlag;
+  document.getElementById('mReset').onclick=()=>startMS();
+  document.getElementById('mTryAgain').onclick=()=>startMS();
+  startMS();
+}
+
+// ════════════════════════════════════════════════════════
+//  GAME 8 — TETRIS  (mobile-friendly with on-screen buttons)
+// ════════════════════════════════════════════════════════
+function renderTetris(arena, rnd, lvl) {
+  clearGT();
+  const TARGET=3+lvl, COLS_T=10, ROWS_T=20;
+  const SHAPES=[
+    [[0,1],[1,1],[2,1],[3,1]],          // I
+    [[0,0],[1,0],[0,1],[1,1]],          // O
+    [[1,0],[0,1],[1,1],[2,1]],          // T
+    [[0,0],[0,1],[1,1],[2,1]],          // J
+    [[2,0],[0,1],[1,1],[2,1]],          // L
+    [[1,0],[2,0],[0,1],[1,1]],          // S
+    [[0,0],[1,0],[1,1],[2,1]],          // Z
+  ];
+  const TCOLS=['#00f0f0','#f0f000','#a000f0','#0000f0','#f0a000','#00f000','#f00000'];
+
+  // Responsive pixel size: fit inside arena width
+  const arenaW = arena.clientWidth || 320;
+  const PS  = Math.max(14, Math.min(22, Math.floor((arenaW - 100) / COLS_T)));
+  const CW  = COLS_T * PS;
+  const CH  = ROWS_T * PS;
+
+  arena.innerHTML=`
+  <div style="display:flex;flex-direction:column;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;width:100%">
+    <div style="display:flex;gap:8px;align-items:flex-start;width:100%;justify-content:center">
+      <canvas id="tCvs" width="${CW}" height="${CH}" style="border:2px solid var(--border);background:#000;display:block;flex-shrink:0"></canvas>
+      <div style="background:#000;color:#fff;padding:6px;min-width:70px;font-size:.72em;flex-shrink:0">
+        <p style="margin:0 0 3px">Target</p>
+        <p style="margin:0 0 8px;font-size:1.2em;font-weight:700;color:var(--accent)"><span id="tLines">0</span>/<span id="tTarget">${TARGET}</span></p>
+        <p style="margin:0 0 2px">Score</p>
+        <p style="margin:0 0 8px;font-size:1em" id="tScore">0</p>
+        <p style="margin:0 0 2px">Next</p>
+        <canvas id="tNext" width="64" height="64" style="background:#111;border:1px solid #333;display:block;margin-bottom:6px"></canvas>
+        <button id="tStartBtn" style="font-family:inherit;padding:4px 6px;background:#e1ff5f;color:#202020;border:none;cursor:pointer;font-weight:700;width:100%;font-size:.82em;touch-action:manipulation">START</button>
+      </div>
+    </div>
+    <!-- mobile controls — large touch targets -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;width:100%;max-width:320px">
+      <button id="tBLeft"  style="font-size:1.5em;padding:14px 0;background:var(--surface2);border:1px solid var(--border);color:var(--text);cursor:pointer;border-radius:8px;touch-action:manipulation">◀</button>
+      <button id="tBRot"   style="font-size:1.5em;padding:14px 0;background:var(--surface2);border:1px solid var(--border);color:var(--text);cursor:pointer;border-radius:8px;touch-action:manipulation">↻</button>
+      <button id="tBRight" style="font-size:1.5em;padding:14px 0;background:var(--surface2);border:1px solid var(--border);color:var(--text);cursor:pointer;border-radius:8px;touch-action:manipulation">▶</button>
+      <button id="tBDown"  style="font-size:1.5em;padding:14px 0;background:var(--accent-dim);border:1px solid var(--accent-bdr);color:var(--accent);cursor:pointer;border-radius:8px;touch-action:manipulation">▼</button>
+      <button id="tBDrop"  style="font-size:.85em;padding:14px 0;background:var(--accent-dim);border:1px solid var(--accent-bdr);color:var(--accent);cursor:pointer;border-radius:8px;touch-action:manipulation;grid-column:span 2">⬇ DROP</button>
+    </div>
+    <div id="tOverDiv" style="display:none;margin-top:6px;padding:1em;background:var(--surface);border:1px solid var(--accent-bdr);text-align:center;border-radius:3px;width:100%;max-width:320px">
+      <div style="font-size:1.1em;font-weight:700;color:var(--text);margin-bottom:.4em" id="tOverMsg">Game Over</div>
+      <button id="tOverBtn" style="font-family:inherit;font-size:.72em;padding:7px 20px;background:var(--accent);border:none;color:#000;font-weight:700;cursor:pointer;touch-action:manipulation">RESTART</button>
+    </div>
+  </div>`;
+
+  const cvs=document.getElementById('tCvs'),ctx=cvs.getContext('2d');
+  const nxtCvs=document.getElementById('tNext'),nctx=nxtCvs.getContext('2d');
+  let board=Array(ROWS_T).fill(null).map(()=>Array(COLS_T).fill(0));
+  let cur=null,curX=0,curY=0,nxtIdx=null;
+  let tScore_=0,tLines_=0,tActive=false,tScored=false,dropTimer=null,tSpd=600;
+
+  function newBag(){return [...Array(7).keys()].sort(()=>Math.random()-.5);}
+  let bag=newBag();
+  function nextPiece(){if(bag.length<2)bag=[...bag,...newBag()];nxtIdx=bag.shift();}
+
+  function spawnPiece(){
+    const idx=nxtIdx===null?Math.floor(Math.random()*7):nxtIdx;
+    cur=SHAPES[idx].map(([x,y])=>[x,y]);curX=3;curY=0;
+    nextPiece();drawNext();
+    if(!canPlace(curX,curY,cur)){endGame();return;}
+    drawAll();
+  }
+
+  function canPlace(ox,oy,sh){return sh.every(([x,y])=>{const nx=ox+x,ny=oy+y;return nx>=0&&nx<COLS_T&&ny>=0&&ny<ROWS_T&&!board[ny][nx];});}
+
+  function lock(){cur.forEach(([x,y])=>{const nx=curX+x,ny=curY+y;if(ny>=0)board[ny][nx]=TCOLS[SHAPES.indexOf(SHAPES.find(s=>s===cur))||0]||'#fff';});clearLines();spawnPiece();}
+
+  function clearLines(){let cl=0;for(let y=ROWS_T-1;y>=0;y--){if(board[y].every(c=>c)){board.splice(y,1);board.unshift(Array(COLS_T).fill(0));cl++;y++;}}tLines_+=cl;tScore_+=cl*100;document.getElementById('tLines').textContent=tLines_;document.getElementById('tScore').textContent=tScore_;if(tLines_>=TARGET&&!tScored){tScored=true;tActive=false;clearTimeout(dropTimer);setTimeout(()=>completeLevel(1,1),400);}}
+
+  function drop(){
+    if(!tActive)return;
+    if(canPlace(curX,curY+1,cur)){curY++;}else{lock();}
+    drawAll();
+  }
+
+  function hardDrop(){if(!tActive)return;while(canPlace(curX,curY+1,cur))curY++;lock();drawAll();}
+
+  function rotate(){
+    if(!tActive)return;
+    const rot=cur.map(([x,y])=>[-y,x]);
+    const minX=Math.min(...rot.map(([x])=>x));
+    const shifted=rot.map(([x,y])=>[x-minX,y]);
+    if(canPlace(curX,curY,shifted)){cur=shifted;drawAll();}
+  }
+
+  function drawAll(){
+    ctx.fillStyle='#000';ctx.fillRect(0,0,CW,CH);
+    // grid lines
+    ctx.strokeStyle='rgba(255,255,255,.05)';ctx.lineWidth=.5;
+    for(let x=0;x<COLS_T;x++){ctx.beginPath();ctx.moveTo(x*PS,0);ctx.lineTo(x*PS,CH);ctx.stroke();}
+    for(let y=0;y<ROWS_T;y++){ctx.beginPath();ctx.moveTo(0,y*PS);ctx.lineTo(CW,y*PS);ctx.stroke();}
+    // board
+    for(let y=0;y<ROWS_T;y++)for(let x=0;x<COLS_T;x++){if(board[y][x]){ctx.fillStyle=board[y][x];ctx.fillRect(x*PS+1,y*PS+1,PS-2,PS-2);}}
+    // ghost
+    if(cur&&tActive){let gy=curY;while(canPlace(curX,gy+1,cur))gy++;if(gy!==curY){ctx.globalAlpha=.25;cur.forEach(([x,y])=>{ctx.fillStyle='#fff';ctx.fillRect((curX+x)*PS+1,(gy+y)*PS+1,PS-2,PS-2);});ctx.globalAlpha=1;}}
+    // current piece
+    if(cur){cur.forEach(([x,y])=>{ctx.fillStyle=TCOLS[bag.length%7]||'#aaa';ctx.fillRect((curX+x)*PS+1,(curY+y)*PS+1,PS-2,PS-2);});}
+  }
+
+  function drawNext(){
+    nctx.fillStyle='#111';nctx.fillRect(0,0,80,80);
+    if(nxtIdx===null)return;
+    const sh=SHAPES[nxtIdx];const minX=Math.min(...sh.map(([x])=>x)),minY=Math.min(...sh.map(([,y])=>y));
+    sh.forEach(([x,y])=>{nctx.fillStyle=TCOLS[nxtIdx];nctx.fillRect((x-minX)*18+10,(y-minY)*18+10,16,16);});
+  }
+
+  function endGame(){tActive=false;clearTimeout(dropTimer);document.getElementById('tOverMsg').textContent=tScored?'Level Complete! 🎉':'Game Over';document.getElementById('tOverDiv').style.display='block';}
+
+  function startGame(){
+    board=Array(ROWS_T).fill(null).map(()=>Array(COLS_T).fill(0));
+    tScore_=0;tLines_=0;tActive=true;tScored=false;bag=newBag();nxtIdx=null;tSpd=Math.max(200,600-lvl*30);
+    document.getElementById('tLines').textContent=0;document.getElementById('tScore').textContent=0;
+    document.getElementById('tOverDiv').style.display='none';
+    document.getElementById('tStartBtn').style.display='none';
+    clearTimeout(dropTimer);nextPiece();spawnPiece();
+    function loop(){if(tActive){drop();dropTimer=setTimeout(loop,tSpd);}};
+    dropTimer=setTimeout(loop,tSpd);
+  }
+
+  const tKey=(e)=>{
+    if(!tActive)return;
+    if(e.key==='ArrowLeft'&&canPlace(curX-1,curY,cur)){curX--;drawAll();}
+    else if(e.key==='ArrowRight'&&canPlace(curX+1,curY,cur)){curX++;drawAll();}
+    else if(e.key==='ArrowDown'){drop();}
+    else if(e.key==='ArrowUp'||e.key===' '){rotate();}
+    else if(e.key==='Escape'){tActive=!tActive;if(tActive){const l=()=>{if(tActive){drop();dropTimer=setTimeout(l,tSpd);}};dropTimer=setTimeout(l,tSpd);}else clearTimeout(dropTimer);}
+    if(['ArrowLeft','ArrowRight','ArrowDown','ArrowUp',' '].includes(e.key))e.preventDefault();
+  };
+  document.addEventListener('keydown',tKey);
+
+  document.getElementById('tBLeft').onclick=()=>{if(tActive&&canPlace(curX-1,curY,cur)){curX--;drawAll();}};
+  document.getElementById('tBRight').onclick=()=>{if(tActive&&canPlace(curX+1,curY,cur)){curX++;drawAll();}};
+  document.getElementById('tBRot').onclick=rotate;
+  document.getElementById('tBDown').onclick=drop;
+  document.getElementById('tBDrop').onclick=hardDrop;
+  document.getElementById('tStartBtn').onclick=startGame;
+  document.getElementById('tOverBtn').onclick=startGame;
+
+  gTimers.push({_fn:()=>{document.removeEventListener('keydown',tKey);clearTimeout(dropTimer);}});
+  drawAll();
+}
+
+// ════════════════════════════════════════════════════════
+//  GAME 9 — SUDOKU  (real-time conflict highlighting)
+// ════════════════════════════════════════════════════════
+function renderSudoku(arena, rnd, lvl) {
+  clearGT();
+  const ri=Math.min(rnd.charCodeAt(0)-65,2);
+  const CFGS=[
+    {size:4,bR:2,bC:2,cMin:8,cMax:10,label:'Easy (4×4)'},
+    {size:6,bR:2,bC:3,cMin:22,cMax:24,label:'Medium (6×6)'},
+    {size:9,bR:3,bC:3,cMin:32,cMax:36,label:'Hard (9×9)'}
+  ];
+  const {size,bR,bC,cMin,cMax,label}=CFGS[ri];
+
+  arena.innerHTML=`<div style="max-width:420px;margin:0 auto;padding:.4em 0;font-family:'IBM Plex Mono',monospace">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.4em;margin-bottom:.8em">
+      <span style="font-size:.68em;color:var(--accent);background:var(--accent-dim);padding:2px 9px;border:1px solid var(--accent-bdr)">${label}</span>
+      <span style="font-size:.68em;color:var(--muted)" id="sTmr">0:00</span>
+      <button id="sNew" style="font-family:'IBM Plex Mono',monospace;font-size:.65em;padding:5px 12px;background:var(--accent-dim);border:1px solid var(--accent-bdr);color:var(--accent);cursor:pointer">↺ New</button>
+    </div>
+    <div style="background:rgba(255,255,255,.04);border-radius:8px;padding:6px;border:1px solid rgba(255,255,255,.08);margin-bottom:.8em">
+      <div id="sBoard" style="display:grid;grid-template-columns:repeat(${size},1fr);aspect-ratio:1/1;width:100%;max-width:380px;margin:0 auto;border:2px solid rgba(255,255,255,.4);border-radius:2px;overflow:hidden"></div>
+    </div>
+    <div id="sNumPad" style="display:grid;grid-template-columns:repeat(${size<=4?5:6},1fr);gap:5px;margin-bottom:.5em"></div>
+    <div id="sMsg" style="font-size:.75em;text-align:center;min-height:1.2em;color:var(--green)"></div>
+  </div>`;
+
+  let solution=null,puzzle=null,given=null,cells=[],selCell=null,tmrId=null,tStart=null;
+
+  function mkG(){return Array.from({length:size},()=>Array(size).fill(0));}
+
+  function isValid(g,r,c,n){
+    for(let i=0;i<size;i++){if(g[r][i]===n||g[i][c]===n)return false;}
+    const br=Math.floor(r/bR)*bR,bc=Math.floor(c/bC)*bC;
+    for(let i=br;i<br+bR;i++)for(let j=bc;j<bc+bC;j++)if(g[i][j]===n)return false;
+    return true;
+  }
+
+  function solve(g){
+    const nums=[...Array(size).keys()].map(i=>i+1).sort(()=>Math.random()-.5);
+    for(let r=0;r<size;r++)for(let c=0;c<size;c++){
+      if(g[r][c])continue;
+      for(const n of nums){if(!isValid(g,r,c,n))continue;g[r][c]=n;if(solve(g))return true;g[r][c]=0;}
+      return false;
+    }
+    return true;
+  }
+
+  function genPuzzle(){
+    const sol=mkG();solve(sol);
+    const puz=sol.map(r=>[...r]);
+    const giv=Array.from({length:size},()=>Array(size).fill(false));
+    const total=size*size,keep=cMin+Math.floor(Math.random()*(cMax-cMin+1));
+    const toRemove=total-keep;
+    const idx=[];for(let r=0;r<size;r++)for(let c=0;c<size;c++)idx.push({r,c});
+    idx.sort(()=>Math.random()-.5);
+    for(let k=0;k<toRemove;k++)puz[idx[k].r][idx[k].c]=null;
+    for(let r=0;r<size;r++)for(let c=0;c<size;c++)if(puz[r][c]!==null)giv[r][c]=true;
+    solution=sol;puzzle=puz;given=giv;
+  }
+
+  function buildBoard(){
+    const el=document.getElementById('sBoard');el.innerHTML='';cells=[];
+    for(let r=0;r<size;r++)for(let c=0;c<size;c++){
+      const cell=document.createElement('div');
+      const borderR=(c+1)%bC===0&&c<size-1?'2px solid rgba(255,255,255,.5)':'1px solid rgba(255,255,255,.12)';
+      const borderB=(r+1)%bR===0&&r<size-1?'2px solid rgba(255,255,255,.5)':'1px solid rgba(255,255,255,.12)';
+      cell.style.cssText=`display:flex;align-items:center;justify-content:center;font-size:clamp(.7rem,3.5vw,1.1rem);font-weight:600;border-right:${borderR};border-bottom:${borderB};cursor:pointer;background:transparent;transition:background .12s;`;
+      if(given[r][c]){
+        cell.textContent=puzzle[r][c];
+        cell.style.color='#ff8a9e';cell.style.background='rgba(233,69,96,.1)';cell.style.cursor='default';
+      }
+      cell.dataset.r=r;cell.dataset.c=c;
+      cell.onclick=()=>selSq(r,c);
+      el.appendChild(cell);cells.push(cell);
+    }
+    buildPad();
+  }
+
+  function buildPad(){
+    const pad=document.getElementById('sNumPad');pad.innerHTML='';
+    for(let n=1;n<=size;n++){
+      const btn=document.createElement('button');
+      btn.style.cssText='font-family:inherit;font-size:1em;font-weight:700;padding:.65em;border:1px solid rgba(255,255,255,.1);border-radius:6px;background:rgba(255,255,255,.07);color:#e8e8e8;cursor:pointer;touch-action:manipulation;min-height:44px';
+      btn.textContent=n;btn.onclick=()=>{if(selCell)setVal(selCell.r,selCell.c,n);};
+      pad.appendChild(btn);
+    }
+    const clr=document.createElement('button');
+    clr.style.cssText='font-family:inherit;font-size:.85em;font-weight:600;padding:.65em;border:1px solid rgba(239,68,68,.3);border-radius:6px;background:rgba(239,68,68,.15);color:#f87171;cursor:pointer;grid-column:span 2;touch-action:manipulation;min-height:44px';
+    clr.textContent='⌫ Clear';clr.onclick=()=>{if(selCell)setVal(selCell.r,selCell.c,0);};
+    pad.appendChild(clr);
+  }
+
+  function selSq(r,c){
+    if(given[r][c])return;
+    cells.forEach(cl=>{cl.style.outline='';cl.style.boxShadow='';});
+    selCell={r,c};
+    cells[r*size+c].style.outline='2px solid var(--accent)';
+    cells[r*size+c].style.outlineOffset='-2px';
+  }
+
+  function setVal(r,c,n){
+    if(given[r][c])return;
+    const cell=cells[r*size+c];
+    cell.textContent=n||'';
+    // conflict highlight
+    if(n){
+      const conflict=checkConflict(r,c,n);
+      cell.style.color=conflict?'#f87171':'#e8e8e8';
+      cell.style.background=conflict?'rgba(239,68,68,.18)':'transparent';
+    } else {
+      cell.style.color='#e8e8e8';cell.style.background='transparent';
+    }
+    // re-validate all user cells
+    revalidateAll();
+    checkWin();
+  }
+
+  function checkConflict(r,c,n){
+    for(let i=0;i<size;i++){
+      if(i!==c){const v=getVal(r,i);if(v===n)return true;}
+      if(i!==r){const v=getVal(i,c);if(v===n)return true;}
+    }
+    const br=Math.floor(r/bR)*bR,bc=Math.floor(c/bC)*bC;
+    for(let i=br;i<br+bR;i++)for(let j=bc;j<bc+bC;j++){if(i===r&&j===c)continue;const v=getVal(i,j);if(v===n)return true;}
+    return false;
+  }
+
+  function getVal(r,c){
+    if(given[r][c])return puzzle[r][c];
+    const t=cells[r*size+c].textContent.trim();return t?+t:null;
+  }
+
+  function revalidateAll(){
+    for(let r=0;r<size;r++)for(let c=0;c<size;c++){
+      if(given[r][c])continue;
+      const cell=cells[r*size+c];
+      const v=getVal(r,c);
+      if(!v){cell.style.color='#e8e8e8';cell.style.background='transparent';continue;}
+      const conflict=checkConflict(r,c,v);
+      cell.style.color=conflict?'#f87171':'#e8e8e8';
+      cell.style.background=conflict?'rgba(239,68,68,.18)':'transparent';
+    }
+  }
+
+  function checkWin(){
+    for(let r=0;r<size;r++)for(let c=0;c<size;c++){
+      const v=getVal(r,c);
+      if(!v||v!==solution[r][c])return;
+    }
+    stopTmr();document.getElementById('sMsg').textContent='✓ Solved! Great job!';
+    setTimeout(()=>completeLevel(1,1),600);
+  }
+
+  function startTmr(){stopTmr();tStart=Date.now();tmrId=setInterval(()=>{const s=Math.floor((Date.now()-tStart)/1000),m=Math.floor(s/60);document.getElementById('sTmr').textContent=m+':'+(s%60<10?'0':'')+(s%60);},1000);}
+  function stopTmr(){if(tmrId)clearInterval(tmrId);tmrId=null;}
+
+  const sKey=(e)=>{
+    if(!selCell)return;
+    const{r,c}=selCell;
+    if(e.key>='1'&&e.key<='9'&&+e.key<=size){setVal(r,c,+e.key);e.preventDefault();}
+    else if(e.key==='Backspace'||e.key==='Delete'){setVal(r,c,0);e.preventDefault();}
+  };
+  document.addEventListener('keydown',sKey);
+
+  document.getElementById('sNew').onclick=()=>{stopTmr();genPuzzle();buildBoard();document.getElementById('sMsg').textContent='';startTmr();};
+  gTimers.push({_fn:()=>{stopTmr();document.removeEventListener('keydown',sKey);}});
+
+  genPuzzle();buildBoard();startTmr();
+}
+
+// ════════════════════════════════════════════════════════
+//  PATCHED clearGT
+// ════════════════════════════════════════════════════════
+(function(){
+  window.clearGT=function(){
+    gTimers.forEach(t=>{if(t&&t._fn){try{t._fn();}catch(_){}}else{try{clearTimeout(t);clearInterval(t);}catch(_){}}});
+    gTimers=[];
+  };
+})();
+
+
+// ═══════════════════════════════════════════════════════
+//  LEADERBOARD
+// ═══════════════════════════════════════════════════════
+async function loadLB() {
+  document.getElementById('hGrid').innerHTML='<div class="lb-empty"><span class="sp"></span></div>';
+  document.getElementById('lbBody').innerHTML='<tr><td colspan="6" class="lb-empty"><span class="sp"></span></td></tr>';
+  const d=await api({action:'getLeaderboard',limit:50});
+  if(d.status!=='ok'){ toast('Could not load: '+d.message,'err'); return; }
+  renderHouses(d.houses);
+  renderStudents(d.students);
+  applyHouseTheme(d.houses);
+  if(d.lastUpdated){ const dt=new Date(d.lastUpdated); document.getElementById('lbUp').textContent='Updated '+dt.toLocaleTimeString(); }
+}
+
+function renderHouses(houses) {
+  const max=Math.max(...houses.map(h=>h.totalScore),1);
+  const grid=document.getElementById('hGrid');
+  grid.innerHTML='';
+  houses.forEach((h,i)=>{
+    const m=HOUSE_META[h.house]||HOUSE_META.Taxila;
+    const c=document.createElement('div'); c.className='hcard';
+    c.innerHTML=`
+      <div class="hrank ${i===0?'r1':''}">${i===0?'🥇':i===1?'🥈':i===2?'🥉':'#'+(i+1)}</div>
+      <div class="hname" style="color:${m.color}">${h.house}</div>
+      <div class="hscore" style="color:${m.color};text-shadow:0 0 14px ${m.glow}">${h.totalScore.toLocaleString()}</div>
+      <div class="hmembers">${h.memberCount} member${h.memberCount!==1?'s':''}</div>
+      <div class="hbarw"><div class="hbar" style="background:${m.color}" data-w="${Math.round(h.totalScore/max*100)}"></div></div>`;
+    grid.appendChild(c);
+  });
+  setTimeout(()=>document.querySelectorAll('.hbar').forEach(b=>b.style.width=b.dataset.w+'%'),80);
+}
+
+function renderStudents(students) {
+  const tbody=document.getElementById('lbBody');
+  if(!students.length){ tbody.innerHTML='<tr><td colspan="6" class="lb-empty">No students yet!</td></tr>'; return; }
+  tbody.innerHTML=students.map(s=>{
+    const m=HOUSE_META[s.house]||HOUSE_META.Taxila;
+    const rc=s.rank===1?'r1':s.rank<=3?'r3':'';
+    const isMe=student&&s.scholarNo===student.scholarNo;
+    // Summarise progress
+    const prog=Object.entries(s.progress||{})
+      .filter(([,v])=>v)
+      .map(([k,v])=>k+':'+v)
+      .join(' ');
+    return `<tr style="${isMe?'background:rgba(255,255,255,.03)':''}">
+      <td class="lbr ${rc}">${s.rank===1?'🥇':s.rank===2?'🥈':s.rank===3?'🥉':s.rank}</td>
+      <td class="lbn">${isMe?'⭐ ':''}${esc(s.name)}</td>
+      <td><span class="lbdot" style="background:${m.color}"></span>${esc(s.house)}</td>
+      <td class="lbg">${esc(s.grade)}</td>
+      <td class="lbs">${s.totalScore.toLocaleString()}</td>
+      <td class="lbprog">${prog||'—'}</td>
+    </tr>`;
+  }).join('');
+}
+
+function gotoLB(){ showView('vLB'); loadLB(); setBN(1); }
+
+// ═══════════════════════════════════════════════════════
+//  LEADING HOUSE THEME
+// ═══════════════════════════════════════════════════════
+async function loadHouseTheme(){
+  try{
+    const d=await api({action:'getLeaderboard',limit:1});
+    if(d.status==='ok'&&d.houses) applyHouseTheme(d.houses);
+  }catch(_){}
+}
+
+function applyHouseTheme(houses){
+  const leader=houses.find(h=>h.totalScore>0);
+  if(!leader) return;
+  const m=HOUSE_META[leader.house];
+  if(!m) return;
+  const r=document.documentElement;
+  r.style.setProperty('--accent',m.color);
+  r.style.setProperty('--accent-dim',m.dim);
+  r.style.setProperty('--accent-bdr',m.bdr);
+  r.style.setProperty('--accent-glow',m.glow);
+  const amb=document.getElementById('ambient');
+  amb.style.background=m.color; amb.classList.add('on');
+  const ban=document.getElementById('leadBanner');
+  ban.textContent=m.emoji+' '+leader.house+' leads — '+leader.totalScore.toLocaleString()+' pts';
+  ban.classList.add('on');
+  document.body.classList.add('has-banner');
+  const nb=document.getElementById('navLead');
+  nb.style.display='inline-block'; nb.textContent=m.emoji+' '+leader.house;
+}
+
+// ═══════════════════════════════════════════════════════
+//  UI HELPERS
+// ═══════════════════════════════════════════════════════
+function showView(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(id==='vAuth'){ setTimeout(()=>window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'}),60); }
+  else { window.scrollTo(0,0); }
+}
+function setBN(i){ document.querySelectorAll('.bnbtn').forEach((b,j)=>b.classList.toggle('on',j===i)); }
+let toastT;
+function toast(msg,type='ok'){ const el=document.getElementById('toast'); el.textContent=msg; el.className='on '+type; clearTimeout(toastT); toastT=setTimeout(()=>el.classList.remove('on'),3000); }
+function shuffle(a){ for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a; }
+function shuffleStr(s){ return shuffle(s.split('')).join(''); }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ═══════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════
+(function(){
+  const saved=sessionStorage.getItem('tq_s');
+  if(saved){ try{ enterArena(JSON.parse(saved)); }catch(_){ sessionStorage.removeItem('tq_s'); } }
+  else { setTimeout(()=>window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'}),120); }
+  loadHouseTheme();
+})();
+</script>
+</body>
+</html>
