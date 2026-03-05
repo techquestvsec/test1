@@ -211,6 +211,166 @@
     .btn-blue:hover { background:#6b85ff; box-shadow:0 0 42px rgba(79,111,255,.5); transform:translateY(-1px); }
     .btn-ghost { border-color:rgba(255,255,255,.1); color:var(--muted); }
     .btn-ghost:hover { border-color:var(--blue); color:var(--blue); }
+    .btn-arena {
+      border-color:rgba(61,214,140,.35); color:#3dd68c;
+      background:rgba(61,214,140,.07);
+    }
+    .btn-arena:hover {
+      background:#3dd68c; color:#03050f;
+      box-shadow:0 0 32px rgba(61,214,140,.45); transform:translateY(-1px);
+    }
+
+    /* ── ARENA SECTION ── */
+    #arena { background:var(--bg); border-top:1px solid var(--border); position:relative; overflow:hidden; }
+    #arena .section-label { color:#3dd68c; }
+    #arena h2 .hl { color:#3dd68c; }
+    #arena .title-rule { background:linear-gradient(90deg,#3dd68c,transparent); }
+
+    /* animated scanline bg */
+    #arena::before {
+      content:''; position:absolute; inset:0; pointer-events:none; z-index:0;
+      background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(61,214,140,.018) 3px,rgba(61,214,140,.018) 4px);
+    }
+    #arena .section-inner { position:relative; z-index:1; }
+
+    /* big split hero card */
+    .arena-hero {
+      display:grid; grid-template-columns:1fr 1fr;
+      gap:1px; background:var(--border); border:1px solid var(--border);
+      overflow:hidden; margin-bottom:1px;
+    }
+    .arena-hero-left {
+      background:var(--surface); padding:2.8em 2.4em;
+      position:relative; overflow:hidden;
+    }
+    .arena-hero-left::after {
+      content:''; position:absolute; left:0; top:0; bottom:0; width:3px;
+      background:linear-gradient(180deg,#3dd68c,transparent);
+    }
+    .arena-tagline {
+      font-family:'IBM Plex Mono',monospace; font-size:.62em;
+      letter-spacing:3px; text-transform:uppercase; color:#3dd68c;
+      margin-bottom:.8em; display:flex; align-items:center; gap:8px;
+    }
+    .arena-tagline::before { content:'//'; opacity:.35; }
+    .arena-big-title {
+      font-family:'Syne',sans-serif; font-weight:800;
+      font-size:clamp(1.8em,3.5vw,3em); color:#fff; line-height:1.05;
+      margin-bottom:.6em;
+    }
+    .arena-big-title span { color:#3dd68c; }
+    .arena-desc {
+      font-size:.86em; color:var(--muted); line-height:1.85; margin-bottom:1.8em; max-width:420px;
+    }
+    .arena-cta-row { display:flex; gap:10px; flex-wrap:wrap; }
+    .btn-arena-primary {
+      font-family:'IBM Plex Mono',monospace; font-size:.75em; font-weight:700;
+      letter-spacing:2px; text-transform:uppercase; padding:12px 26px;
+      background:#3dd68c; color:#03050f; border:none; cursor:pointer;
+      text-decoration:none; display:inline-flex; align-items:center; gap:8px;
+      transition:all .2s; box-shadow:0 0 28px rgba(61,214,140,.35);
+    }
+    .btn-arena-primary:hover { background:#5cf0a8; box-shadow:0 0 44px rgba(61,214,140,.6); transform:translateY(-1px); }
+    .btn-arena-ghost {
+      font-family:'IBM Plex Mono',monospace; font-size:.75em; font-weight:600;
+      letter-spacing:1.5px; text-transform:uppercase; padding:12px 22px;
+      background:transparent; color:#3dd68c; border:1px solid rgba(61,214,140,.35);
+      cursor:pointer; text-decoration:none; display:inline-flex; align-items:center; gap:8px;
+      transition:all .2s;
+    }
+    .btn-arena-ghost:hover { background:rgba(61,214,140,.08); border-color:#3dd68c; }
+
+    .arena-hero-right {
+      background:var(--surface2); padding:2.8em 2.4em;
+      display:flex; flex-direction:column; gap:1.1em; justify-content:center;
+    }
+    .arena-stat-row { display:flex; gap:1px; }
+    .arena-stat {
+      flex:1; background:var(--surface); padding:1.2em 1em; text-align:center;
+      border:1px solid var(--border); transition:background .2s;
+    }
+    .arena-stat:hover { background:rgba(61,214,140,.05); border-color:rgba(61,214,140,.2); }
+    .arena-stat-num {
+      font-family:'IBM Plex Mono',monospace; font-size:1.9em; font-weight:700;
+      color:#3dd68c; line-height:1; text-shadow:0 0 20px rgba(61,214,140,.45);
+    }
+    .arena-stat-lbl {
+      font-size:.52em; letter-spacing:2.5px; text-transform:uppercase;
+      color:var(--muted); margin-top:.4em; font-family:'IBM Plex Mono',monospace;
+    }
+    .arena-feature-list { display:flex; flex-direction:column; gap:8px; }
+    .arena-feature {
+      display:flex; align-items:center; gap:12px;
+      background:var(--surface); border:1px solid var(--border);
+      padding:.85em 1.1em; transition:all .2s; cursor:default;
+    }
+    .arena-feature:hover { background:rgba(61,214,140,.04); border-color:rgba(61,214,140,.18); }
+    .arena-feature-icon { font-size:1.1em; flex-shrink:0; }
+    .arena-feature-text { font-size:.8em; color:var(--text); line-height:1.4; }
+    .arena-feature-text strong { color:#fff; display:block; font-size:.95em; margin-bottom:.1em; }
+
+    /* house cards row */
+    .arena-houses {
+      display:grid; grid-template-columns:repeat(4,1fr);
+      gap:1px; background:var(--border); border:1px solid var(--border);
+      overflow:hidden; margin-bottom:1px;
+    }
+    .house-card {
+      background:var(--surface); padding:1.6em 1.4em;
+      text-align:center; position:relative; overflow:hidden; transition:background .2s;
+    }
+    .house-card::before {
+      content:''; position:absolute; top:0; left:0; right:0; height:2px;
+      background:var(--hc); opacity:.7; transition:opacity .2s;
+    }
+    .house-card:hover { background:var(--surface2); }
+    .house-card:hover::before { opacity:1; }
+    .house-emoji { font-size:1.6em; margin-bottom:.4em; display:block; }
+    .house-name {
+      font-family:'Syne',sans-serif; font-weight:800; font-size:.95em;
+      color:#fff; margin-bottom:.25em;
+    }
+    .house-tag {
+      font-family:'IBM Plex Mono',monospace; font-size:.55em; letter-spacing:2px;
+      text-transform:uppercase; color:var(--muted);
+    }
+
+    /* games mini-grid */
+    .arena-games {
+      display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+      gap:1px; background:var(--border); border:1px solid var(--border); overflow:hidden;
+    }
+    .game-pill {
+      background:var(--bg); padding:1.3em 1.6em;
+      display:flex; align-items:center; gap:.85em;
+      transition:background .2s; position:relative; overflow:hidden;
+    }
+    .game-pill::after {
+      content:''; position:absolute; left:0; top:0; bottom:0; width:2px;
+      background:transparent; transition:background .22s;
+    }
+    .game-pill:hover { background:var(--surface); }
+    .game-pill:hover::after { background:var(--gc,#3dd68c); }
+    .game-pill-icon { font-size:1.3em; flex-shrink:0; }
+    .game-pill-name {
+      font-family:'Syne',sans-serif; font-weight:700; font-size:.88em; color:#fff;
+    }
+    .game-pill-tag {
+      font-family:'IBM Plex Mono',monospace; font-size:.55em; letter-spacing:1.5px;
+      text-transform:uppercase; color:var(--muted); margin-top:.15em;
+    }
+
+    @media(max-width:900px){
+      .arena-hero { grid-template-columns:1fr; }
+      .arena-houses { grid-template-columns:repeat(2,1fr); }
+    }
+    @media(max-width:600px){
+      .arena-hero-left, .arena-hero-right { padding:1.8em 1.4em; }
+      .arena-big-title { font-size:1.7em; }
+      .arena-houses { grid-template-columns:repeat(2,1fr); }
+      .arena-games { grid-template-columns:1fr 1fr; }
+      .arena-stat-num { font-size:1.5em; }
+    }
 
     .hero-right {
       position:absolute;
@@ -450,6 +610,8 @@
     <li><a></a></li>
     <li><a href="#about">About</a></li>
     <li><a></a></li>
+    <li><a href="#arena" style="color:#3dd68c;border:1px solid rgba(61,214,140,.25);background:rgba(61,214,140,.07);padding:4px 12px;">🎮 Arena</a></li>
+    <li><a></a></li>
     <li><a href="#events" class="menu-events">Events</a></li>
     <li><a></a></li>
     <li><a href="techquest.html" class="menu-events">Register</a></li>
@@ -486,8 +648,8 @@
 
     <div class="hero-actions">
   <a href="#events" class="btn btn-blue">View Events</a>
-<a href="techquest.html" class="btn btn-register">Register Now</a>
-  <a href="#about" class="btn btn-ghost">Learn More</a>
+  <a href="techquest.html" class="btn btn-register">Register Now</a>
+  <a href="#arena" class="btn btn-arena">🎮 Gaming Zone</a>
 </div>
   </div>
 
@@ -546,6 +708,94 @@
       <div class="stat-cell"><div class="stat-num">5</div><div class="stat-lbl">Days</div></div>
       <div class="stat-cell"><div class="stat-num">∞</div><div class="stat-lbl">Potential</div></div>
     </div>
+  </div>
+</section>
+
+<!-- ARENA -->
+<section class="section" id="arena">
+  <div class="section-inner">
+    <div class="section-label">Gaming Zone</div>
+    <h2 class="section-title">Interhouse <span class="hl">Arena</span></h2>
+    <div class="title-rule"></div>
+
+    <!-- Big split card -->
+    <div class="arena-hero">
+      <div class="arena-hero-left">
+        <div class="arena-tagline">Live · Competitive · Interhouse</div>
+        <div class="arena-big-title">Play for yourself.<br>Fight for your <span>House.</span></div>
+        <p class="arena-desc">
+          The Interhouse Arena is TechQuest's dedicated gaming zone — 9 games, 10 rounds each, live leaderboards. Every level you complete earns points for you <em>and</em> your house. The house leading the board takes over the entire arena's theme. It's individual skill meeting house pride.
+        </p>
+        <div class="arena-cta-row">
+          <a href="interhouse.html" class="btn-arena-primary">🎮 Enter the Arena →</a>
+          <a href="interhouse.html" class="btn-arena-ghost">View Leaderboard</a>
+        </div>
+      </div>
+      <div class="arena-hero-right">
+        <div class="arena-stat-row">
+          <div class="arena-stat"><div class="arena-stat-num">9</div><div class="arena-stat-lbl">Games</div></div>
+          <div class="arena-stat"><div class="arena-stat-num">10</div><div class="arena-stat-lbl">Rounds</div></div>
+          <div class="arena-stat"><div class="arena-stat-num">4</div><div class="arena-stat-lbl">Houses</div></div>
+          <div class="arena-stat"><div class="arena-stat-num">∞</div><div class="arena-stat-lbl">Rivalry</div></div>
+        </div>
+        <div class="arena-feature-list">
+          <div class="arena-feature">
+            <span class="arena-feature-icon">🏆</span>
+            <div class="arena-feature-text"><strong>Interhouse Leaderboard</strong>Every point contributes to your house's total score in real time.</div>
+          </div>
+          <div class="arena-feature">
+            <span class="arena-feature-icon">📈</span>
+            <div class="arena-feature-text"><strong>Progress Saved Automatically</strong>Log in with your scholar number — pick up exactly where you left off.</div>
+          </div>
+          <div class="arena-feature">
+            <span class="arena-feature-icon">🎨</span>
+            <div class="arena-feature-text"><strong>Dynamic House Theme</strong>The leading house colours the entire arena. Fight to keep your colours on top.</div>
+          </div>
+          <div class="arena-feature">
+            <span class="arena-feature-icon">🔒</span>
+            <div class="arena-feature-text"><strong>Round-Locked Progression</strong>Complete all 10 levels of a round to unlock the next — no skipping.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- House cards -->
+    <div class="arena-houses">
+      <div class="house-card" style="--hc:#3dd68c">
+        <span class="house-emoji">🟢</span>
+        <div class="house-name" style="color:#3dd68c">Vikramshila</div>
+        <div class="house-tag">House of Innovation</div>
+      </div>
+      <div class="house-card" style="--hc:#e8b84b">
+        <span class="house-emoji">🟡</span>
+        <div class="house-name" style="color:#e8b84b">Vallabhi</div>
+        <div class="house-tag">House of Wisdom</div>
+      </div>
+      <div class="house-card" style="--hc:#4f6fff">
+        <span class="house-emoji">🔵</span>
+        <div class="house-name" style="color:#4f6fff">Taxila</div>
+        <div class="house-tag">House of Logic</div>
+      </div>
+      <div class="house-card" style="--hc:#e05c6b">
+        <span class="house-emoji">🔴</span>
+        <div class="house-name" style="color:#e05c6b">Nalanda</div>
+        <div class="house-tag">House of Courage</div>
+      </div>
+    </div>
+
+    <!-- Games mini-grid -->
+    <div class="arena-games">
+      <div class="game-pill" style="--gc:#e8b84b"><span class="game-pill-icon">❓</span><div><div class="game-pill-name">Tech Trivia</div><div class="game-pill-tag">Knowledge</div></div></div>
+      <div class="game-pill" style="--gc:#29d4e0"><span class="game-pill-icon">🔤</span><div><div class="game-pill-name">Word Scramble</div><div class="game-pill-tag">Vocab</div></div></div>
+      <div class="game-pill" style="--gc:#4f6fff"><span class="game-pill-icon">⌨️</span><div><div class="game-pill-name">Type Racer</div><div class="game-pill-tag">Speed · 6 WPM min</div></div></div>
+      <div class="game-pill" style="--gc:#c088ff"><span class="game-pill-icon">🃏</span><div><div class="game-pill-name">Memory Match</div><div class="game-pill-tag">Memory</div></div></div>
+      <div class="game-pill" style="--gc:#3dd68c"><span class="game-pill-icon">🐛</span><div><div class="game-pill-name">Bug Fix</div><div class="game-pill-tag">Debugging</div></div></div>
+      <div class="game-pill" style="--gc:#29d4e0"><span class="game-pill-icon">🔐</span><div><div class="game-pill-name">Code Breaker</div><div class="game-pill-tag">Ciphers</div></div></div>
+      <div class="game-pill" style="--gc:#4f6fff"><span class="game-pill-icon">💣</span><div><div class="game-pill-name">Minesweeper</div><div class="game-pill-tag">Logic</div></div></div>
+      <div class="game-pill" style="--gc:#c088ff"><span class="game-pill-icon">🟦</span><div><div class="game-pill-name">Tetris</div><div class="game-pill-tag">Reflex</div></div></div>
+      <div class="game-pill" style="--gc:#3dd68c"><span class="game-pill-icon">🔢</span><div><div class="game-pill-name">Sudoku</div><div class="game-pill-tag">Puzzle · 4×4 → 9×9</div></div></div>
+    </div>
+
   </div>
 </section>
 
@@ -789,11 +1039,11 @@ document.getElementById('filterBar').addEventListener('click', e => {
 (function() {
   const style = document.createElement('style');
   style.textContent = `
-    .ecard, .about-cell, .stat-cell {
+    .ecard, .about-cell, .stat-cell, .house-card, .game-pill, .arena-feature {
       opacity: 0; transform: translateY(24px);
       transition: opacity .45s ease, transform .45s ease;
     }
-    .ecard.revealed, .about-cell.revealed, .stat-cell.revealed {
+    .ecard.revealed, .about-cell.revealed, .stat-cell.revealed, .house-card.revealed, .game-pill.revealed, .arena-feature.revealed {
       opacity: 1; transform: translateY(0);
     }
   `;
@@ -806,7 +1056,7 @@ document.getElementById('filterBar').addEventListener('click', e => {
       }
     });
   }, { threshold: 0.08 });
-  document.querySelectorAll('.ecard, .about-cell, .stat-cell').forEach(el => io.observe(el));
+  document.querySelectorAll('.ecard, .about-cell, .stat-cell, .house-card, .game-pill, .arena-feature').forEach(el => io.observe(el));
 })();
 
 </script>
