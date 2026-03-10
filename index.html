@@ -76,8 +76,8 @@
       top:0; left:0; right:0;
       width:100%;
       z-index:1000;
-      backdrop-filter:blur(8px);
-      -webkit-backdrop-filter:blur(8px);
+      backdrop-filter:blur(18px);
+      -webkit-backdrop-filter:blur(18px);
     }
     /* Push page content below the fixed nav on all screen sizes */
     body { padding-top:56px; }
@@ -214,135 +214,13 @@
       width:900px; height:700px; top:-200px; right:-150px;
       background:radial-gradient(ellipse,rgba(79,111,255,.2) 0%,transparent 60%);
       animation:gp 7s ease-in-out infinite;
-      animation-play-state: running;
     }
     .bg-glow-2 {
       width:500px; height:400px; bottom:-100px; left:-80px;
       background:radial-gradient(ellipse,rgba(41,212,224,.07) 0%,transparent 65%);
       animation:gp 9s 2s ease-in-out infinite;
-      animation-play-state: running;
     }
     @keyframes gp { 0%,100%{opacity:.7;transform:scale(1)} 50%{opacity:1;transform:scale(1.07)} }
-    
-    /* ════════════════════════════════════════════════════
-       ANIMATION TOGGLE CONTROL
-    ════════════════════════════════════════════════════ */
-    body.animations-paused .bg-glow-1,
-    body.animations-paused .bg-glow-2,
-    body.animations-paused .dust-particle {
-      animation-play-state: paused !important;
-    }
-    
-    /* Animation Toggle Button - Multiple Positions */
-    #animation-toggle-btn {
-      z-index: 998;
-      padding: 8px 14px;
-      background: linear-gradient(135deg, #29d4e0, #4f6fff);
-      border: 1px solid rgba(79,111,255,0.5);
-      color: white;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      border-radius: 3px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      box-shadow: 0 0 15px rgba(41,212,224,0.3);
-      transition: all 0.3s ease;
-      letter-spacing: 0.5px;
-      white-space: nowrap;
-    }
-    
-    #animation-toggle-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 0 25px rgba(41,212,224,0.6);
-      background: linear-gradient(135deg, #29d4e0, #5577ff);
-    }
-    
-    #animation-toggle-btn:active {
-      transform: translateY(1px);
-    }
-    
-    #animation-toggle-btn.stopped {
-      background: linear-gradient(135deg, #e8b84b, #ff6b6b);
-      border-color: rgba(232,184,75,0.5);
-      box-shadow: 0 0 15px rgba(232,184,75,0.3);
-    }
-    
-    #animation-toggle-btn.stopped:hover {
-      box-shadow: 0 0 25px rgba(232,184,75,0.6);
-      background: linear-gradient(135deg, #f0c050, #ff7a7a);
-    }
-    
-    /* Desktop: Button in nav on left (hidden by default, shown in nav) */
-    .animation-btn-nav {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      margin-right: 20px;
-    }
-    
-    .animation-btn-nav #animation-toggle-btn {
-      position: relative;
-      top: auto;
-      right: auto;
-      padding: 6px 12px;
-      font-size: 12px;
-    }
-    
-    /* Desktop: Button in hero section (top right below nav) */
-    .animation-btn-hero {
-      position: fixed;
-      top: 72px;
-      right: 20px;
-      display: none;
-    }
-    
-    @media(min-width: 601px) {
-      .animation-btn-hero {
-        display: flex !important;
-      }
-      .animation-btn-nav {
-        display: none !important;
-      }
-    }
-    
-    @media(max-width: 600px) {
-      .animation-btn-nav {
-        display: inline-flex !important;
-      }
-      .animation-btn-hero {
-        display: none !important;
-      }
-      
-      .animation-btn-nav #animation-toggle-btn {
-        padding: 5px 10px;
-        font-size: 11px;
-        gap: 4px;
-      }
-    }
-    
-    /* Tooltip for button */
-    #animation-toggle-tooltip {
-      position: absolute;
-      bottom: 130%;
-      right: 0;
-      background: rgba(3,5,15,0.95);
-      color: #29d4e0;
-      padding: 6px 10px;
-      border-radius: 3px;
-      font-size: 10px;
-      white-space: nowrap;
-      border: 1px solid rgba(41,212,224,0.3);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.2s ease;
-    }
-    
-    #animation-toggle-btn:hover #animation-toggle-tooltip {
-      opacity: 1;
-    }
 
     .hero-left {
       position:relative; z-index:3;
@@ -425,7 +303,7 @@
 
     /* big split hero card */
     .arena-hero {
-      display:grid; grid-template-columns:1fr 1fr;
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
       gap:1px; background:var(--border); border:1px solid var(--border);
       overflow:hidden; margin-bottom:1px;
     }
@@ -501,7 +379,7 @@
 
     /* house cards row */
     .arena-houses {
-      display:grid; grid-template-columns:repeat(4,1fr);
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
       gap:1px; background:var(--border); border:1px solid var(--border);
       overflow:hidden; margin-bottom:1px;
     }
@@ -550,16 +428,10 @@
       text-transform:uppercase; color:var(--muted); margin-top:.15em;
     }
 
-    @media(max-width:900px){
-      .arena-hero { grid-template-columns:1fr; }
-      .arena-houses { grid-template-columns:repeat(2,1fr); }
-    }
+    /* arena CTA buttons wrap naturally on small screens */
     @media(max-width:600px){
-      .arena-hero-left, .arena-hero-right { padding:1.8em 1.4em; }
-      .arena-big-title { font-size:1.7em; }
-      .arena-houses { grid-template-columns:repeat(2,1fr); }
-      .arena-games { grid-template-columns:1fr 1fr; }
-      .arena-stat-num { font-size:1.5em; }
+      .arena-cta-row { flex-direction:column; }
+      .btn-arena-primary, .btn-arena-ghost { width:100%; justify-content:center; }
     }
 
     .hero-right {
@@ -894,7 +766,7 @@
     </div>
     <div class="stat-row">
       <div class="stat-cell"><div class="stat-num">20+</div><div class="stat-lbl">Events</div></div>
-      <div class="stat-cell"><div class="stat-num">9–12</div><div class="stat-lbl">Classes</div></div>
+      <div class="stat-cell"><div class="stat-num">5–12</div><div class="stat-lbl">Classes</div></div>
       <div class="stat-cell"><div class="stat-num">5</div><div class="stat-lbl">Days</div></div>
       <div class="stat-cell"><div class="stat-num">∞</div><div class="stat-lbl">Potential</div></div>
     </div>
@@ -911,10 +783,12 @@
     <!-- Big split card -->
     <div class="arena-hero">
       <div class="arena-hero-left">
-        <div class="arena-tagline">Live · Competitive · Interhouse</div>
-        <div class="arena-big-title">Play for yourself.<br>Fight for your <span>House.</span></div>
+        <div class="arena-tagline">Live Competitive Interhouse</div>
+        <div class="arena-big-title">Play for yourself<br>Fight for your <span>House</span></div>
         <p class="arena-desc">
-          The Interhouse Arena is TechQuest's dedicated gaming zone — 9 games, 10 rounds each, live leaderboards. Every level you complete earns points for you <em>and</em> your house. The house leading the board takes over the entire arena's theme. It's individual skill meeting house pride.
+          The Interhouse Arena is TechQuest's dedicated gaming zone — 9 games, 10 rounds each, live leaderboards. Every level you complete earns points for you <em>and</em> your house.
+          The house leading the board takes over the entire arena's theme.
+          It's individual skill meeting house pride.
         </p>
         <div class="arena-cta-row">
           <a href="interhouse.html" class="btn-arena-primary">🎮 Enter the Arena →</a>
@@ -926,7 +800,7 @@
           <div class="arena-stat"><div class="arena-stat-num">9</div><div class="arena-stat-lbl">Games</div></div>
           <div class="arena-stat"><div class="arena-stat-num">10</div><div class="arena-stat-lbl">Rounds</div></div>
           <div class="arena-stat"><div class="arena-stat-num">4</div><div class="arena-stat-lbl">Houses</div></div>
-          <div class="arena-stat"><div class="arena-stat-num">∞</div><div class="arena-stat-lbl">Rivalry</div></div>
+
         </div>
         <div class="arena-feature-list">
           <div class="arena-feature">
@@ -1088,14 +962,39 @@ document.getElementById('filterBar').addEventListener('click', e => {
   });
 });
 
-// STARS (blue-tinted override)
+/* ══════════════════════════════════════════════════
+   PERFORMANCE TIER DETECTION (FPS test, ~60 frames)
+   Sets window.PERF: 'low' | 'mid' | 'high'
+   then fires window.__perfReady() to boot effects
+══════════════════════════════════════════════════ */
+(()=>{
+  let frames = 0, start = null;
+  function measure(ts){
+    if(!start) start = ts;
+    frames++;
+    if(ts - start < 1000){ requestAnimationFrame(measure); return; }
+    const fps = frames / ((ts - start) / 1000);
+    window.PERF = fps >= 40 ? 'high' : 'low';
+    console.log(`[PERF] FPS: ${fps.toFixed(1)} → tier: ${window.PERF}`);
+    if(window.__perfReady) window.__perfReady();
+    if(window.__launchEffects) window.__launchEffects();
+    if(window.__launchSpooky) window.__launchSpooky();
+  }
+  requestAnimationFrame(measure);
+})();
+
+// STARS (blue-tinted override) — boots after FPS test
+window.__perfReady = function(){
+
 (()=>{
   const c = document.getElementById('starCanvas');
   const ctx = c.getContext('2d');
   let stars = [];
+  // Low: 15 stars, Mid: 28, High: 40
+  const COUNT = window.PERF === 'low' ? 15 : 60;
   const resize = () => { c.width=innerWidth; c.height=innerHeight; };
   const init = () => {
-    stars = Array.from({length:200},()=>({
+    stars = Array.from({length:COUNT},()=>({
       x:Math.random()*c.width, y:Math.random()*c.height,
       r:Math.random()*1.3+0.2, o:Math.random()*0.45+0.08,
       s:Math.random()*0.03+0.006, ph:Math.random()*Math.PI*2,
@@ -1103,6 +1002,7 @@ document.getElementById('filterBar').addEventListener('click', e => {
     }));
   };
   let t=0;
+  let heroStarRaf = null;
   const draw=()=>{
     ctx.clearRect(0,0,c.width,c.height); t+=0.007;
     stars.forEach(s=>{
@@ -1110,10 +1010,14 @@ document.getElementById('filterBar').addEventListener('click', e => {
       ctx.globalAlpha=o; ctx.fillStyle=s.col;
       ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fill();
     });
-    ctx.globalAlpha=1; requestAnimationFrame(draw);
+    ctx.globalAlpha=1; heroStarRaf = requestAnimationFrame(draw);
   };
   resize(); init(); draw();
   window.addEventListener('resize',()=>{resize();init();});
+  document.addEventListener('visibilitychange', () => {
+    if(document.hidden){ cancelAnimationFrame(heroStarRaf); heroStarRaf = null; }
+    else if(!heroStarRaf) draw();
+  });
 })();
 
 // 3D ICOSAHEDRON
@@ -1220,8 +1124,11 @@ document.getElementById('filterBar').addEventListener('click', e => {
 
     requestAnimationFrame(frame);
   };
+  // Icosahedron runs on all tiers
   frame();
 })();
+
+}; // end window.__perfReady
 
 
 // COUNTDOWN TIMER
@@ -1244,7 +1151,11 @@ document.getElementById('filterBar').addEventListener('click', e => {
     document.getElementById("seconds").innerText = String(s).padStart(2,'0');
   }
   tick();
-  setInterval(tick, 1000);
+  let countdownInterval = setInterval(tick, 1000);
+  document.addEventListener('visibilitychange', () => {
+    if(document.hidden){ clearInterval(countdownInterval); countdownInterval = null; }
+    else { tick(); countdownInterval = setInterval(tick, 1000); }
+  });
 })();
 
 
@@ -1275,8 +1186,8 @@ document.getElementById('filterBar').addEventListener('click', e => {
 
 </script>
 
-<!-- FULL SITE STAR LAYER -->
-<canvas id="siteStarsCanvas" style="position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.55;"></canvas>
+<!-- HERO STAR LAYER (hero section only) -->
+<canvas id="siteStarsCanvas" style="position:fixed;top:0;left:0;width:100%;height:100vh;z-index:0;pointer-events:none;opacity:0.55;"></canvas>
 
 <!-- SHOOTING STARS -->
 <canvas id="shootingStarsCanvas" style="position:fixed;inset:0;z-index:2;pointer-events:none;"></canvas>
@@ -1430,170 +1341,11 @@ document.getElementById('filterBar').addEventListener('click', e => {
 </style>
 
 <script>
-/* ════════════════════════════════════════════════════════════════════════════
-   ANIMATION CONTROL SYSTEM - Toggle Animations (ON by default)
-════════════════════════════════════════════════════════════════════════════ */
-(function(){
-  // Animation state management
-  window.AnimationController = {
-    isRunning: true,  // Default: ON (animations running)
-    animationElements: [],
-    canvasAnimations: [],
-    
-    init() {
-      // Create stop button for both nav and hero
-      this.createToggleButton();
-      
-      // Setup visibility change listener
-      document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-          this.pauseAll();
-        } else {
-          if (this.isRunning) {
-            this.resumeAll();
-          }
-        }
-      });
-      
-      // Pause animations on page hide
-      window.addEventListener('pagehide', () => {
-        this.pauseAll();
-      });
-      
-      // Resume animations on page show
-      window.addEventListener('pageshow', () => {
-        if (this.isRunning) {
-          this.resumeAll();
-        }
-      });
-    },
-    
-    createToggleButton() {
-      const btn = document.createElement('button');
-      btn.id = 'animation-toggle-btn';
-      btn.innerHTML = '▶ ON';  // Default: ON
-      btn.title = 'Toggle Animations';
-      
-      const tooltip = document.createElement('div');
-      tooltip.id = 'animation-toggle-tooltip';
-      tooltip.textContent = 'Animations: ON - Click to turn OFF';
-      btn.appendChild(tooltip);
-      
-      btn.addEventListener('click', () => {
-        if (this.isRunning) {
-          // Turn OFF
-          this.pauseAll();
-          btn.classList.add('stopped');
-          btn.innerHTML = '⏸ OFF';
-          tooltip.textContent = 'Animations: OFF - Click to turn ON';
-        } else {
-          // Turn ON
-          this.resumeAll();
-          btn.classList.remove('stopped');
-          btn.innerHTML = '▶ ON';
-          tooltip.textContent = 'Animations: ON - Click to turn OFF';
-        }
-        this.isRunning = !this.isRunning;
-      });
-      
-      // Create wrapper for nav
-      const navWrapper = document.createElement('div');
-      navWrapper.className = 'animation-btn-nav';
-      const navBtn = btn.cloneNode(true);
-      navBtn.id = 'animation-toggle-btn-nav';
-      navWrapper.appendChild(navBtn);
-      
-      // Create wrapper for hero
-      const heroWrapper = document.createElement('div');
-      heroWrapper.className = 'animation-btn-hero';
-      const heroBtn = btn.cloneNode(true);
-      heroBtn.id = 'animation-toggle-btn-hero';
-      heroWrapper.appendChild(heroBtn);
-      
-      // Insert nav button into navigation
-      const nav = document.querySelector('nav');
-      if (nav) {
-        nav.insertBefore(navWrapper, nav.querySelector('.nav-burger'));
-      }
-      
-      // Insert hero button in hero section
-      document.body.appendChild(heroWrapper);
-      
-      // Setup click handlers for both buttons
-      [navBtn, heroBtn].forEach(button => {
-        button.addEventListener('click', (e) => {
-          e.preventDefault();
-          if (this.isRunning) {
-            // Turn OFF
-            this.pauseAll();
-            navBtn.classList.add('stopped');
-            heroBtn.classList.add('stopped');
-            navBtn.innerHTML = '⏸ OFF';
-            heroBtn.innerHTML = '⏸ OFF';
-            navBtn.querySelector('#animation-toggle-tooltip') && 
-              (navBtn.querySelector('#animation-toggle-tooltip').textContent = 'Animations: OFF - Click to turn ON');
-            heroBtn.querySelector('#animation-toggle-tooltip') && 
-              (heroBtn.querySelector('#animation-toggle-tooltip').textContent = 'Animations: OFF - Click to turn ON');
-          } else {
-            // Turn ON
-            this.resumeAll();
-            navBtn.classList.remove('stopped');
-            heroBtn.classList.remove('stopped');
-            navBtn.innerHTML = '▶ ON';
-            heroBtn.innerHTML = '▶ ON';
-            navBtn.querySelector('#animation-toggle-tooltip') && 
-              (navBtn.querySelector('#animation-toggle-tooltip').textContent = 'Animations: ON - Click to turn OFF');
-            heroBtn.querySelector('#animation-toggle-tooltip') && 
-              (heroBtn.querySelector('#animation-toggle-tooltip').textContent = 'Animations: ON - Click to turn OFF');
-          }
-          this.isRunning = !this.isRunning;
-        });
-      });
-    },
-    
-    register(element) {
-      if (element && !this.animationElements.includes(element)) {
-        this.animationElements.push(element);
-      }
-    },
-    
-    registerCanvas(callback) {
-      this.canvasAnimations.push(callback);
-    },
-    
-    pauseAll() {
-      // Pause CSS animations
-      document.body.classList.add('animations-paused');
-      
-      // Pause canvas animations
-      this.canvasAnimations.forEach(cb => {
-        if (typeof cb.pause === 'function') cb.pause();
-      });
-    },
-    
-    resumeAll() {
-      // Resume CSS animations
-      document.body.classList.remove('animations-paused');
-      
-      // Resume canvas animations
-      this.canvasAnimations.forEach(cb => {
-        if (typeof cb.resume === 'function') cb.resume();
-      });
-    }
-  };
-  
-  // Initialize on DOM ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      window.AnimationController.init();
-    });
-  } else {
-    window.AnimationController.init();
-  }
-})();
+// Boot all visual effects after FPS test completes
+window.__launchEffects = function(){
 
 /* ══════════════════════════════════════════════════
-   1. FULL-SITE STAR BACKGROUND
+   1. HERO STAR BACKGROUND (high only)
 ══════════════════════════════════════════════════ */
 (function(){
   const c = document.getElementById('siteStarsCanvas');
@@ -1601,58 +1353,40 @@ document.getElementById('filterBar').addEventListener('click', e => {
   function resize(){ c.width=innerWidth; c.height=innerHeight; }
   resize();
   window.addEventListener('resize', resize);
-
   const stars = Array.from({length:280}, ()=>({
-    x: Math.random()*3000,
-    y: Math.random()*8000,
-    r: Math.random()*1.1+0.15,
-    o: Math.random()*0.4+0.07,
-    s: Math.random()*0.025+0.005,
-    ph: Math.random()*Math.PI*2,
+    x: Math.random()*3000, y: Math.random()*8000,
+    r: Math.random()*1.1+0.15, o: Math.random()*0.4+0.07,
+    s: Math.random()*0.025+0.005, ph: Math.random()*Math.PI*2,
     col: Math.random()>0.6 ? '#6b9fff' : '#ffffff'
   }));
-  let t=0;
-  let isStarCanvasRunning = true;
-  
-  const starCanvasAnimation = {
-    pause() { isStarCanvasRunning = false; },
-    resume() { isStarCanvasRunning = true; }
-  };
-  
+  let t=0, siteStarRaf=null;
   function draw(){
-    if(isStarCanvasRunning) {
-      ctx.clearRect(0,0,c.width,c.height);
-      t+=0.007;
-      const sy = window.scrollY;
-      stars.forEach(s=>{
-        // parallax: stars drift slightly with scroll
-        const px = ((s.x) % c.width);
-        const py = ((s.y - sy*0.08) % (c.height*2) + c.height*2) % (c.height*2);
-        if(py > c.height) return;
-        const o = s.o*(0.45+0.55*Math.sin(t*s.s*60+s.ph));
-        ctx.globalAlpha = o;
-        ctx.fillStyle = s.col;
-        ctx.beginPath();
-        ctx.arc(px, py, s.r, 0, Math.PI*2);
-        ctx.fill();
-      });
-      ctx.globalAlpha=1;
-    }
-    requestAnimationFrame(draw);
+    const scrollFade = Math.max(0, 1 - window.scrollY / (innerHeight * 0.6));
+    c.style.opacity = (0.55 * scrollFade).toFixed(3);
+    if(scrollFade <= 0){ siteStarRaf = requestAnimationFrame(draw); return; }
+    ctx.clearRect(0,0,c.width,c.height); t+=0.007;
+    stars.forEach(s=>{
+      const px = s.x % c.width;
+      const py = (s.y % (c.height*2) + c.height*2) % (c.height*2);
+      if(py > c.height) return;
+      const o = s.o*(0.45+0.55*Math.sin(t*s.s*60+s.ph));
+      ctx.globalAlpha=o; ctx.fillStyle=s.col;
+      ctx.beginPath(); ctx.arc(px,py,s.r,0,Math.PI*2); ctx.fill();
+    });
+    ctx.globalAlpha=1; siteStarRaf=requestAnimationFrame(draw);
   }
   draw();
-  
-  // Register with animation controller
-  if(window.AnimationController) {
-    window.AnimationController.registerCanvas(starCanvasAnimation);
-  }
+  document.addEventListener('visibilitychange',()=>{
+    if(document.hidden){ cancelAnimationFrame(siteStarRaf); siteStarRaf=null; }
+    else if(!siteStarRaf) draw();
+  });
 })();
 
 
 /* ══════════════════════════════════════════════════
-   2. SHOOTING STARS (panel-boundary aware)
+   2. SHOOTING STARS
 ══════════════════════════════════════════════════ */
-(function(){
+if(window.PERF === 'high')(function(){
   const c = document.getElementById('shootingStarsCanvas');
   const ctx = c.getContext('2d');
   function resize(){ c.width=innerWidth; c.height=innerHeight; }
@@ -1660,7 +1394,7 @@ document.getElementById('filterBar').addEventListener('click', e => {
   window.addEventListener('resize', resize);
 
   const shooters = [];
-  const MAX_SHOOTERS = 12; // Performance cap
+  const MAX_SHOOTERS = 12;
   let schedulerTimeout = null;
   let animationFrameId = null;
   let isSchedulerRunning = false;
@@ -1726,7 +1460,7 @@ document.getElementById('filterBar').addEventListener('click', e => {
     if(isPurple){
       const tint = document.createElement('div');
       tint.style.cssText=`position:fixed;inset:0;z-index:9998;pointer-events:none;
-        background:radial-gradient(ellipse at 50% 40%, rgba(192,136,255,0.07) 0%, rgba(140,80,255,0.04) 50%, transparent 75%);
+        background:radial-gradient(ellipse at 50% 40%,rgba(192,136,255,0.07) 0%,rgba(140,80,255,0.04) 50%,transparent 75%);
         animation:purpleTint 2.2s ease forwards;`;
       if(!document.getElementById('purpleTintStyle')){
         const st=document.createElement('style');
@@ -1849,19 +1583,9 @@ document.getElementById('filterBar').addEventListener('click', e => {
     animationFrameId = requestAnimationFrame(draw);
   }
   
-  const shootingStarAnimation = {
-    pause() { stopScheduler(); },
-    resume() { if(!isSchedulerRunning) startScheduler(); }
-  };
-  
   // Start systems
   startScheduler();
   draw();
-  
-  // Register with animation controller
-  if(window.AnimationController) {
-    window.AnimationController.registerCanvas(shootingStarAnimation);
-  }
   
   // ── Cleanup on visibility change ──
   let hideTimeout = null;
@@ -1892,16 +1616,13 @@ document.getElementById('filterBar').addEventListener('click', e => {
     const hCtx = heroCanvas.getContext('2d');
     const heroShooters = [];
     
-    // Performance caps
-    const MAX_SHOOTERS = 8;  // Max simultaneous shooting stars
+    const MAX_SHOOTERS = 3;
     let schedulerTimeout = null;
     let animationFrameId = null;
     let isSchedulerRunning = false;
 
     function spawnHeroStar(){
-      // Enforce maximum cap to prevent lag
       if(heroShooters.length >= MAX_SHOOTERS) return;
-      
       const r0 = Math.random();
       const isPurple = r0 < 0.04;
       const isGold   = r0 >= 0.04 && r0 < 0.12;
@@ -1921,88 +1642,127 @@ document.getElementById('filterBar').addEventListener('click', e => {
       if(isPurple){
         const tint=document.createElement('div');
         tint.style.cssText=`position:fixed;inset:0;z-index:9998;pointer-events:none;background:radial-gradient(ellipse at 50% 40%,rgba(192,136,255,0.07) 0%,rgba(140,80,255,0.04) 50%,transparent 75%);animation:purpleTint 2.2s ease forwards;`;
+        if(!document.getElementById('purpleTintStyle')){
+          const st=document.createElement('style'); st.id='purpleTintStyle';
+          st.textContent=`@keyframes purpleTint{0%{opacity:0}15%{opacity:1}70%{opacity:1}100%{opacity:0}}`;
+          document.head.appendChild(st);
+        }
         document.body.appendChild(tint); setTimeout(()=>tint.remove(),2300);
       }
     }
 
     function scheduleHero(){
-      if(!isSchedulerRunning) return; // Stop if scheduler was cancelled
+      if(!isSchedulerRunning) return;
       schedulerTimeout = setTimeout(()=>{ 
         spawnHeroStar(); 
         scheduleHero(); 
-      }, 1800+Math.random()*1400);
+      }, 2500);
     }
     
     function startScheduler(){
-      if(isSchedulerRunning) return; // Prevent multiple schedulers
+      if(isSchedulerRunning) return;
       isSchedulerRunning = true;
-      // Spawn immediately on restart
       spawnHeroStar();
       scheduleHero();
     }
     
     function stopScheduler(){
       isSchedulerRunning = false;
-      if(schedulerTimeout) {
-        clearTimeout(schedulerTimeout);
-        schedulerTimeout = null;
-      }
-      if(animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-        animationFrameId = null;
-      }
+      if(schedulerTimeout){ clearTimeout(schedulerTimeout); schedulerTimeout = null; }
+      if(animationFrameId){ cancelAnimationFrame(animationFrameId); animationFrameId = null; }
     }
 
-    // Patch into hero draw loop — draw after stars
     const heroDraw = ()=>{
-      // Clean up off-screen stars more aggressively
       for(let i=heroShooters.length-1;i>=0;i--){
         const s=heroShooters[i];
         s.x+=s.vx; s.y+=s.vy; s.life-=s.decay;
-        // Remove stars that are off-screen or dead
         if(s.life<=0||s.x>heroCanvas.width+200||s.y>heroCanvas.height+200||s.x<-200||s.y<-200){ 
-          heroShooters.splice(i,1); 
-          continue; 
+          heroShooters.splice(i,1); continue;
         }
         drawStar(hCtx, s);
       }
       animationFrameId = requestAnimationFrame(heroDraw);
     };
     
-    // Start systems
     startScheduler();
     heroDraw();
-    
-    // ── Cleanup on tab visibility change ──
-    let hideTimeout = null;
+
     document.addEventListener('visibilitychange', () => {
       if(document.hidden){
-        // Wait 5 seconds before stopping (prevents stopping during quick tab switches)
-        hideTimeout = setTimeout(() => {
-          stopScheduler();
-          heroShooters.length = 0; // Clear all stars
-        }, 5000);
+        stopScheduler();
+        heroShooters.length = 0;
       } else {
-        // Tab is visible again - cancel the stop timeout if it hasn't fired yet
-        if(hideTimeout) {
-          clearTimeout(hideTimeout);
-          hideTimeout = null;
-        }
-        // Restart if it was stopped
-        if(!isSchedulerRunning) {
-          startScheduler();
-        }
+        if(!isSchedulerRunning) startScheduler();
       }
     });
   })();
 })();
 
 
+}; // end __launchEffects
+
+
 /* ══════════════════════════════════════════════════
-   3. FLOATING DUST PARTICLES
+   6. SPOOKY CORNER EYES + 7. GHOST — boot after PERF is known
 ══════════════════════════════════════════════════ */
-(function(){
-  const COUNT = 18;
+window.__launchSpooky = function(){
+
+  // ── EYES (low + high) ──
+  (function(){
+    const layer=document.getElementById('spookyLayer');
+    let eyesTimeout=null, isEyesRunning=false;
+    function spawnEyes(){
+      const el=document.createElement('div'); el.className='spooky-eyes';
+      const corners=[
+        {top:'12%',left:'2%'},{top:'12%',right:'2%'},
+        {top:'45%',left:'1%'},{top:'45%',right:'1%'},
+        {top:'72%',left:'2%'},{top:'72%',right:'2%'},
+        {bottom:'18%',left:'2%'},{bottom:'18%',right:'2%'}
+      ];
+      Object.assign(el.style, corners[Math.floor(Math.random()*corners.length)]);
+      el.style.transform=`scale(${0.7+Math.random()*0.8})`;
+      for(let i=0;i<2;i++){
+        const eye=document.createElement('div'); eye.className='spooky-eye';
+        const iris=document.createElement('div'); iris.className='spooky-iris';
+        const pupil=document.createElement('div'); pupil.className='spooky-pupil';
+        eye.appendChild(iris); eye.appendChild(pupil); el.appendChild(eye);
+      }
+      layer.appendChild(el); setTimeout(()=>el.remove(),3400);
+    }
+    function scheduleEyes(){ if(!isEyesRunning)return; eyesTimeout=setTimeout(()=>{ spawnEyes(); scheduleEyes(); },40000+Math.random()*55000); }
+    function startEyes(){ if(isEyesRunning)return; isEyesRunning=true; setTimeout(()=>{ spawnEyes(); scheduleEyes(); },8000+Math.random()*7000); }
+    function stopEyes(){ isEyesRunning=false; if(eyesTimeout){clearTimeout(eyesTimeout);eyesTimeout=null;} }
+    startEyes();
+    document.addEventListener('visibilitychange',()=>{ if(document.hidden) stopEyes(); else if(!isEyesRunning) startEyes(); });
+  })();
+
+  // ── GHOST (high only) ──
+  if(window.PERF==='high')(function(){
+    const layer=document.getElementById('spookyLayer');
+    let ghostTimeout=null, isGhostRunning=false;
+    function spawnGhost(){
+      const el=document.createElement('div'); el.className='bg-ghost';
+      const sz=60+Math.random()*120, startX=Math.random()*80, startY=10+Math.random()*70;
+      const travelX=(Math.random()<.5?-1:1)*(20+Math.random()*30), travelY=-5+Math.random()*12;
+      el.style.cssText=`left:${startX}vw;top:${startY}vh;width:${sz}px;height:${sz*1.2}px;--gx:${travelX}vw;--gy:${travelY}vh;`;
+      el.style.animationDuration=(1200+Math.random()*1000)+'ms';
+      const shape=document.createElement('div'); shape.className='ghost-shape'; shape.style.cssText='width:100%;height:100%;';
+      ['ghost-eye-l','ghost-eye-r','ghost-wisp-1','ghost-wisp-2','ghost-wisp-3'].forEach(c=>{ const d=document.createElement('div'); d.className=c; shape.appendChild(d); });
+      el.appendChild(shape);
+      el.style.opacity=Math.random()<0.35?0.22:0.10+Math.random()*0.08;
+      layer.appendChild(el); setTimeout(()=>el.remove(),4000);
+    }
+    function scheduleGhost(){ if(!isGhostRunning)return; ghostTimeout=setTimeout(()=>{ spawnGhost(); scheduleGhost(); },12000+Math.random()*18000); }
+    function startGhost(){ if(isGhostRunning)return; isGhostRunning=true; setTimeout(()=>{ spawnGhost(); scheduleGhost(); },5000+Math.random()*4000); }
+    function stopGhost(){ isGhostRunning=false; if(ghostTimeout){clearTimeout(ghostTimeout);ghostTimeout=null;} }
+    startGhost();
+    document.addEventListener('visibilitychange',()=>{ if(document.hidden) stopGhost(); else if(!isGhostRunning) startGhost(); });
+  })();
+
+};
+
+
+if(window.PERF === 'high')(function(){
   const colors = [
     'rgba(79,111,255,VAL)',
     'rgba(41,212,224,VAL)',
@@ -2010,23 +1770,17 @@ document.getElementById('filterBar').addEventListener('click', e => {
     'rgba(255,255,255,VAL)',
   ];
 
-  // Use DocumentFragment for batch insertion
-  const fragment = document.createDocumentFragment();
-
-  for(let i = 0; i < COUNT; i++){
+  function spawnDust(){
     const el = document.createElement('div');
     el.className = 'dust-particle';
-
-    const size   = 2 + Math.random() * 4;        // 2–6px
+    const size   = 2 + Math.random() * 4;
     const col    = colors[Math.floor(Math.random() * colors.length)];
-    const op     = (0.07 + Math.random() * 0.09).toFixed(3); // 7–16% opacity
-    const dur    = 18 + Math.random() * 28;       // 18–46s — very slow
-    const delay  = -(Math.random() * dur);        // stagger start positions
-    const startX = 2 + Math.random() * 96;        // spread across full width
-    const startY = 10 + Math.random() * 85;       // spread across full height
-    const driftY = -(60 + Math.random() * 120);   // always drifts upward
-    const driftX = -20 + Math.random() * 40;      // slight horizontal wander
-
+    const op     = (0.07 + Math.random() * 0.09).toFixed(3);
+    const dur    = 18 + Math.random() * 28;
+    const startX = 2 + Math.random() * 96;
+    const startY = 10 + Math.random() * 85;
+    const driftY = -(60 + Math.random() * 120);
+    const driftX = -20 + Math.random() * 40;
     el.style.cssText = `
       width:${size}px; height:${size}px;
       left:${startX}vw; top:${startY}vh;
@@ -2035,13 +1789,18 @@ document.getElementById('filterBar').addEventListener('click', e => {
       --drift-y:${driftY}px;
       --drift-x:${driftX}px;
       animation-duration:${dur}s;
-      animation-delay:${delay}s;
-      will-change:transform;
+      animation-delay:0s;
     `;
-    fragment.appendChild(el);
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), dur * 1000);
   }
-  
-  document.body.appendChild(fragment);
+
+  // Spawn one dust particle every 50 seconds — pauses when tab hidden
+  let dustInterval = null;
+  function startDust(){ if(dustInterval) return; spawnDust(); dustInterval = setInterval(spawnDust, 50000); }
+  function stopDust(){ clearInterval(dustInterval); dustInterval = null; }
+  startDust();
+  document.addEventListener('visibilitychange', () => document.hidden ? stopDust() : startDust());
 })();
 
 
@@ -2088,180 +1847,7 @@ document.getElementById('filterBar').addEventListener('click', e => {
 })();
 
 
-/* ══════════════════════════════════════════════════
-   6. SPOOKY CORNER EYES
-══════════════════════════════════════════════════ */
-(function(){
-  const layer=document.getElementById('spookyLayer');
-  let eyesTimeout = null;
-  let isEyesRunning = false;
 
-  function spawnEyes(){
-    const el=document.createElement('div');
-    el.className='spooky-eyes';
-
-    // random corner/edge position
-    const corners=[
-      {top:'12%',left:'2%'},{top:'12%',right:'2%'},
-      {top:'45%',left:'1%'},{top:'45%',right:'1%'},
-      {top:'72%',left:'2%'},{top:'72%',right:'2%'},
-      {bottom:'18%',left:'2%'},{bottom:'18%',right:'2%'}
-    ];
-    const pos=corners[Math.floor(Math.random()*corners.length)];
-    Object.assign(el.style, pos);
-
-    // scale randomly
-    const scale=0.7+Math.random()*0.8;
-    el.style.transform=`scale(${scale})`;
-
-    for(let i=0;i<2;i++){
-      const eye=document.createElement('div');
-      eye.className='spooky-eye';
-      const iris=document.createElement('div');
-      iris.className='spooky-iris';
-      const pupil=document.createElement('div');
-      pupil.className='spooky-pupil';
-      eye.appendChild(iris);
-      eye.appendChild(pupil);
-      el.appendChild(eye);
-    }
-    layer.appendChild(el);
-    setTimeout(()=>el.remove(), 3400);
-  }
-
-  function scheduleEyes(){
-    if(!isEyesRunning) return;
-    eyesTimeout = setTimeout(()=>{ spawnEyes(); scheduleEyes(); }, 40000+Math.random()*55000);
-  }
-  
-  function startEyes(){
-    if(isEyesRunning) return;
-    isEyesRunning = true;
-    // Reduced delay on restart - spawn first eyes sooner
-    setTimeout(()=>{ spawnEyes(); scheduleEyes(); }, 8000+Math.random()*7000);
-  }
-  
-  function stopEyes(){
-    isEyesRunning = false;
-    if(eyesTimeout) {
-      clearTimeout(eyesTimeout);
-      eyesTimeout = null;
-    }
-  }
-  
-  const eyesAnimation = {
-    pause() { stopEyes(); },
-    resume() { if(!isEyesRunning) startEyes(); }
-  };
-  
-  startEyes();
-  
-  // Register with animation controller
-  if(window.AnimationController) {
-    window.AnimationController.registerCanvas(eyesAnimation);
-  }
-  
-  let hideTimeout = null;
-  document.addEventListener('visibilitychange', () => {
-    if(document.hidden) {
-      hideTimeout = setTimeout(stopEyes, 5000);
-    } else {
-      if(hideTimeout) {
-        clearTimeout(hideTimeout);
-        hideTimeout = null;
-      }
-      if(!isEyesRunning) startEyes();
-    }
-  });
-})();
-
-
-/* ══════════════════════════════════════════════════
-   7. SPOOKY BACKGROUND GHOST
-══════════════════════════════════════════════════ */
-(function(){
-  const layer=document.getElementById('spookyLayer');
-  let ghostTimeout = null;
-  let isGhostRunning = false;
-
-  function spawnGhost(){
-    const el=document.createElement('div');
-    el.className='bg-ghost';
-
-    const sz=60+Math.random()*120; // 60-180px wide
-    const startX=Math.random()*80; // vw
-    const startY=10+Math.random()*70; // vh
-    const travelX=(Math.random()<.5?-1:1)*(20+Math.random()*30); // vw
-    const travelY=-5+Math.random()*12; // vh drift
-
-    el.style.cssText=`left:${startX}vw;top:${startY}vh;width:${sz}px;height:${sz*1.2}px;--gx:${travelX}vw;--gy:${travelY}vh;`;
-    el.style.animationDuration=(1200+Math.random()*1000)+'ms';
-
-    const shape=document.createElement('div');
-    shape.className='ghost-shape';
-    shape.style.cssText=`width:100%;height:100%;`;
-
-    const eyeL=document.createElement('div'); eyeL.className='ghost-eye-l';
-    const eyeR=document.createElement('div'); eyeR.className='ghost-eye-r';
-    const w1=document.createElement('div'); w1.className='ghost-wisp-1';
-    const w2=document.createElement('div'); w2.className='ghost-wisp-2';
-    const w3=document.createElement('div'); w3.className='ghost-wisp-3';
-    shape.append(eyeL,eyeR,w1,w2,w3);
-    el.appendChild(shape);
-
-    // random opacity — mostly barely visible, rarely slightly more
-    const op = Math.random()<0.15 ? 0.12 : 0.04+Math.random()*0.04;
-    el.style.opacity=op;
-
-    layer.appendChild(el);
-    setTimeout(()=>el.remove(), 2500);
-  }
-
-  function scheduleGhost(){
-    if(!isGhostRunning) return;
-    ghostTimeout = setTimeout(()=>{ spawnGhost(); scheduleGhost(); }, 28000+Math.random()*42000);
-  }
-  
-  function startGhost(){
-    if(isGhostRunning) return;
-    isGhostRunning = true;
-    // Reduced delay on restart
-    setTimeout(()=>{ spawnGhost(); scheduleGhost(); }, 10000+Math.random()*8000);
-  }
-  
-  function stopGhost(){
-    isGhostRunning = false;
-    if(ghostTimeout) {
-      clearTimeout(ghostTimeout);
-      ghostTimeout = null;
-    }
-  }
-  
-  const ghostAnimation = {
-    pause() { stopGhost(); },
-    resume() { if(!isGhostRunning) startGhost(); }
-  };
-  
-  startGhost();
-  
-  // Register with animation controller
-  if(window.AnimationController) {
-    window.AnimationController.registerCanvas(ghostAnimation);
-  }
-  
-  let hideTimeout = null;
-  document.addEventListener('visibilitychange', () => {
-    if(document.hidden) {
-      hideTimeout = setTimeout(stopGhost, 5000);
-    } else {
-      if(hideTimeout) {
-        clearTimeout(hideTimeout);
-        hideTimeout = null;
-      }
-      if(!isGhostRunning) startGhost();
-    }
-  });
-})();
 
 
 </script>
