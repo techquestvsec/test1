@@ -662,6 +662,46 @@
       .hero-actions .btn-blue,
       .hero-actions .btn-register { flex:1 1 100%; }
     }
+
+    /* ── NOTICE BUTTON ── */
+    .btn-notice {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .72em;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 9px 20px;
+      color: var(--gold);
+      border: 1px solid var(--gold-bdr);
+      background: var(--gold-dim);
+      text-decoration: none;
+      margin-bottom: 1.8em;
+      transition: all .2s;
+      align-self: flex-start;
+    }
+    .btn-notice:hover {
+      background: var(--gold);
+      color: #03050f;
+      border-color: var(--gold);
+      box-shadow: 0 0 24px rgba(232,184,75,.4);
+      transform: translateY(-1px);
+    }
+    .btn-notice .ndot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--gold);
+      animation: ndotPulse 1.8s ease-in-out infinite;
+    }
+    .btn-notice:hover .ndot { background: #03050f; animation: none; }
+    @keyframes ndotPulse {
+      0%,100%{ opacity:1; transform:scale(1); }
+      50%    { opacity:.3; transform:scale(.55); }
+    }
+    @media(max-width:600px){
+      .btn-notice { width:100%; justify-content:center; }
+    }
   </style>
 </head>
 <body>
@@ -870,6 +910,7 @@
     <div class="section-label">Lineup</div>
     <h2 class="section-title">Events <span class="hl">Lineup</span></h2>
     <div class="title-rule"></div>
+    <a href="notice.html" class="btn-notice"><span class="ndot"></span>Notices &amp; Updates</a>
     <div class="filter-bar" id="filterBar">
       <button class="ftag on" data-f="all">All</button>
       <button class="ftag" data-f="speak">Public Speaking</button>
