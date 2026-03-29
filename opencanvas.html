@@ -133,12 +133,41 @@
     .ft-left{font-size:11px;font-weight:400;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.2);}
     .ft-right{font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--gold);opacity:0.65;}
 
+    /* EXAMPLES PANEL */
+    .examples-lead{font-family:'Playfair Display',serif;font-size:20px;font-weight:400;font-style:italic;color:var(--navy-mid);line-height:1.75;border-left:3px solid var(--gold);padding-left:22px;margin-bottom:28px;}
+    .examples-intro{font-size:15px;font-weight:300;line-height:1.9;color:#4A4A5A;margin-bottom:28px;}
+    .examples-intro strong{font-weight:500;color:var(--navy);}
+    .example-cards{display:flex;flex-direction:column;gap:16px;margin-bottom:28px;}
+    .example-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:box-shadow 0.2s,border-color 0.2s;}
+    .example-card:hover{box-shadow:0 4px 20px rgba(0,0,0,0.08);border-color:rgba(181,134,42,0.35);}
+    .example-card-top{padding:22px 24px 16px;}
+    .example-badge{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:12px;}
+    .badge-site{background:rgba(30,107,154,0.09);color:var(--phase1);}
+    .badge-example{background:rgba(181,134,42,0.12);color:var(--gold);}
+    .badge-official{background:rgba(18,33,58,0.09);color:var(--navy);}
+    .example-title{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+    .example-desc{font-size:13.5px;font-weight:300;color:var(--subtext);line-height:1.75;margin-bottom:16px;}
+    .example-disclaimer{background:rgba(181,134,42,0.07);border:1px solid rgba(181,134,42,0.2);border-radius:5px;padding:10px 14px;font-size:12px;font-weight:400;color:#7A5A1A;line-height:1.6;margin-bottom:14px;}
+    .example-footer{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:rgba(0,0,0,0.02);border-top:1px solid var(--border);}
+    .example-meta{font-size:11px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--muted);}
+    .example-link{display:inline-flex;align-items:center;gap:6px;background:var(--navy);color:#fff;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:8px 18px;border-radius:4px;text-decoration:none;transition:background 0.2s;}
+    .example-link:hover{background:var(--navy-mid);}
+    .example-link.gold-link{background:var(--gold);color:#12213A;}
+    .example-link.gold-link:hover{background:var(--gold-lt);}
+    .ai-box{background:linear-gradient(135deg,#12213A 0%,#1E3355 100%);border-radius:10px;padding:28px 28px 24px;margin-bottom:20px;border:1px solid rgba(181,134,42,0.2);}
+    .ai-box-label{font-size:10px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--gold-lt);margin-bottom:10px;}
+    .ai-box-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#fff;margin-bottom:10px;}
+    .ai-box-body{font-size:13.5px;font-weight:300;color:rgba(255,255,255,0.5);line-height:1.85;margin-bottom:16px;}
+    .ai-tools{display:flex;flex-wrap:wrap;gap:8px;}
+    .ai-chip{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.13);border-radius:3px;padding:5px 12px;font-size:11px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.55);}
+
     @media(max-width:600px){
       .hero,.content,.topband,footer,.spotlight-banner,.tab-wrap,.contact-section{padding-left:18px;padding-right:18px;}
       .heads-grid{grid-template-columns:1fr 1fr;}
       .tab-btn{padding:15px 10px;font-size:10px;}
       .phase-grid,.grade-grid{grid-template-columns:1fr;}
       .hero-title{font-size:50px;}
+      .example-footer{flex-direction:column;align-items:flex-start;gap:10px;}
     }
   </style>
 </head>
@@ -152,11 +181,11 @@
 <div class="hero">
   <p class="hero-eyebrow">TechQuest · Featured Event</p>
   <h1 class="hero-title">Open<br/><em>Canvas</em></h1>
-  <p class="hero-sub">One prompt. One week to build. One stage to shine.</p>
+  <p class="hero-sub">Your topic. One week to build. One stage to shine.</p>
   <div class="hero-pills">
     <div class="hero-pill hl">Classes 5 – 12</div>
     <div class="hero-pill">Solo or Teams of 2–3</div>
-    <div class="hero-pill">1 Week + Mood Shift Day</div>
+    <div class="hero-pill">1 Month + Mood Shift Day</div>
     <div class="hero-pill">100 Marks</div>
   </div>
 </div>
@@ -165,7 +194,7 @@
   <div class="spotlight-icon">🏆</div>
   <div>
     <div class="spotlight-title-sm">Closing Ceremony Spotlight</div>
-    <div class="spotlight-sub-sm">The highest-scoring project will be showcased live at TechQuest's closing ceremony in front of the entire school.</div>
+    <div class="spotlight-sub-sm">The best projects will be showcased live at TechQuest's closing ceremony in front of the entire school.</div>
   </div>
 </div>
 
@@ -175,6 +204,7 @@
     <button class="tab-btn" onclick="switchTab('format',this)">Event Format</button>
     <button class="tab-btn" onclick="switchTab('marking',this)">Marking Scheme</button>
     <button class="tab-btn" onclick="switchTab('guidelines',this)">Guidelines</button>
+    <button class="tab-btn" onclick="switchTab('examples',this)">Examples</button>
   </div>
 </div>
 
@@ -183,29 +213,29 @@
   <!-- ABOUT -->
   <div id="panel-about" class="panel active">
     <p class="about-lead">
-      Students receive a single word or theme. From that seed, they have one week to build anything they can imagine — then defend it live on event day.
+      Students choose their own topic, get it approved, then have a month to build anything they can imagine — and pitch it live on event day.
     </p>
     <p class="about-body">
-      <strong>OpenCanvas</strong> is TechQuest's most unrestricted event. No predefined tools, no required outputs, no wrong answers. A student given <em>"A Tree"</em> might build a family history explorer, a breathing ecosystem simulation, a puzzle game, or an interactive art piece. Every interpretation is valid.<br/><br/>
-      The event has two stages: a <strong>week-long build</strong> where participants craft their creation in their own time, and a <strong>live event day</strong> where they pitch their work and face a surprise challenge — testing their ability to think, adapt, and communicate under real pressure.
+      <strong>OpenCanvas</strong> is TechQuest's most unrestricted event. No fixed guidelines, no required output, no wrong answers. A student who picks <em>"A Tree"</em> might build a family history explorer, a breathing ecosystem, a puzzle game, or an art piece. Every interpretation is valid.<br/><br/>
+      Two stages:
     </p>
 
     <div class="phase-grid">
       <div class="phase-card" style="--ph:var(--phase1)">
         <div class="phase-num">Phase 01</div>
         <div class="phase-title">The Build</div>
-        <div class="phase-marks-badge">50 Marks</div>
-        <div class="phase-desc">One full week to create anything inspired by the prompt. Submitted before event day for judging.</div>
+        <div class="phase-marks-badge">80 Marks</div>
+        <div class="phase-desc">One month to build anything inspired by your chosen topic. Submitted before event day for judging.</div>
       </div>
       <div class="phase-card" style="--ph:var(--phase2)">
         <div class="phase-num">Phase 02</div>
         <div class="phase-title">Live Day</div>
-        <div class="phase-marks-badge">50 Marks</div>
-        <div class="phase-desc">On event day, pitch your project then tackle the Mood Shift — a judge-announced theme like <em>"Make it creepy"</em> that you apply to your own build in 90 minutes.</div>
+        <div class="phase-marks-badge">20 Marks</div>
+        <div class="phase-desc">Pitch your project to judges,in 2 minutes on stage</div>
       </div>
     </div>
 
-    <p class="section-label">Sample Prompts</p>
+    <p class="section-label">Sample Topics</p>
     <div class="topic-grid">
       <button class="topic-chip" onclick="flipChip(this,0)">"A Tree"</button>
       <button class="topic-chip" onclick="flipChip(this,1)">"Home"</button>
@@ -214,56 +244,40 @@
       <button class="topic-chip" onclick="flipChip(this,4)">"Time"</button>
       <button class="topic-chip" onclick="flipChip(this,5)">"Silence"</button>
     </div>
-    <p class="topic-hint">↑ Click a prompt to reveal its potential.</p>
+    <p class="topic-hint">↑ These are examples only — your topic is your own choice. Click to see the potential.</p>
   </div>
 
   <!-- FORMAT -->
   <div id="panel-format" class="panel">
     <div style="margin-bottom:32px">
       <div class="phase-section-header" style="--ph:var(--phase1)">
-        <span class="psh-label" style="color:var(--phase1)">Phase 01 · The Build &nbsp;—&nbsp; 1 Week</span>
+        <span class="psh-label" style="color:var(--phase1)">Phase 01 · The Build &nbsp;—&nbsp; 1 Month</span>
         <div class="psh-line"></div>
       </div>
       <div class="details-table">
-        <div class="detail-row"><span class="detail-label">Timeline</span><span class="detail-value">7 days from prompt reveal</span></div>
-        <div class="detail-row"><span class="detail-label">Prompt Given</span><span class="detail-value">Day 1 — publicly announced</span></div>
-        <div class="detail-row"><span class="detail-label">Submission</span><span class="detail-value">Link or file submitted before event day</span></div>
+        <div class="detail-row"><span class="detail-label">Timeline</span><span class="detail-value">1 Month from topic approval</span></div>
+        <div class="detail-row"><span class="detail-label">Topic</span><span class="detail-value">Student-chosen, approved by event head</span></div>
+        <div class="detail-row"><span class="detail-label">Approval Window</span><span class="detail-value">May End Before Summer Vacation — get approved, then start</span></div>
+        <div class="detail-row"><span class="detail-label">Submission</span><span class="detail-value">Link or file before event day</span></div>
         <div class="detail-row"><span class="detail-label">Tools Allowed</span><span class="detail-value">Anything — no restrictions</span></div>
-        <div class="detail-row"><span class="detail-label">Output</span><span class="detail-value">Any working or presentable creation</span></div>
         <div class="detail-row"><span class="detail-label">Team</span><span class="detail-value">Solo or teams of 2–3</span></div>
       </div>
       <div class="info-box">
-        <p>Any language, platform, hardware, or no-code tool is allowed. Visual art, games, websites, apps, physical models, and interactive stories are all valid. The only requirement is a connection to the prompt.</p>
+        <p>Any language, platform, or no-code tool is allowed. Websites, apps, games, interactive art — all valid. The only requirement is a clear connection to your topic.</p>
       </div>
     </div>
 
     <div>
       <div class="phase-section-header" style="--ph:var(--phase2)">
-        <span class="psh-label" style="color:var(--phase2)">Phase 02 · Live Day &nbsp;—&nbsp; ~105 Minutes</span>
+        <span class="psh-label" style="color:var(--phase2)">Phase 02 · Live Day &nbsp;—&nbsp; ~60 Minutes</span>
         <div class="psh-line"></div>
       </div>
       <div class="details-table">
-        <div class="detail-row"><span class="detail-label">Total Duration</span><span class="detail-value">~105 minutes</span></div>
-        <div class="detail-row"><span class="detail-label">Part A — The Pitch</span><span class="detail-value">3-min demo + 2-min judge Q&A</span></div>
-        <div class="detail-row"><span class="detail-label">Part B — The Mood Shift</span><span class="detail-value">90-min live rework</span></div>
-        <div class="detail-row"><span class="detail-label">Judging</span><span class="detail-value">Panel of 3 judges, blind scoring</span></div>
+        <div class="detail-row"><span class="detail-label">Total Duration</span><span class="detail-value">~60 minutes</span></div>
+        <div class="detail-row"><span class="detail-label">The Pitch</span><span class="detail-value">2-min demo + 2-min pitching</span></div>
+        <div class="detail-row"><span class="detail-label">Judging</span><span class="detail-value">Panel of judges, blind scoring</span></div>
       </div>
 
-      <div class="info-box" style="margin-bottom:12px">
-        <p><strong style="color:var(--navy);font-weight:500">Part A — The Pitch:</strong> You walk up, show your project, and talk the judges through what you built and why. You have 3 minutes — show it off, explain your idea, and tell them what makes it yours. Then the judges ask you two questions. Don't worry, there are no trick questions — they just want to understand your thinking.</p>
-      </div>
-
-      <div class="info-box" style="margin-bottom:12px">
-        <p><strong style="color:var(--navy);font-weight:500">Part B — The Mood Shift:</strong> This is the fun part. On the day, you'll be handed a theme — a single word or short phrase, like <em>"Haunted"</em> or <em>"Festive"</em> or <em>"Underwater."</em> Every team gets a different one. You then have 90 minutes to go back into your project and make it feel like that theme. Change the colours, mess with the fonts, add a weird animation, hide something creepy in a corner — anything goes as long as the mood comes through. You're not rebuilding from scratch, you're transforming what you already made.</p>
-      </div>
-
-      <div class="info-box" style="margin-bottom:12px">
-        <p><strong style="color:var(--navy);font-weight:500">Example Moods:</strong> &nbsp;"Haunted" &nbsp;·&nbsp; "Underwater" &nbsp;·&nbsp; "Broken &amp; Glitchy" &nbsp;·&nbsp; "Festive" &nbsp;·&nbsp; "Ancient" &nbsp;·&nbsp; "Dreamy" &nbsp;·&nbsp; "Danger Zone" &nbsp;·&nbsp; "Tiny &amp; Cute"</p>
-      </div>
-
-      <div class="info-box gold-box">
-        <p>✦ &nbsp; You won't know your mood until the day itself. How you prepare your project before that — and how you manage what's inside it — is completely up to you.</p>
-      </div>
     </div>
   </div>
 
@@ -273,92 +287,62 @@
     <div class="phase-section-header" style="--ph:var(--phase1)">
       <span class="psh-label" style="color:var(--phase1)">Phase 01 · The Build</span>
       <div class="psh-line"></div>
-      <span class="psh-total" style="color:var(--phase1)">50 pts</span>
+      <span class="psh-total" style="color:var(--phase1)">80 pts</span>
     </div>
     <div class="criteria-list">
       <div class="criteria-card" style="--acc:#1E6B9A" onclick="toggleCard(this)">
         <div class="criteria-top">
           <div><p class="criteria-name">Creativity &amp; Originality</p><div class="criteria-bar-bg"><div class="criteria-bar-fill" style="width:100%"></div></div></div>
-          <span class="criteria-marks">20</span>
+          <span class="criteria-marks">40</span>
         </div>
-        <p class="criteria-desc">How unique and imaginative is the interpretation of the prompt? Rewards bold, unconventional ideas over safe, predictable ones. The more surprising the angle, the higher the score.</p>
+        <p class="criteria-desc">How unique and imaginative is your take on the topic? Bold, unconventional ideas score higher than safe, predictable ones.</p>
       </div>
       <div class="criteria-card" style="--acc:#2A6496" onclick="toggleCard(this)">
         <div class="criteria-top">
           <div><p class="criteria-name">Technical Execution &amp; Effort</p><div class="criteria-bar-bg"><div class="criteria-bar-fill" style="width:75%"></div></div></div>
-          <span class="criteria-marks">15</span>
+          <span class="criteria-marks">20</span>
         </div>
-        <p class="criteria-desc">Is the project well built for the participant's age and skill level? Judges assess whether it works reliably, the quality of craft, and how much effort is visible in the final product — not just complexity.</p>
+        <p class="criteria-desc">Is the project well built for your age and skill level? Judges look at reliability, craft quality, and visible effort — not just complexity.</p>
       </div>
       <div class="criteria-card" style="--acc:#4A7FA5" onclick="toggleCard(this)">
         <div class="criteria-top">
           <div><p class="criteria-name">Depth &amp; Completeness</p><div class="criteria-bar-bg"><div class="criteria-bar-fill" style="width:60%"></div></div></div>
           <span class="criteria-marks">10</span>
         </div>
-        <p class="criteria-desc">Does the project feel complete and thought through? Multiple layers, features, or details that show sustained focus over the week will score higher than a rushed or surface-level build.</p>
+        <p class="criteria-desc">Does the project feel complete and thought through? Layered features and sustained focus score better than a rushed build.</p>
       </div>
       <div class="criteria-card" style="--acc:#6B94B3" onclick="toggleCard(this)">
         <div class="criteria-top">
-          <div><p class="criteria-name">Relevance to Prompt</p><div class="criteria-bar-bg"><div class="criteria-bar-fill" style="width:25%"></div></div></div>
-          <span class="criteria-marks">5</span>
+          <div><p class="criteria-name">Relevance to Topic</p><div class="criteria-bar-bg"><div class="criteria-bar-fill" style="width:25%"></div></div></div>
+          <span class="criteria-marks">10</span>
         </div>
-        <p class="criteria-desc">Does the project connect meaningfully to the given topic? Abstract or unexpected interpretations are perfectly valid as long as the participant can explain the link.</p>
+        <p class="criteria-desc">Does the project connect to your chosen topic? Abstract interpretations are fine — just be able to explain the link.</p>
       </div>
     </div>
 
     <div class="phase-section-header" style="--ph:var(--phase2);margin-top:28px">
       <span class="psh-label" style="color:var(--phase2)">Phase 02 · Live Day</span>
       <div class="psh-line"></div>
-      <span class="psh-total" style="color:var(--phase2)">50 pts</span>
+      <span class="psh-total" style="color:var(--phase2)">20 pts</span>
     </div>
     <div class="criteria-list">
       <div class="criteria-card" style="--acc:#2E7D62" onclick="toggleCard(this)">
         <div class="criteria-top">
           <div><p class="criteria-name">The Pitch — Presentation &amp; Clarity</p><div class="criteria-bar-bg"><div class="criteria-bar-fill" style="width:60%"></div></div></div>
-          <span class="criteria-marks">15</span>
-        </div>
-        <p class="criteria-desc">How clearly and confidently did you present your project? Judges want to see that you understand what you built and can explain it simply. Walking them through your idea, showing it working, and answering their questions calmly will score well here. You don't need to be perfect — just genuine.</p>
-      </div>
-      <div class="criteria-card" style="--acc:#3A9A7A" onclick="toggleCard(this)">
-        <div class="criteria-top">
-          <div><p class="criteria-name">Mood Shift — How Well the Mood Comes Through</p><div class="criteria-bar-bg"><div class="criteria-bar-fill" style="width:80%"></div></div></div>
           <span class="criteria-marks">20</span>
         </div>
-        <p class="criteria-desc">Does your project actually feel like the theme you were given? Judges will look at the colours, the atmosphere, what you added or changed, and whether the overall experience matches the mood. A surface-level change — like just switching the background to black for "Haunted" — won't score as well as something that really feels the part.</p>
+        <p class="criteria-desc">How clearly did you present your project? Judges want to see you understand what you built and can explain it simply. Genuine beats polished.</p>
       </div>
-      <div class="criteria-card" style="--acc:#56B89A" onclick="toggleCard(this)">
-        <div class="criteria-top">
-          <div><p class="criteria-name">Mood Shift — Creativity &amp; Surprise</p><div class="criteria-bar-bg"><div class="criteria-bar-fill" style="width:60%"></div></div></div>
-          <span class="criteria-marks">15</span>
-        </div>
-        <p class="criteria-desc">Did you go beyond the obvious? Hidden easter eggs, unexpected animations, quirky details that only show up if you look closely — these are what judges remember. If someone exploring your "Haunted" supermarket finds a ghost silently walking through the dairy aisle, that's a 15. Surprise the judges.</p>
-      </div>
-    </div>
-
-    <div class="total-line">
-      <div>
-        <div class="total-line-label">Grand Total</div>
-        <div class="total-split">Phase 01: 50 pts &nbsp;+&nbsp; Phase 02: 50 pts</div>
-      </div>
-      <span class="total-line-num">100</span>
-    </div>
-
-    <p class="section-label" style="margin-bottom:12px">Grade Bands</p>
-    <div class="grade-grid" style="margin-bottom:0">
-      <div class="grade-card"><span class="grade-range" style="color:#B5862A">90–100</span><span class="grade-label">Distinction</span></div>
-      <div class="grade-card"><span class="grade-range" style="color:#2E7D62">75–89</span><span class="grade-label">Merit</span></div>
-      <div class="grade-card"><span class="grade-range" style="color:#2A6496">60–74</span><span class="grade-label">Pass</span></div>
-      <div class="grade-card"><span class="grade-range" style="color:#999">Below 60</span><span class="grade-label">Participation</span></div>
     </div>
 
     <div class="spotlight-section">
       <div class="ss-label">★ &nbsp; Closing Ceremony Spotlight</div>
-      <div class="ss-title">The Best Project Takes the Stage</div>
-      <div class="ss-body">The participant or team with the highest combined score will have their project featured live at TechQuest's closing ceremony — demoed in front of the entire school, teachers, and guests.</div>
+      <div class="ss-title">The Best Projects Takes the Stage</div>
+      <div class="ss-body">The highest-scoring teams gets their projects showcased live at TechQuest's closing ceremony — in front of the entire school, teachers, and guests.</div>
       <div class="sc-item"><div class="sc-dot"></div><div class="sc-text"><strong>Eligibility:</strong> All participants with a submitted project qualify automatically.</div></div>
-      <div class="sc-item"><div class="sc-dot"></div><div class="sc-text"><strong>Selection:</strong> Highest grand total score across both phases wins the spotlight.</div></div>
-      <div class="sc-item"><div class="sc-dot"></div><div class="sc-text"><strong>Tiebreaker:</strong> In case of a tie, the Phase 01 Creativity score decides.</div></div>
-      <div class="sc-item"><div class="sc-dot"></div><div class="sc-text"><strong>On the day:</strong> The winner is announced at the closing ceremony and given 3–5 minutes to present their creation to the full audience. Their name is displayed on the event board.</div></div>
+      <div class="sc-item"><div class="sc-dot"></div><div class="sc-text"><strong>Selection:</strong> Highest grand total across both phases wins.</div></div>
+      <div class="sc-item"><div class="sc-dot"></div><div class="sc-text"><strong>Tiebreaker:</strong> Phase 01 Creativity score decides.</div></div>
+      <div class="sc-item"><div class="sc-dot"></div><div class="sc-text"><strong>On the day:</strong> Winner is announced at the ceremony and given 3–5 minutes to present. Their name is displayed on the event board.</div></div>
     </div>
 
   </div>
@@ -371,41 +355,110 @@
     <div class="details-table" style="margin-bottom:20px">
       <div class="detail-row"><span class="detail-label">Open To</span><span class="detail-value">Classes 5 – 12</span></div>
       <div class="detail-row"><span class="detail-label">Team Size</span><span class="detail-value">Solo or teams of 2 – 3</span></div>
-      <div class="detail-row"><span class="detail-label">Tools</span><span class="detail-value">Anything — no restrictions</span></div>
-      <div class="detail-row"><span class="detail-label">Submission</span><span class="detail-value">Link or file before event day</span></div>
-      <div class="detail-row"><span class="detail-label">Code Review</span><span class="detail-value">Not checked — fully yours</span></div>
+      <div class="detail-row"><span class="detail-label">Topic</span><span class="detail-value">Your own choice — approved by event head</span></div>
+      <div class="detail-row"><span class="detail-label">Approval</span><span class="detail-value">Get approved by May end, then start</span></div>
     </div>
 
     <div class="info-box" style="margin-bottom:12px">
-      <p><strong style="color:var(--navy);font-weight:500">Your code is your own.</strong> Judges evaluate what they can see and experience in the final output — not what is inside your files. How you write, structure, or organise your code is entirely up to you. What you put in it, what you leave out, and how you manage it is your business.</p>
+      <p><strong style="color:var(--navy);font-weight:500">Topic approval.</strong> You choose your own topic. Speak to any event head by May end, share your idea, and get their go-ahead. Once approved, you can start building. This is a brief check — not a barrier.</p>
+    </div>
+
+    <div class="info-box gold-box" style="margin-bottom:12px">
+      <p>✦ &nbsp;<strong style="color:#7A5A1A;font-weight:500">AI tools are fully allowed.</strong> Use Claude, Gemini, Lovable, ChatGPT, or any other AI to help build your site. This competition tests <strong style="color:#7A5A1A;font-weight:500">creativity, resource management, and understanding</strong> — not raw coding ability. You are not limited by what you currently know.</p>
     </div>
 
     <div class="info-box" style="margin-bottom:12px">
-      <p><strong style="color:var(--navy);font-weight:500">No restrictions on tools or approach.</strong> You can use any programming language, framework, design tool, no-code platform, or combination of anything. If it helps you build something great, use it. There is no "right" way to participate.</p>
+      <p><strong style="color:var(--navy);font-weight:500">Your code is your own.</strong> Judges evaluate the final experience — not what's inside the files. How you structure or write your code is entirely up to you.</p>
     </div>
 
     <div class="info-box" style="margin-bottom:12px">
-      <p><strong style="color:var(--navy);font-weight:500">On event day, bring your best.</strong> Make sure your project is accessible and working before you arrive. You'll be presenting it live to judges, so test it in advance. Broken demos won't score well — even if the idea is great.</p>
+      <p><strong style="color:var(--navy);font-weight:500">On event day, bring your best.</strong> Make sure your project is working and accessible before you arrive. Test it in advance — broken demos score poorly even with a great idea.</p>
+    </div>
+
+
+  </div>
+  <!-- EXAMPLES -->
+  <div id="panel-examples" class="panel">
+
+    <p class="examples-lead">Real sites built to show you what's possible.</p>
+
+    <p class="examples-intro">
+      These aren't templates — they're here to show you the range. A habit tracker. A topic selector. A full event site. All made with tools available to you.
+      <strong>Build something just as polished, or something completely different.</strong>
+    </p>
+
+    <div class="ai-box">
+      <div class="ai-box-label">✦ &nbsp; No Limits on Tools</div>
+      <div class="ai-box-title">AI is allowed. Use it.</div>
+      <div class="ai-box-body">This competition is about creativity, resource management, and understanding — not writing code from scratch. Use any AI tool to help you build. The edge goes to whoever has the best idea and executes it well.</div>
+      <div class="ai-tools">
+        <span class="ai-chip">Claude</span>
+        <span class="ai-chip">Gemini</span>
+        <span class="ai-chip">Lovable</span>
+        <span class="ai-chip">ChatGPT</span>
+        <span class="ai-chip">Cursor</span>
+        <span class="ai-chip">V0</span>
+        <span class="ai-chip">Any other AI</span>
+      </div>
+    </div>
+
+    <p class="section-label" style="margin-bottom:16px">Example Projects</p>
+
+    <div class="example-cards">
+
+      <div class="example-card">
+        <div class="example-card-top">
+          <span class="example-badge badge-site">✦ &nbsp; Example Site</span>
+          <div class="example-title">Discipline — Habit Tracker</div>
+          <div class="example-desc">A fully functional daily habit tracker with streaks, weekly views, monthly calendar, and stats. Built as a single HTML file.</div>
+        </div>
+        <div class="example-footer">
+          <span class="example-meta">Single HTML File &nbsp;·&nbsp; App</span>
+          <a class="example-link" href="habit-tracker.html" target="_blank">Open Example ↗</a>
+        </div>
+      </div>
+
+      <div class="example-card">
+        <div class="example-card-top">
+          <span class="example-badge badge-example">⚠ &nbsp; Demo Only — Not the Real Topic Selector</span>
+          <div class="example-title">OpenCanvas Topic Selector</div>
+          <div class="example-desc">A demo showing what a topic-reveal page might look like. <strong>This is not the official topic selector</strong> — topics are student-chosen and approved by event heads. Included here as a design example only.</div>
+          <div class="example-disclaimer">⚠ &nbsp; <strong>Demo only.</strong> Topics are not assigned — you choose your own and get it approved. This file is a concept example.</div>
+        </div>
+        <div class="example-footer">
+          <span class="example-meta">Demo &nbsp;·&nbsp; Not Official</span>
+          <a class="example-link gold-link" href="Opencanvas_Selection.html" target="_blank">View Demo ↗</a>
+        </div>
+      </div>
+
+      <div class="example-card">
+        <div class="example-card-top">
+          <span class="example-badge badge-official">⭐ &nbsp; Official TechQuest Site</span>
+          <div class="example-title">TechQuest — Main Site</div>
+          <div class="example-desc">The official TechQuest event website — a fully designed portal covering all events and schedules.</div>
+        </div>
+        <div class="example-footer">
+          <span class="example-meta">Full Event Website &nbsp;·&nbsp; Official</span>
+          <a class="example-link" href="index.html" target="_blank">Open Site ↗</a>
+        </div>
+      </div>
+
     </div>
 
     <div class="info-box gold-box">
-      <p>✦ &nbsp; The Mood Shift theme is different for every team and is only revealed on the day. You won't know it in advance — but how you handle that is entirely your call. Use the build week however you like.</p>
+      <p>✦ &nbsp; These show what's possible — not what you should copy. The more original your interpretation, the higher your Creativity score.</p>
     </div>
 
   </div>
-</div>
 
-<div class="contact-section">
+</div>
   <div class="contact-inner">
     <div class="contact-label">Contact</div>
-    <div class="contact-title">For further details, contact the Event Heads</div>
-    <p class="contact-sub">Reach out to any of the OpenCanvas event heads from Class 12C for queries about registration, submissions, or the event format.</p>
+    <div class="contact-title">Talk to the Event Heads</div>
+    <p class="contact-sub">Reach out to any OpenCanvas head for queries, or to get your topic approved. Talk to them by May end — share your idea, get the go-ahead, then start building.</p>
     <div class="heads-grid">
       <div class="head-card"><div class="head-name">Ansh Bhadauria</div><div class="head-class">Class 12C</div></div>
-      <div class="head-card"><div class="head-name">Aashi Mishra</div><div class="head-class">Class 12C</div></div>
-      <div class="head-card"><div class="head-name">Akshat Saxena</div><div class="head-class">Class 12C</div></div>
-      <div class="head-card"><div class="head-name">Shruti Panday</div><div class="head-class">Class 12C</div></div>
-      <div class="head-card"><div class="head-name">Sristi Gupta</div><div class="head-class">Class 12C</div></div>
+      <div class="head-card"><div class="head-name">Srishti Gupta</div><div class="head-class">Class 12C</div></div>
     </div>
   </div>
 </div>
