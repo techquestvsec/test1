@@ -119,6 +119,7 @@
       border: 1px solid rgba(61,214,140,.3) !important;
       background: rgba(61,214,140,.08) !important;
       box-shadow: 0 0 10px rgba(61,214,140,.1);
+      white-space: nowrap;
     }
     .nav-arena:hover {
       color: #03050f !important;
@@ -140,6 +141,11 @@
       background: var(--blue-dim) !important;
     }
     .nav-logo span { color:var(--blue); }
+
+    /* ── Tablet: tighten nav to prevent wrapping ── */
+    @media(min-width:601px) and (max-width:900px){
+      .nav-links a { padding: 5px 8px; font-size: .78em; letter-spacing: .2px; }
+    }
 
     /* hamburger button — hidden on desktop */
     .nav-burger {
@@ -713,7 +719,7 @@
     <li><a></a></li>
     <li><a href="#about">About</a></li>
     <li><a></a></li>
-    <li><a href="#arena" class="nav-arena">🎮Arena</a></li>
+    <li><a href="#arena" class="nav-arena">🎮 Arena</a></li>
     <li><a></a></li>
     <li><a href="#events" class="menu-events">Events</a></li>
     <li><a></a></li>
@@ -832,7 +838,7 @@
           It's individual skill meeting house pride.
         </p>
         <div class="arena-cta-row">
-          <a href="interhouse.html" class="btn-arena-primary">🎮Enter the Arena →</a>
+          <a href="interhouse.html" class="btn-arena-primary">🎮 Enter the Arena →</a>
           <a href="interhouse.html" class="btn-arena-ghost">View Leaderboard</a>
         </div>
       </div>
