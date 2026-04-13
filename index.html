@@ -699,8 +699,48 @@
       0%,100%{ opacity:1; transform:scale(1); }
       50%    { opacity:.3; transform:scale(.55); }
     }
+    .btn-notice-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 1.8em;
+      align-items: center;
+    }
+    .btn-notice {
+      margin-bottom: 0 !important;
+    }
+    .btn-yt {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .72em;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 9px 20px;
+      color: #ff4e4e;
+      border: 1px solid rgba(255,78,78,.28);
+      background: rgba(255,78,78,.08);
+      text-decoration: none;
+      transition: all .2s;
+      align-self: flex-start;
+    }
+    .btn-yt:hover {
+      background: #ff4e4e;
+      color: #fff;
+      border-color: #ff4e4e;
+      box-shadow: 0 0 24px rgba(255,78,78,.45);
+      transform: translateY(-1px);
+    }
+    .btn-yt .yt-icon {
+      font-size: 1.1em;
+      line-height: 1;
+    }
     @media(max-width:600px){
       .btn-notice { width:100%; justify-content:center; }
+      .btn-notice-row { flex-direction: column; }
+      .btn-yt { width: 100%; justify-content: center; }
     }
   </style>
 </head>
@@ -795,7 +835,7 @@
           <li>Go to the register tab and enter your scholar number.</li>
           <li>Contact the event head if you face any issues</li>
           <li>If you are unable to contact anyone then you can tell your problem on the email given below.</li>
-       <li>techquestvsec@gmail.com</li>
+       <li><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="88fcedebe0f9fdedfbfcfefbedebc8efe5e9e1e4a6ebe7e5">[email&#160;protected]</a></li>
         </ul></div>
       </div>
       <div class="about-cell">
@@ -911,7 +951,10 @@
     <div class="section-label">Lineup</div>
     <h2 class="section-title">Events <span class="hl">Lineup</span></h2>
     <div class="title-rule"></div>
-    <a href="notice.html" class="btn-notice"><span class="ndot"></span>Notices &amp; Updates</a>
+    <div class="btn-notice-row">
+      <a href="notice.html" class="btn-notice"><span class="ndot"></span>Notices &amp; Updates</a>
+      <a href="https://youtube.com/@techquestvsec?si=qDkZiFHJCs8OJqpC" target="_blank" rel="noopener" class="btn-yt"><span class="yt-icon">▶</span>Help &amp; Tutorial Videos</a>
+    </div>
     <div class="filter-bar" id="filterBar">
       <button class="ftag on" data-f="all">All</button>
       <button class="ftag" data-f="speak">Public Speaking</button>
@@ -965,7 +1008,7 @@
 </footer>
 <a href="#" id="topBtn">↑</a>
 
-<script src="shared.js"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="shared.js"></script>
 <script>
 // HOME LINK — scroll to top, highlight only when clicked
 const homeLink = document.getElementById('homeLink');
@@ -1899,17 +1942,3 @@ if(window.PERF === 'high')(function(){
       cio.unobserve(el);
     });
   },{threshold:0.5});
-  document.querySelectorAll('.stat-num,.arena-stat-num').forEach(el=>cio.observe(el));
-})();
-
-
-
-
-
-</script>
-
-<!-- External Sprite System -->
-<link rel="stylesheet" href="sprites.css">
-<script src="sprites.js"></script>
-</body>
-</html>
